@@ -13,3 +13,14 @@ export const backupFriendJs = () => {
     if (isFriendsJsBackedUp()) return;
     fs.copyFileSync(`${getSteamPath()}/clientui/friends.js`, `${getSteamPath()}/clientui/${BACK_UP_FRIEND_JS_NAME}`);
 };
+
+export const getFreindsJsString = () => {
+    const text = fs.readFileSync(`${getSteamPath()}/clientui/friends.js`, 'utf-8');
+    (global as any).friendsJsText = text;
+    return text;
+};
+
+export const writeFriendsJs = (content: string) => {
+    if (!isFriendsJsBackedUp()) backupFriendJs();
+    fs.writeFileSync(`${getSteamPath()}/clientui/friends.js`, content, 'utf-8');
+};

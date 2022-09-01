@@ -299,14 +299,7 @@
                     'object' == typeof r && null !== r
                         ? ((n = 'number' == typeof (n = r.delay) && 0 < n ? o + n : o), (r = 'number' == typeof r.timeout ? r.timeout : F(e)))
                         : ((r = F(e)), (n = o)),
-                    (e = {
-                        id: U++,
-                        callback: t,
-                        priorityLevel: e,
-                        startTime: n,
-                        expirationTime: (r = n + r),
-                        sortIndex: -1,
-                    }),
+                    (e = { id: U++, callback: t, priorityLevel: e, startTime: n, expirationTime: (r = n + r), sortIndex: -1 }),
                     o < n
                         ? ((e.sortIndex = n), w(A, e), null === S(j) && e === S(A) && (M ? u() : (M = !0), l(k, n - o)))
                         : ((e.sortIndex = r), w(j, e), x || C || ((x = !0), i(R))),
@@ -576,12 +569,7 @@
                 if (null !== e && 'object' == typeof e) return (e = Object.getPrototypeOf(e)) === Object.prototype || null === e;
             }
             function $(e, t, r) {
-                Object.defineProperty(e, t, {
-                    enumerable: !1,
-                    writable: !0,
-                    configurable: !0,
-                    value: r,
-                });
+                Object.defineProperty(e, t, { enumerable: !1, writable: !0, configurable: !0, value: r });
             }
             function e(e, t) {
                 var r = 'isMobX' + e;
@@ -726,10 +714,7 @@ and limitations under the License.
                     ? t.call(e)
                     : {
                           next: function () {
-                              return {
-                                  value: (e = e && r >= e.length ? void 0 : e) && e[r++],
-                                  done: !e,
-                              };
+                              return { value: (e = e && r >= e.length ? void 0 : e) && e[r++], done: !e };
                           },
                       };
             }
@@ -792,13 +777,7 @@ and limitations under the License.
                         return !0 === n
                             ? (s(e, t, r, e, i), null)
                             : (Object.prototype.hasOwnProperty.call(e, se) || ((n = e[se]), $(e, se, ne({}, n))),
-                              (e[se][t] = {
-                                  prop: t,
-                                  propertyCreator: s,
-                                  descriptor: r,
-                                  decoratorTarget: e,
-                                  decoratorArguments: i,
-                              }),
+                              (e[se][t] = { prop: t, propertyCreator: s, descriptor: r, decoratorTarget: e, decoratorArguments: i }),
                               (r = (n = a) ? le : ue)[(o = t)] ||
                                   (r[o] = {
                                       configurable: !0,
@@ -885,12 +864,7 @@ and limitations under the License.
                             i = u,
                             a = t;
                         return (
-                            Object.defineProperty(o, i, {
-                                enumerable: !1,
-                                writable: !1,
-                                configurable: !0,
-                                value: a,
-                            }),
+                            Object.defineProperty(o, i, { enumerable: !1, writable: !1, configurable: !0, value: a }),
                             (r = new Proxy(t.values, Yt)),
                             (t.proxy = r),
                             e && e.length && ((n = ze(!0)), t.spliceWithArray(0, 0, e), Ve(n)),
@@ -1148,15 +1122,7 @@ and limitations under the License.
                 }),
                 (i.prototype.setNewValue = function (e) {
                     var t = this.value;
-                    (this.value = e),
-                        this.reportChanged(),
-                        T(this) &&
-                            j(this, {
-                                type: 'update',
-                                object: this,
-                                newValue: e,
-                                oldValue: t,
-                            });
+                    (this.value = e), this.reportChanged(), T(this) && j(this, { type: 'update', object: this, newValue: e, oldValue: t });
                 }),
                 (i.prototype.get = function () {
                     return this.reportObserved(), this.dehanceValue(this.value);
@@ -1165,16 +1131,7 @@ and limitations under the License.
                     return qt(this, e);
                 }),
                 (i.prototype.observe = function (e, t) {
-                    return (
-                        t &&
-                            e({
-                                object: this,
-                                type: 'update',
-                                newValue: this.value,
-                                oldValue: void 0,
-                            }),
-                        Kt(this, e)
-                    );
+                    return t && e({ object: this, type: 'update', newValue: this.value, oldValue: void 0 }), Kt(this, e);
                 }),
                 (i.prototype.toJSON = function () {
                     return this.get();
@@ -1565,12 +1522,7 @@ and limitations under the License.
                     var n, o;
                     return r
                         ? r.value
-                            ? {
-                                  value: a(i, r.value),
-                                  enumerable: !1,
-                                  configurable: !0,
-                                  writable: !0,
-                              }
+                            ? { value: a(i, r.value), enumerable: !1, configurable: !0, writable: !0 }
                             : ((n = r.initializer),
                               {
                                   enumerable: !1,
@@ -2198,13 +2150,7 @@ and limitations under the License.
                         void 0 === r && (r = F),
                         v(this))
                     ) {
-                        o = w(this, {
-                            object: this.proxy,
-                            type: 'splice',
-                            index: e,
-                            removedCount: t,
-                            added: r,
-                        });
+                        o = w(this, { object: this.proxy, type: 'splice', index: e, removedCount: t, added: r });
                         if (!o) return F;
                         (t = o.removedCount), (r = o.added);
                     }
@@ -2226,16 +2172,7 @@ and limitations under the License.
                 (A.prototype.notifyArrayChildUpdate = function (e, t, r) {
                     var n = !this.owned && !1,
                         o = T(this),
-                        n =
-                            o || n
-                                ? {
-                                      object: this.proxy,
-                                      type: 'update',
-                                      index: e,
-                                      newValue: t,
-                                      oldValue: r,
-                                  }
-                                : null;
+                        n = o || n ? { object: this.proxy, type: 'update', index: e, newValue: t, oldValue: r } : null;
                     this.atom.reportChanged(), o && j(this, n);
                 }),
                 (A.prototype.notifyArraySplice = function (e, t, r) {
@@ -2243,15 +2180,7 @@ and limitations under the License.
                         o = T(this),
                         n =
                             o || n
-                                ? {
-                                      object: this.proxy,
-                                      type: 'splice',
-                                      index: e,
-                                      removed: r,
-                                      added: t,
-                                      removedCount: r.length,
-                                      addedCount: t.length,
-                                  }
+                                ? { object: this.proxy, type: 'splice', index: e, removed: r, added: t, removedCount: r.length, addedCount: t.length }
                                 : null;
                     this.atom.reportChanged(), o && j(this, n);
                 });
@@ -2352,12 +2281,7 @@ and limitations under the License.
                             Be(r.atom);
                             var o = n[e];
                             if (v(r)) {
-                                var i = w(r, {
-                                    type: 'update',
-                                    object: r.proxy,
-                                    index: e,
-                                    newValue: t,
-                                });
+                                var i = w(r, { type: 'update', object: r.proxy, index: e, newValue: t });
                                 if (!i) return;
                                 t = i.newValue;
                             }
@@ -2429,12 +2353,7 @@ and limitations under the License.
                     (C.prototype.set = function (e, t) {
                         var r = this._has(e);
                         if (v(this)) {
-                            var n = w(this, {
-                                type: r ? 'update' : 'add',
-                                object: this,
-                                newValue: t,
-                                name: e,
-                            });
+                            var n = w(this, { type: r ? 'update' : 'add', object: this, newValue: t, name: e });
                             if (!n) return this;
                             t = n.newValue;
                         }
@@ -2447,14 +2366,7 @@ and limitations under the License.
                         if ((Be(this._keysAtom), v(this)) && !(r = w(this, { type: 'delete', object: this, name: e }))) return !1;
                         return (
                             !!this._has(e) &&
-                            ((r = (t = T(this))
-                                ? {
-                                      type: 'delete',
-                                      object: this,
-                                      oldValue: this._data.get(e).value,
-                                      name: e,
-                                  }
-                                : null),
+                            ((r = (t = T(this)) ? { type: 'delete', object: this, oldValue: this._data.get(e).value, name: e } : null),
                             _(function () {
                                 n._keysAtom.reportChanged(), n._updateHasMapEntry(e, !1), n._data.get(e).setNewValue(void 0), n._data.delete(e);
                             }),
@@ -2470,15 +2382,7 @@ and limitations under the License.
                         var r,
                             n = this._data.get(e);
                         (t = n.prepareNewValue(t)) !== b.UNCHANGED &&
-                            ((e = (r = T(this))
-                                ? {
-                                      type: 'update',
-                                      object: this,
-                                      oldValue: n.value,
-                                      name: e,
-                                      newValue: t,
-                                  }
-                                : null),
+                            ((e = (r = T(this)) ? { type: 'update', object: this, oldValue: n.value, name: e, newValue: t } : null),
                             n.setNewValue(t),
                             r && j(this, e));
                     }),
@@ -2921,27 +2825,11 @@ and limitations under the License.
                         if (i instanceof Ke) i.set(t);
                         else {
                             if (v(this)) {
-                                if (
-                                    !(n = w(this, {
-                                        type: 'update',
-                                        object: this.proxy || o,
-                                        name: e,
-                                        newValue: t,
-                                    }))
-                                )
-                                    return;
+                                if (!(n = w(this, { type: 'update', object: this.proxy || o, name: e, newValue: t }))) return;
                                 t = n.newValue;
                             }
                             (t = i.prepareNewValue(t)) !== b.UNCHANGED &&
-                                ((n = (r = T(this))
-                                    ? {
-                                          type: 'update',
-                                          object: this.proxy || o,
-                                          oldValue: i.value,
-                                          name: e,
-                                          newValue: t,
-                                      }
-                                    : null),
+                                ((n = (r = T(this)) ? { type: 'update', object: this.proxy || o, oldValue: i.value, name: e, newValue: t } : null),
                                 i.setNewValue(t),
                                 r && j(this, n));
                         }
@@ -2956,12 +2844,7 @@ and limitations under the License.
                         void 0 === r && (r = this.defaultEnhancer);
                         var n = this.target;
                         if (v(this)) {
-                            var o = w(this, {
-                                object: this.proxy || n,
-                                name: e,
-                                type: 'add',
-                                newValue: t,
-                            });
+                            var o = w(this, { object: this.proxy || n, name: e, type: 'add', newValue: t });
                             if (!o) return;
                             t = o.newValue;
                         }
@@ -3011,15 +2894,7 @@ and limitations under the License.
                     (k.prototype.remove = function (e) {
                         if (this.values.has(e)) {
                             var t = this.target;
-                            if (v(this))
-                                if (
-                                    !(a = w(this, {
-                                        object: this.proxy || t,
-                                        name: e,
-                                        type: 'remove',
-                                    }))
-                                )
-                                    return;
+                            if (v(this)) if (!(a = w(this, { object: this.proxy || t, name: e, type: 'remove' }))) return;
                             try {
                                 f();
                                 var r,
@@ -3032,14 +2907,7 @@ and limitations under the License.
                                         this.values.delete(e),
                                         !this.pendingKeys || ((r = this.pendingKeys.get(e)) && r.set(!1)),
                                         delete this.target[e],
-                                        n
-                                            ? {
-                                                  type: 'remove',
-                                                  object: this.proxy || t,
-                                                  oldValue: i,
-                                                  name: e,
-                                              }
-                                            : null);
+                                        n ? { type: 'remove', object: this.proxy || t, oldValue: i, name: e } : null);
                                 n && j(this, a);
                             } finally {
                                 g();
@@ -3063,14 +2931,7 @@ and limitations under the License.
                     }),
                     (k.prototype.notifyPropertyAddition = function (e, t) {
                         var r = T(this),
-                            t = r
-                                ? {
-                                      type: 'add',
-                                      object: this.proxy || this.target,
-                                      name: e,
-                                      newValue: t,
-                                  }
-                                : null;
+                            t = r ? { type: 'add', object: this.proxy || this.target, name: e, newValue: t } : null;
                         r && j(this, t), this.pendingKeys && (r = this.pendingKeys.get(e)) && r.set(!0), this.keysAtom.reportChanged();
                     }),
                     (k.prototype.getKeys = function () {
@@ -3357,12 +3218,7 @@ and limitations under the License.
         }
         (o.prototype.use = function (e, t, r) {
             return (
-                this.handlers.push({
-                    fulfilled: e,
-                    rejected: t,
-                    synchronous: !!r && r.synchronous,
-                    runWhen: r ? r.runWhen : null,
-                }),
+                this.handlers.push({ fulfilled: e, rejected: t, synchronous: !!r && r.synchronous, runWhen: r ? r.runWhen : null }),
                 this.handlers.length - 1
             );
         }),
@@ -3791,11 +3647,7 @@ and limitations under the License.
                     var t = S.prototype.get.call(this, e);
                     return (
                         void 0 === t &&
-                            ((t = Object(u.B)([], {
-                                name: 'GroupArray[' + this._keyToName(e) + ']',
-                                deep: !1,
-                            })),
-                            S.prototype.set.call(this, e, t)),
+                            ((t = Object(u.B)([], { name: 'GroupArray[' + this._keyToName(e) + ']', deep: !1 })), S.prototype.set.call(this, e, t)),
                         t
                     );
                 }),
@@ -3824,12 +3676,7 @@ and limitations under the License.
                                 }
                             ),
                         };
-                    Object.defineProperty(i, this._ogmInfoKey, {
-                        configurable: !0,
-                        enumerable: !1,
-                        value: e,
-                    }),
-                        t.push(i);
+                    Object.defineProperty(i, this._ogmInfoKey, { configurable: !0, enumerable: !1, value: e }), t.push(i);
                 }),
                 (E.prototype._removeItem = function (e) {
                     var t = e[this._ogmInfoKey];
@@ -3968,11 +3815,7 @@ and limitations under the License.
             }
             var r,
                 s = {
-                    transitional: {
-                        silentJSONParsing: !0,
-                        forcedJSONParsing: !0,
-                        clarifyTimeoutError: !1,
-                    },
+                    transitional: { silentJSONParsing: !0, forcedJSONParsing: !0, clarifyTimeoutError: !1 },
                     adapter: (r =
                         'undefined' != typeof XMLHttpRequest || (void 0 !== e && '[object process]' === Object.prototype.toString.call(e))
                             ? u('tQ2B')
@@ -5114,14 +4957,7 @@ object-assign
                     const n = t.value;
                     t.value = function (...e) {
                         let t = this[r + '_DebounceProperties'];
-                        void 0 ===
-                        (t =
-                            void 0 === t
-                                ? (this[r + '_DebounceProperties'] = {
-                                      hTimer: void 0,
-                                      nPending: 0,
-                                  })
-                                : t).hTimer
+                        void 0 === (t = void 0 === t ? (this[r + '_DebounceProperties'] = { hTimer: void 0, nPending: 0 }) : t).hTimer
                             ? (n.apply(this, e),
                               (t.hTimer = window.setInterval(() => {
                                   0 < t.nPending ? (n.apply(this, e), (t.nPending = 0)) : (window.clearInterval(t.hTimer), (t.hTimer = void 0));
@@ -5194,13 +5030,7 @@ object-assign
                 s.createElement(
                     'g',
                     { className: 'triangle' },
-                    s.createElement('path', {
-                        stroke: e,
-                        strokeWidth: '16',
-                        strokeLinecap: 'round',
-                        strokeMiterlimit: '10',
-                        d: 'M127.9,76.632',
-                    }),
+                    s.createElement('path', { stroke: e, strokeWidth: '16', strokeLinecap: 'round', strokeMiterlimit: '10', d: 'M127.9,76.632' }),
                     s.createElement('path', {
                         fill: 'none',
                         stroke: e,
@@ -5733,14 +5563,7 @@ object-assign
             return e === t ? 0 !== e || 1 / e == 1 / t : e != e && t != t;
         }
         function S(e, t, r) {
-            Object.hasOwnProperty.call(e, t)
-                ? (e[t] = r)
-                : Object.defineProperty(e, t, {
-                      enumerable: !1,
-                      configurable: !0,
-                      writable: !0,
-                      value: r,
-                  });
+            Object.hasOwnProperty.call(e, t) ? (e[t] = r) : Object.defineProperty(e, t, { enumerable: !1, configurable: !0, writable: !0, value: r });
         }
         var xe = w('patchMixins'),
             Me = w('patchedDefinition');
@@ -5958,10 +5781,7 @@ object-assign
                 e.SteamClient.Window.SetResizeGrip(0, 0);
             }
             render() {
-                return s.createElement('div', {
-                    className: 'window_resize_grip',
-                    ref: this.BindResizeGrip,
-                });
+                return s.createElement('div', { className: 'window_resize_grip', ref: this.BindResizeGrip });
             }
         }
         class Ke extends s.Component {
@@ -6070,9 +5890,7 @@ object-assign
                 );
                 return f.a.createElement(
                     'div',
-                    {
-                        className: 'center' == this.props.position ? h.a.throbber_center_wrapper : '',
-                    },
+                    { className: 'center' == this.props.position ? h.a.throbber_center_wrapper : '' },
                     t,
                     Boolean(this.props.string) && f.a.createElement('div', { className: h.a.ThrobberText }, this.props.string)
                 );
@@ -6162,9 +5980,7 @@ object-assign
                                     s.createElement(
                                         'div',
                                         { className: 'friendsListInsetShadowCtn' },
-                                        s.createElement('div', {
-                                            className: 'frienListInsetShadowTop',
-                                        })
+                                        s.createElement('div', { className: 'frienListInsetShadowTop' })
                                     ),
                                     e == E.SignIn && s.createElement(Ze, null),
                                     e == E.Loading && s.createElement(Je, null),
@@ -6281,13 +6097,7 @@ object-assign
             }
             Render(e, t) {
                 t.setAttribute('class', 'fullheight popup_chat_frame'),
-                    n.render(
-                        s.createElement(T, {
-                            popup: this,
-                            offlineStore: this.m_offlineStore,
-                        }),
-                        t
-                    );
+                    n.render(s.createElement(T, { popup: this, offlineStore: this.m_offlineStore }), t);
             }
             OnClose() {
                 super.OnClose(), window.parent.postMessage({ message: 'ErrorPopupClosed' }, 'https://steamloopback.host');
@@ -6403,7 +6213,7 @@ object-assign
                                                       'Network check (head req) got 200, but no x-buildtimestamp, not valid? Proceeding anyway...'
                                                   ),
                                                   console.log('Network check (head req) passed after ' + B + ' tries...'),
-                                                  magicIframeRegister(n);
+                                                  gt(n);
                                           })
                                           .catch((e) => {
                                               console.log('Network check try ' + B + ' failed...'), 3 <= B ? dt() : t(n);
@@ -6415,11 +6225,13 @@ object-assign
         function R() {
             void 0 !== A && (clearTimeout(A), (A = void 0)), void 0 !== O && (clearTimeout(O), (O = void 0));
         }
-        function magicIframeRegister(e) {
-            console.log('Loading chat from url: ', e);
-            void 0 !== A && clearTimeout(A), (A = setTimeout(dt, 15e3));
-            let iframe = document.getElementById(j);
-            iframe.src = e;
+        function gt(e) {
+            function main() {
+                console.log('Hooked gg ez');
+            }
+            console.log('Loading chat from url: ', e), void 0 !== A && clearTimeout(A), (A = setTimeout(dt, 15e3));
+            let t = document.getElementById(j);
+            t.src = e;
         }
         function dt() {
             console.log('Failed to load chat!'), R(), k.SetLoadingState(E.FailRetry), 4 != st && N();
@@ -6461,12 +6273,7 @@ object-assign
                                             console.log('We are out of date enough to reload if idle, bVeryOutOfDate=' + (n ? 'true' : 'false')),
                                             (o = i.match(/(https:\/\/[^\/]+)\/.*/)[1]),
                                             window.frames[0].postMessage(
-                                                {
-                                                    message: 'UpdatedBuildAvailable',
-                                                    bVeryOutOfDate: n,
-                                                    bForce: t,
-                                                    nSecondsOutOfDate: r,
-                                                },
+                                                { message: 'UpdatedBuildAvailable', bVeryOutOfDate: n, bForce: t, nSecondsOutOfDate: r },
                                                 o
                                             )));
                             }
@@ -6737,26 +6544,12 @@ object-assign
                             fields: {
                                 type: { n: 1, br: o.d.readString, bw: o.h.writeString },
                                 rating: { n: 2, br: o.d.readString, bw: o.h.writeString },
-                                descriptors: {
-                                    n: 3,
-                                    r: !0,
-                                    q: !0,
-                                    br: o.d.readString,
-                                    bw: o.h.writeRepeatedString,
-                                },
-                                interactive_elements: {
-                                    n: 4,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
+                                descriptors: { n: 3, r: !0, q: !0, br: o.d.readString, bw: o.h.writeRepeatedString },
+                                interactive_elements: { n: 4, br: o.d.readString, bw: o.h.writeString },
                                 required_age: { n: 10, br: o.d.readInt32, bw: o.h.writeInt32 },
                                 use_age_gate: { n: 11, br: o.d.readBool, bw: o.h.writeBool },
                                 image_url: { n: 20, br: o.d.readString, bw: o.h.writeString },
-                                image_target: {
-                                    n: 21,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
+                                image_target: { n: 21, br: o.d.readString, bw: o.h.writeString },
                             },
                         }),
                     s.sm_m
@@ -6811,50 +6604,18 @@ object-assign
                                 id: { n: 2, br: o.d.readUint32, bw: o.h.writeUint32 },
                                 success: { n: 3, br: o.d.readUint32, bw: o.h.writeUint32 },
                                 visible: { n: 4, br: o.d.readBool, bw: o.h.writeBool },
-                                unvailable_for_country_restriction: {
-                                    n: 5,
-                                    br: o.d.readBool,
-                                    bw: o.h.writeBool,
-                                },
+                                unvailable_for_country_restriction: { n: 5, br: o.d.readBool, bw: o.h.writeBool },
                                 name: { n: 6, br: o.d.readString, bw: o.h.writeString },
-                                store_url_path: {
-                                    n: 7,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
+                                store_url_path: { n: 7, br: o.d.readString, bw: o.h.writeString },
                                 appid: { n: 9, br: o.d.readUint32, bw: o.h.writeUint32 },
                                 type: { n: 10, br: o.d.readEnum, bw: o.h.writeEnum },
-                                included_types: {
-                                    n: 11,
-                                    r: !0,
-                                    q: !0,
-                                    br: o.d.readEnum,
-                                    bw: o.h.writeRepeatedEnum,
-                                },
-                                included_appids: {
-                                    n: 12,
-                                    r: !0,
-                                    q: !0,
-                                    br: o.d.readUint32,
-                                    bw: o.h.writeRepeatedUint32,
-                                },
+                                included_types: { n: 11, r: !0, q: !0, br: o.d.readEnum, bw: o.h.writeRepeatedEnum },
+                                included_appids: { n: 12, r: !0, q: !0, br: o.d.readUint32, bw: o.h.writeRepeatedUint32 },
                                 is_free: { n: 13, br: o.d.readBool, bw: o.h.writeBool },
                                 is_early_access: { n: 14, br: o.d.readBool, bw: o.h.writeBool },
                                 related_items: { n: 15, c: u },
-                                content_descriptorids: {
-                                    n: 20,
-                                    r: !0,
-                                    q: !0,
-                                    br: o.d.readEnum,
-                                    bw: o.h.writeRepeatedEnum,
-                                },
-                                tagids: {
-                                    n: 21,
-                                    r: !0,
-                                    q: !0,
-                                    br: o.d.readUint32,
-                                    bw: o.h.writeRepeatedUint32,
-                                },
+                                content_descriptorids: { n: 20, r: !0, q: !0, br: o.d.readEnum, bw: o.h.writeRepeatedEnum },
+                                tagids: { n: 21, r: !0, q: !0, br: o.d.readUint32, bw: o.h.writeRepeatedUint32 },
                                 categories: { n: 22, c: c },
                                 reviews: { n: 23, c: p },
                                 basic_info: { n: 24, c: g },
@@ -6869,11 +6630,7 @@ object-assign
                                 screenshots: { n: 50, c: S },
                                 trailers: { n: 51, c: T },
                                 supported_languages: { n: 52, c: O, r: !0, q: !0 },
-                                store_url_path_override: {
-                                    n: 53,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
+                                store_url_path_override: { n: 53, br: o.d.readString, bw: o.h.writeString },
                                 free_weekend: { n: 54, c: B },
                             },
                         }),
@@ -6920,16 +6677,7 @@ object-assign
                 super(), u.prototype.parent_appid || o.a(u.M()), a.initialize(this, e, 0, -1, void 0, null);
             }
             static M() {
-                return (
-                    u.sm_m ||
-                        (u.sm_m = {
-                            proto: u,
-                            fields: {
-                                parent_appid: { n: 1, br: o.d.readUint32, bw: o.h.writeUint32 },
-                            },
-                        }),
-                    u.sm_m
-                );
+                return u.sm_m || (u.sm_m = { proto: u, fields: { parent_appid: { n: 1, br: o.d.readUint32, bw: o.h.writeUint32 } } }), u.sm_m;
             }
             static MBF() {
                 return u.sm_mbf || (u.sm_mbf = o.e(u.M())), u.sm_mbf;
@@ -6976,27 +6724,9 @@ object-assign
                         (c.sm_m = {
                             proto: c,
                             fields: {
-                                supported_player_categoryids: {
-                                    n: 2,
-                                    r: !0,
-                                    q: !0,
-                                    br: o.d.readUint32,
-                                    bw: o.h.writeRepeatedUint32,
-                                },
-                                feature_categoryids: {
-                                    n: 3,
-                                    r: !0,
-                                    q: !0,
-                                    br: o.d.readUint32,
-                                    bw: o.h.writeRepeatedUint32,
-                                },
-                                controller_categoryids: {
-                                    n: 4,
-                                    r: !0,
-                                    q: !0,
-                                    br: o.d.readUint32,
-                                    bw: o.h.writeRepeatedUint32,
-                                },
+                                supported_player_categoryids: { n: 2, r: !0, q: !0, br: o.d.readUint32, bw: o.h.writeRepeatedUint32 },
+                                feature_categoryids: { n: 3, r: !0, q: !0, br: o.d.readUint32, bw: o.h.writeRepeatedUint32 },
+                                controller_categoryids: { n: 4, r: !0, q: !0, br: o.d.readUint32, bw: o.h.writeRepeatedUint32 },
                             },
                         }),
                     c.sm_m
@@ -7042,17 +6772,7 @@ object-assign
                 super(), p.prototype.summary_filtered || o.a(p.M()), a.initialize(this, e, 0, -1, void 0, null);
             }
             static M() {
-                return (
-                    p.sm_m ||
-                        (p.sm_m = {
-                            proto: p,
-                            fields: {
-                                summary_filtered: { n: 1, c: f },
-                                summary_unfiltered: { n: 2, c: f },
-                            },
-                        }),
-                    p.sm_m
-                );
+                return p.sm_m || (p.sm_m = { proto: p, fields: { summary_filtered: { n: 1, c: f }, summary_unfiltered: { n: 2, c: f } } }), p.sm_m;
             }
             static MBF() {
                 return p.sm_mbf || (p.sm_mbf = o.e(p.M())), p.sm_mbf;
@@ -7100,17 +6820,9 @@ object-assign
                             proto: f,
                             fields: {
                                 review_count: { n: 1, br: o.d.readUint32, bw: o.h.writeUint32 },
-                                percent_positive: {
-                                    n: 2,
-                                    br: o.d.readInt32,
-                                    bw: o.h.writeInt32,
-                                },
+                                percent_positive: { n: 2, br: o.d.readInt32, bw: o.h.writeInt32 },
                                 review_score: { n: 3, br: o.d.readEnum, bw: o.h.writeEnum },
-                                review_score_label: {
-                                    n: 4,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
+                                review_score_label: { n: 4, br: o.d.readString, bw: o.h.writeString },
                             },
                         }),
                     f.sm_m
@@ -7161,19 +6873,11 @@ object-assign
                         (g.sm_m = {
                             proto: g,
                             fields: {
-                                short_description: {
-                                    n: 1,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
+                                short_description: { n: 1, br: o.d.readString, bw: o.h.writeString },
                                 publishers: { n: 2, c: d, r: !0, q: !0 },
                                 developers: { n: 3, c: d, r: !0, q: !0 },
                                 franchises: { n: 4, c: d, r: !0, q: !0 },
-                                capsule_headline: {
-                                    n: 5,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
+                                capsule_headline: { n: 5, br: o.d.readString, bw: o.h.writeString },
                             },
                         }),
                     g.sm_m
@@ -7225,11 +6929,7 @@ object-assign
                             proto: d,
                             fields: {
                                 name: { n: 1, br: o.d.readString, bw: o.h.writeString },
-                                creator_clan_account_id: {
-                                    n: 2,
-                                    br: o.d.readUint32,
-                                    bw: o.h.writeUint32,
-                                },
+                                creator_clan_account_id: { n: 2, br: o.d.readUint32, bw: o.h.writeUint32 },
                             },
                         }),
                     d.sm_m
@@ -7332,59 +7032,19 @@ object-assign
                         (b.sm_m = {
                             proto: b,
                             fields: {
-                                asset_url_format: {
-                                    n: 1,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
+                                asset_url_format: { n: 1, br: o.d.readString, bw: o.h.writeString },
                                 main_capsule: { n: 2, br: o.d.readString, bw: o.h.writeString },
-                                small_capsule: {
-                                    n: 3,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
+                                small_capsule: { n: 3, br: o.d.readString, bw: o.h.writeString },
                                 header: { n: 4, br: o.d.readString, bw: o.h.writeString },
-                                package_header: {
-                                    n: 5,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
-                                page_background: {
-                                    n: 6,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
+                                package_header: { n: 5, br: o.d.readString, bw: o.h.writeString },
+                                page_background: { n: 6, br: o.d.readString, bw: o.h.writeString },
                                 hero_capsule: { n: 7, br: o.d.readString, bw: o.h.writeString },
-                                hero_capsule_2x: {
-                                    n: 8,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
-                                library_capsule: {
-                                    n: 9,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
-                                library_capsule_2x: {
-                                    n: 10,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
-                                library_hero: {
-                                    n: 11,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
-                                library_hero_2x: {
-                                    n: 12,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
-                                community_icon: {
-                                    n: 13,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
+                                hero_capsule_2x: { n: 8, br: o.d.readString, bw: o.h.writeString },
+                                library_capsule: { n: 9, br: o.d.readString, bw: o.h.writeString },
+                                library_capsule_2x: { n: 10, br: o.d.readString, bw: o.h.writeString },
+                                library_hero: { n: 11, br: o.d.readString, bw: o.h.writeString },
+                                library_hero_2x: { n: 12, br: o.d.readString, bw: o.h.writeString },
+                                community_icon: { n: 13, br: o.d.readString, bw: o.h.writeString },
                             },
                         }),
                     b.sm_m
@@ -7435,44 +7095,16 @@ object-assign
                         (m.sm_m = {
                             proto: m,
                             fields: {
-                                steam_release_date: {
-                                    n: 1,
-                                    br: o.d.readUint32,
-                                    bw: o.h.writeUint32,
-                                },
-                                original_release_date: {
-                                    n: 2,
-                                    br: o.d.readUint32,
-                                    bw: o.h.writeUint32,
-                                },
-                                original_steam_release_date: {
-                                    n: 3,
-                                    br: o.d.readUint32,
-                                    bw: o.h.writeUint32,
-                                },
+                                steam_release_date: { n: 1, br: o.d.readUint32, bw: o.h.writeUint32 },
+                                original_release_date: { n: 2, br: o.d.readUint32, bw: o.h.writeUint32 },
+                                original_steam_release_date: { n: 3, br: o.d.readUint32, bw: o.h.writeUint32 },
                                 is_coming_soon: { n: 4, br: o.d.readBool, bw: o.h.writeBool },
                                 is_preload: { n: 5, br: o.d.readBool, bw: o.h.writeBool },
-                                custom_release_date_message: {
-                                    n: 6,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
-                                is_abridged_release_date: {
-                                    n: 7,
-                                    br: o.d.readBool,
-                                    bw: o.h.writeBool,
-                                },
+                                custom_release_date_message: { n: 6, br: o.d.readString, bw: o.h.writeString },
+                                is_abridged_release_date: { n: 7, br: o.d.readBool, bw: o.h.writeBool },
                                 is_early_access: { n: 10, br: o.d.readBool, bw: o.h.writeBool },
-                                mac_release_date: {
-                                    n: 20,
-                                    br: o.d.readUint32,
-                                    bw: o.h.writeUint32,
-                                },
-                                linux_release_date: {
-                                    n: 21,
-                                    br: o.d.readUint32,
-                                    bw: o.h.writeUint32,
-                                },
+                                mac_release_date: { n: 20, br: o.d.readUint32, bw: o.h.writeUint32 },
+                                linux_release_date: { n: 21, br: o.d.readUint32, bw: o.h.writeUint32 },
                             },
                         }),
                     m.sm_m
@@ -7527,11 +7159,7 @@ object-assign
                                 mac: { n: 2, br: o.d.readBool, bw: o.h.writeBool },
                                 linux: { n: 3, br: o.d.readBool, bw: o.h.writeBool },
                                 vr_support: { n: 10, c: _ },
-                                steam_deck_compat_category: {
-                                    n: 11,
-                                    br: o.d.readEnum,
-                                    bw: o.h.writeEnum,
-                                },
+                                steam_deck_compat_category: { n: 11, br: o.d.readEnum, bw: o.h.writeEnum },
                             },
                         }),
                     y.sm_m
@@ -7640,70 +7268,22 @@ object-assign
                             fields: {
                                 packageid: { n: 1, br: o.d.readInt32, bw: o.h.writeInt32 },
                                 bundleid: { n: 2, br: o.d.readInt32, bw: o.h.writeInt32 },
-                                purchase_option_name: {
-                                    n: 3,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
-                                final_price_in_cents: {
-                                    n: 5,
-                                    br: o.d.readInt64String,
-                                    bw: o.h.writeInt64String,
-                                },
-                                original_price_in_cents: {
-                                    n: 6,
-                                    br: o.d.readInt64String,
-                                    bw: o.h.writeInt64String,
-                                },
-                                user_final_price_in_cents: {
-                                    n: 7,
-                                    br: o.d.readInt64String,
-                                    bw: o.h.writeInt64String,
-                                },
-                                formatted_final_price: {
-                                    n: 8,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
-                                formatted_original_price: {
-                                    n: 9,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
+                                purchase_option_name: { n: 3, br: o.d.readString, bw: o.h.writeString },
+                                final_price_in_cents: { n: 5, br: o.d.readInt64String, bw: o.h.writeInt64String },
+                                original_price_in_cents: { n: 6, br: o.d.readInt64String, bw: o.h.writeInt64String },
+                                user_final_price_in_cents: { n: 7, br: o.d.readInt64String, bw: o.h.writeInt64String },
+                                formatted_final_price: { n: 8, br: o.d.readString, bw: o.h.writeString },
+                                formatted_original_price: { n: 9, br: o.d.readString, bw: o.h.writeString },
                                 discount_pct: { n: 10, br: o.d.readInt32, bw: o.h.writeInt32 },
-                                user_discount_pct: {
-                                    n: 11,
-                                    br: o.d.readInt32,
-                                    bw: o.h.writeInt32,
-                                },
-                                bundle_discount_pct: {
-                                    n: 12,
-                                    br: o.d.readInt32,
-                                    bw: o.h.writeInt32,
-                                },
+                                user_discount_pct: { n: 11, br: o.d.readInt32, bw: o.h.writeInt32 },
+                                bundle_discount_pct: { n: 12, br: o.d.readInt32, bw: o.h.writeInt32 },
                                 active_discounts: { n: 20, c: w, r: !0, q: !0 },
                                 user_active_discounts: { n: 21, c: w, r: !0, q: !0 },
                                 inactive_discounts: { n: 22, c: w, r: !0, q: !0 },
-                                user_can_purchase: {
-                                    n: 30,
-                                    br: o.d.readBool,
-                                    bw: o.h.writeBool,
-                                },
-                                user_can_purchase_as_gift: {
-                                    n: 31,
-                                    br: o.d.readBool,
-                                    bw: o.h.writeBool,
-                                },
-                                is_commercial_license: {
-                                    n: 40,
-                                    br: o.d.readBool,
-                                    bw: o.h.writeBool,
-                                },
-                                should_suppress_discount_pct: {
-                                    n: 41,
-                                    br: o.d.readBool,
-                                    bw: o.h.writeBool,
-                                },
+                                user_can_purchase: { n: 30, br: o.d.readBool, bw: o.h.writeBool },
+                                user_can_purchase_as_gift: { n: 31, br: o.d.readBool, bw: o.h.writeBool },
+                                is_commercial_license: { n: 40, br: o.d.readBool, bw: o.h.writeBool },
+                                should_suppress_discount_pct: { n: 41, br: o.d.readBool, bw: o.h.writeBool },
                             },
                         }),
                     v.sm_m
@@ -7754,21 +7334,9 @@ object-assign
                         (w.sm_m = {
                             proto: w,
                             fields: {
-                                discount_amount: {
-                                    n: 1,
-                                    br: o.d.readInt64String,
-                                    bw: o.h.writeInt64String,
-                                },
-                                discount_description: {
-                                    n: 2,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
-                                discount_end_date: {
-                                    n: 3,
-                                    br: o.d.readUint32,
-                                    bw: o.h.writeUint32,
-                                },
+                                discount_amount: { n: 1, br: o.d.readInt64String, bw: o.h.writeInt64String },
+                                discount_description: { n: 2, br: o.d.readString, bw: o.h.writeString },
+                                discount_end_date: { n: 3, br: o.d.readUint32, bw: o.h.writeUint32 },
                             },
                         }),
                     w.sm_m
@@ -7818,10 +7386,7 @@ object-assign
                     S.sm_m ||
                         (S.sm_m = {
                             proto: S,
-                            fields: {
-                                all_ages_screenshots: { n: 2, c: E, r: !0, q: !0 },
-                                mature_content_screenshots: { n: 3, c: E, r: !0, q: !0 },
-                            },
+                            fields: { all_ages_screenshots: { n: 2, c: E, r: !0, q: !0 }, mature_content_screenshots: { n: 3, c: E, r: !0, q: !0 } },
                         }),
                     S.sm_m
                 );
@@ -7920,13 +7485,7 @@ object-assign
             static M() {
                 return (
                     T.sm_m ||
-                        (T.sm_m = {
-                            proto: T,
-                            fields: {
-                                highlights: { n: 1, c: A, r: !0, q: !0 },
-                                other_trailers: { n: 2, c: A, r: !0, q: !0 },
-                            },
-                        }),
+                        (T.sm_m = { proto: T, fields: { highlights: { n: 1, c: A, r: !0, q: !0 }, other_trailers: { n: 2, c: A, r: !0, q: !0 } } }),
                     T.sm_m
                 );
             }
@@ -8028,29 +7587,13 @@ object-assign
                             proto: A,
                             fields: {
                                 trailer_name: { n: 1, br: o.d.readString, bw: o.h.writeString },
-                                trailer_url_format: {
-                                    n: 2,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
+                                trailer_url_format: { n: 2, br: o.d.readString, bw: o.h.writeString },
                                 trailer_480p: { n: 3, c: j, r: !0, q: !0 },
                                 trailer_max: { n: 4, c: j, r: !0, q: !0 },
                                 microtrailer: { n: 5, c: j, r: !0, q: !0 },
-                                screenshot_medium: {
-                                    n: 10,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
-                                screenshot_full: {
-                                    n: 11,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
-                                trailer_base_id: {
-                                    n: 12,
-                                    br: o.d.readInt32,
-                                    bw: o.h.writeInt32,
-                                },
+                                screenshot_medium: { n: 10, br: o.d.readString, bw: o.h.writeString },
+                                screenshot_full: { n: 11, br: o.d.readString, bw: o.h.writeString },
+                                trailer_base_id: { n: 12, br: o.d.readInt32, bw: o.h.writeInt32 },
                             },
                         }),
                     A.sm_m
@@ -8207,14 +7750,7 @@ object-assign
                 super(), C.prototype.store_items || o.a(C.M()), a.initialize(this, e, 0, -1, [1], null);
             }
             static M() {
-                return (
-                    C.sm_m ||
-                        (C.sm_m = {
-                            proto: C,
-                            fields: { store_items: { n: 1, c: l, r: !0, q: !0 } },
-                        }),
-                    C.sm_m
-                );
+                return C.sm_m || (C.sm_m = { proto: C, fields: { store_items: { n: 1, c: l, r: !0, q: !0 } } }), C.sm_m;
             }
             static MBF() {
                 return C.sm_mbf || (C.sm_mbf = o.e(C.M())), C.sm_mbf;
@@ -8257,14 +7793,7 @@ object-assign
                 super(), x.prototype.categories || o.a(x.M()), a.initialize(this, e, 0, -1, [1], null);
             }
             static M() {
-                return (
-                    x.sm_m ||
-                        (x.sm_m = {
-                            proto: x,
-                            fields: { categories: { n: 1, c: M, r: !0, q: !0 } },
-                        }),
-                    x.sm_m
-                );
+                return x.sm_m || (x.sm_m = { proto: x, fields: { categories: { n: 1, c: M, r: !0, q: !0 } } }), x.sm_m;
             }
             static MBF() {
                 return x.sm_mbf || (x.sm_mbf = o.e(x.M())), x.sm_mbf;
@@ -8313,11 +7842,7 @@ object-assign
                             fields: {
                                 categoryid: { n: 1, br: o.d.readUint32, bw: o.h.writeUint32 },
                                 type: { n: 2, br: o.d.readEnum, bw: o.h.writeEnum },
-                                internal_name: {
-                                    n: 3,
-                                    br: o.d.readString,
-                                    bw: o.h.writeString,
-                                },
+                                internal_name: { n: 3, br: o.d.readString, bw: o.h.writeString },
                                 display_name: { n: 4, br: o.d.readString, bw: o.h.writeString },
                                 image_url: { n: 5, br: o.d.readString, bw: o.h.writeString },
                                 show_in_search: { n: 6, br: o.d.readBool, bw: o.h.writeBool },
@@ -8591,12 +8116,7 @@ object-assign
                         !Array.prototype[e] &&
                             Object.defineProperties &&
                             Object.defineProperty &&
-                            Object.defineProperty(Array.prototype, e, {
-                                configurable: !0,
-                                enumerable: !1,
-                                writable: !0,
-                                value: t,
-                            });
+                            Object.defineProperty(Array.prototype, e, { configurable: !0, enumerable: !1, writable: !0, value: t });
                     }),
                     ($jscomp.array.entries$install = function () {
                         $jscomp.array.installHelper_('entries', $jscomp.array.entries);
@@ -8687,13 +8207,7 @@ object-assign
                             r.list || (r.list = this.data_[r.id] = []),
                             r.entry
                                 ? (r.entry.value = t)
-                                : ((r.entry = {
-                                      next: this.head_,
-                                      previous: this.head_.previous,
-                                      head: this.head_,
-                                      key: e,
-                                      value: t,
-                                  }),
+                                : ((r.entry = { next: this.head_, previous: this.head_.previous, head: this.head_, key: e, value: t }),
                                   r.list.push(r.entry),
                                   (this.head_.previous.next = r.entry),
                                   (this.head_.previous = r.entry),
@@ -8780,9 +8294,7 @@ object-assign
                         if (!(e instanceof Object)) return 'p_' + e;
                         if (!($jscomp.Map.idKey in e))
                             try {
-                                $jscomp.Map.defineProperty(e, $jscomp.Map.idKey, {
-                                    value: ++$jscomp.Map.mapIndex_,
-                                });
+                                $jscomp.Map.defineProperty(e, $jscomp.Map.idKey, { value: ++$jscomp.Map.mapIndex_ });
                             } catch (e) {}
                         return $jscomp.Map.idKey in e ? e[$jscomp.Map.idKey] : 'o_ ' + e;
                     }),
@@ -9179,14 +8691,7 @@ object-assign
                     (goog.loadedModules_ = {}),
                     (goog.DEPENDENCIES_ENABLED = !COMPILED && goog.ENABLE_DEBUG_LOADER),
                     goog.DEPENDENCIES_ENABLED &&
-                        ((goog.dependencies_ = {
-                            pathIsModule: {},
-                            nameToPath: {},
-                            requires: {},
-                            visited: {},
-                            written: {},
-                            deferred: {},
-                        }),
+                        ((goog.dependencies_ = { pathIsModule: {}, nameToPath: {}, requires: {}, visited: {}, written: {}, deferred: {} }),
                         (goog.inHtmlDocument_ = function () {
                             var e = goog.global.document;
                             return null != e && 'write' in e;
@@ -9252,13 +8757,7 @@ object-assign
                             var t,
                                 r = goog.moduleLoaderState_;
                             try {
-                                if (
-                                    ((goog.moduleLoaderState_ = {
-                                        moduleName: void 0,
-                                        declareLegacyNamespace: !1,
-                                    }),
-                                    goog.isFunction(e))
-                                )
+                                if (((goog.moduleLoaderState_ = { moduleName: void 0, declareLegacyNamespace: !1 }), goog.isFunction(e)))
                                     t = e.call(goog.global, {});
                                 else {
                                     if (!goog.isString(e)) throw Error('Invalid module definition');
@@ -12050,15 +11549,7 @@ object-assign
                     FHASH64: 30,
                     VHASH64: 31,
                 }),
-                (jspb.BinaryConstants.WireType = {
-                    INVALID: -1,
-                    VARINT: 0,
-                    FIXED64: 1,
-                    DELIMITED: 2,
-                    START_GROUP: 3,
-                    END_GROUP: 4,
-                    FIXED32: 5,
-                }),
+                (jspb.BinaryConstants.WireType = { INVALID: -1, VARINT: 0, FIXED64: 1, DELIMITED: 2, START_GROUP: 3, END_GROUP: 4, FIXED32: 5 }),
                 (jspb.BinaryConstants.FieldTypeToWireType = function (e) {
                     var t = jspb.BinaryConstants.FieldType,
                         r = jspb.BinaryConstants.WireType;
@@ -14469,10 +13960,7 @@ object-assign
                     'undefined' != typeof Symbol &&
                         Symbol.species &&
                         p[Symbol.species] === p &&
-                        Object.defineProperty(p, Symbol.species, {
-                            value: null,
-                            configurable: !0,
-                        })),
+                        Object.defineProperty(p, Symbol.species, { value: null, configurable: !0 })),
                 (p.alloc = function (e, t, r) {
                     return (
                         (n = null),
@@ -14653,10 +14141,7 @@ object-assign
                         }
                 }),
                 (p.prototype.toJSON = function () {
-                    return {
-                        type: 'Buffer',
-                        data: Array.prototype.slice.call(this._arr || this, 0),
-                    };
+                    return { type: 'Buffer', data: Array.prototype.slice.call(this._arr || this, 0) };
                 });
             var y = 4096;
             function _(e, t, r) {
@@ -15122,14 +14607,7 @@ object-assign
                 o.children = l;
             }
             if (e && e.defaultProps) for (n in (s = e.defaultProps)) void 0 === o[n] && (o[n] = s[n]);
-            return {
-                $$typeof: p,
-                type: e,
-                key: i,
-                ref: a,
-                props: o,
-                _owner: S.current,
-            };
+            return { $$typeof: p, type: e, key: i, ref: a, props: o, _owner: S.current };
         }
         function A(e) {
             return 'object' == typeof e && null !== e && e.$$typeof === p;
@@ -15208,14 +14686,7 @@ object-assign
                     : null != e &&
                       (A(e) &&
                           ((t = o + (!(o = e).key || (t && t.key === e.key) ? '' : ('' + e.key).replace(O, '$&/') + '/') + r),
-                          (e = {
-                              $$typeof: p,
-                              type: o.type,
-                              key: t,
-                              ref: o.ref,
-                              props: o.props,
-                              _owner: o._owner,
-                          })),
+                          (e = { $$typeof: p, type: o.type, key: t, ref: o.ref, props: o.props, _owner: o._owner })),
                       n.push(e));
         }
         function R(e, t, r, n, o) {
@@ -15338,14 +14809,7 @@ object-assign
                     for (var l = Array(s), u = 0; u < s; u++) l[u] = arguments[u + 2];
                     n.children = l;
                 }
-                return {
-                    $$typeof: p,
-                    type: e.type,
-                    key: o,
-                    ref: i,
-                    props: n,
-                    _owner: a,
-                };
+                return { $$typeof: p, type: e.type, key: o, ref: i, props: n, _owner: a };
             },
             createFactory: function (e) {
                 var t = j.bind(null, e);
@@ -16007,12 +15471,7 @@ object-assign
         }
         function et(e, t) {
             var r = t.checked;
-            return h({}, t, {
-                defaultChecked: void 0,
-                defaultValue: void 0,
-                value: void 0,
-                checked: null != r ? r : e._wrapperState.initialChecked,
-            });
+            return h({}, t, { defaultChecked: void 0, defaultValue: void 0, value: void 0, checked: null != r ? r : e._wrapperState.initialChecked });
         }
         function tt(e, t) {
             var r = null == t.defaultValue ? '' : t.defaultValue,
@@ -16081,11 +15540,7 @@ object-assign
         }
         function lt(e, t) {
             if (null != t.dangerouslySetInnerHTML) throw Error(D(91));
-            return h({}, t, {
-                value: void 0,
-                defaultValue: void 0,
-                children: '' + e._wrapperState.initialValue,
-            });
+            return h({}, t, { value: void 0, defaultValue: void 0, children: '' + e._wrapperState.initialValue });
         }
         function ut(e, t) {
             var r = t.value;
@@ -16133,11 +15588,7 @@ object-assign
             ['src', 'href', 'action', 'formAction'].forEach(function (e) {
                 a[e] = new r(e, 1, !1, e.toLowerCase(), null, !0);
             });
-        var ft = {
-            html: 'http://www.w3.org/1999/xhtml',
-            mathml: 'http://www.w3.org/1998/Math/MathML',
-            svg: 'http://www.w3.org/2000/svg',
-        };
+        var ft = { html: 'http://www.w3.org/1999/xhtml', mathml: 'http://www.w3.org/1998/Math/MathML', svg: 'http://www.w3.org/2000/svg' };
         function gt(e) {
             switch (e) {
                 case 'svg':
@@ -16325,12 +15776,7 @@ object-assign
                 ),
             Ht = 'focus blur dragenter dragleave mouseover mouseout pointerover pointerout gotpointercapture lostpointercapture'.split(' ');
         function $t(e, t, r, n) {
-            return {
-                blockedOn: e,
-                topLevelType: t,
-                eventSystemFlags: 32 | r,
-                nativeEvent: n,
-            };
+            return { blockedOn: e, topLevelType: t, eventSystemFlags: 32 | r, nativeEvent: n };
         }
         function Gt(e, t) {
             switch (e) {
@@ -16536,11 +15982,7 @@ object-assign
                 return h(o, r.prototype), (((r.prototype = o).constructor = r).Interface = h({}, n.Interface, e)), (r.extend = n.extend), cr(r), r;
             }),
             cr(s);
-        var pr = s.extend({
-                animationName: null,
-                elapsedTime: null,
-                pseudoElement: null,
-            }),
+        var pr = s.extend({ animationName: null, elapsedTime: null, pseudoElement: null }),
             fr = s.extend({
                 clipboardData: function (e) {
                     return ('clipboardData' in e ? e : window).clipboardData;
@@ -16604,12 +16046,7 @@ object-assign
                 145: 'ScrollLock',
                 224: 'Meta',
             },
-            yr = {
-                Alt: 'altKey',
-                Control: 'ctrlKey',
-                Meta: 'metaKey',
-                Shift: 'shiftKey',
-            };
+            yr = { Alt: 'altKey', Control: 'ctrlKey', Meta: 'metaKey', Shift: 'shiftKey' };
         function _r(e) {
             var t = this.nativeEvent;
             return t.getModifierState ? t.getModifierState(e) : !!(e = yr[e]) && !!t[e];
@@ -16707,11 +16144,7 @@ object-assign
                     shiftKey: null,
                     getModifierState: vr,
                 }),
-                xr = s.extend({
-                    propertyName: null,
-                    elapsedTime: null,
-                    pseudoElement: null,
-                }),
+                xr = s.extend({ propertyName: null, elapsedTime: null, pseudoElement: null }),
                 Mr = Ar.extend({
                     deltaX: function (e) {
                         return ('deltaX' in e) ? e.deltaX : ('wheelDeltaX' in e) ? -e.wheelDeltaX : 0;
@@ -16809,11 +16242,7 @@ object-assign
                 Ur = Pr[1],
                 Pr = Pr[2],
                 Fr = 'on' + (Ur[0].toUpperCase() + Ur.slice(1)),
-                Fr = {
-                    phasedRegistrationNames: { bubbled: Fr, captured: Fr + 'Capture' },
-                    dependencies: [Dr],
-                    eventPriority: Pr,
-                };
+                Fr = { phasedRegistrationNames: { bubbled: Fr, captured: Fr + 'Capture' }, dependencies: [Dr], eventPriority: Pr };
             (kr[Ur] = Fr), (Rr[Dr] = Fr);
         }
         var t = {
@@ -16962,13 +16391,7 @@ object-assign
             var o;
             e = Hr.length
                 ? (((o = Hr.pop()).topLevelType = e), (o.eventSystemFlags = t), (o.nativeEvent = r), (o.targetInst = n), o)
-                : {
-                      topLevelType: e,
-                      eventSystemFlags: t,
-                      nativeEvent: r,
-                      targetInst: n,
-                      ancestors: [],
-                  };
+                : { topLevelType: e, eventSystemFlags: t, nativeEvent: r, targetInst: n, ancestors: [] };
             try {
                 if (((t = $r), (r = e), Le)) t(r, void 0);
                 else {
@@ -17332,31 +16755,19 @@ object-assign
             Gn = String.fromCharCode(32),
             qn = {
                 beforeInput: {
-                    phasedRegistrationNames: {
-                        bubbled: 'onBeforeInput',
-                        captured: 'onBeforeInputCapture',
-                    },
+                    phasedRegistrationNames: { bubbled: 'onBeforeInput', captured: 'onBeforeInputCapture' },
                     dependencies: ['compositionend', 'keypress', 'textInput', 'paste'],
                 },
                 compositionEnd: {
-                    phasedRegistrationNames: {
-                        bubbled: 'onCompositionEnd',
-                        captured: 'onCompositionEndCapture',
-                    },
+                    phasedRegistrationNames: { bubbled: 'onCompositionEnd', captured: 'onCompositionEndCapture' },
                     dependencies: 'blur compositionend keydown keypress keyup mousedown'.split(' '),
                 },
                 compositionStart: {
-                    phasedRegistrationNames: {
-                        bubbled: 'onCompositionStart',
-                        captured: 'onCompositionStartCapture',
-                    },
+                    phasedRegistrationNames: { bubbled: 'onCompositionStart', captured: 'onCompositionStartCapture' },
                     dependencies: 'blur compositionstart keydown keypress keyup mousedown'.split(' '),
                 },
                 compositionUpdate: {
-                    phasedRegistrationNames: {
-                        bubbled: 'onCompositionUpdate',
-                        captured: 'onCompositionUpdateCapture',
-                    },
+                    phasedRegistrationNames: { bubbled: 'onCompositionUpdate', captured: 'onCompositionUpdateCapture' },
                     dependencies: 'blur compositionupdate keydown keypress keyup mousedown'.split(' '),
                 },
             },
@@ -17475,10 +16886,7 @@ object-assign
         }
         var eo = {
             change: {
-                phasedRegistrationNames: {
-                    bubbled: 'onChange',
-                    captured: 'onChangeCapture',
-                },
+                phasedRegistrationNames: { bubbled: 'onChange', captured: 'onChangeCapture' },
                 dependencies: 'blur change click focus input keydown keyup selectionchange'.split(' '),
             },
         };
@@ -17549,22 +16957,10 @@ object-assign
                 },
             },
             mo = {
-                mouseEnter: {
-                    registrationName: 'onMouseEnter',
-                    dependencies: ['mouseout', 'mouseover'],
-                },
-                mouseLeave: {
-                    registrationName: 'onMouseLeave',
-                    dependencies: ['mouseout', 'mouseover'],
-                },
-                pointerEnter: {
-                    registrationName: 'onPointerEnter',
-                    dependencies: ['pointerout', 'pointerover'],
-                },
-                pointerLeave: {
-                    registrationName: 'onPointerLeave',
-                    dependencies: ['pointerout', 'pointerover'],
-                },
+                mouseEnter: { registrationName: 'onMouseEnter', dependencies: ['mouseout', 'mouseover'] },
+                mouseLeave: { registrationName: 'onMouseLeave', dependencies: ['mouseout', 'mouseover'] },
+                pointerEnter: { registrationName: 'onPointerEnter', dependencies: ['pointerout', 'pointerover'] },
+                pointerLeave: { registrationName: 'onPointerLeave', dependencies: ['pointerout', 'pointerover'] },
             },
             yo = {
                 eventTypes: mo,
@@ -17642,10 +17038,7 @@ object-assign
         var So = Be && 'documentMode' in document && document.documentMode <= 11,
             Eo = {
                 select: {
-                    phasedRegistrationNames: {
-                        bubbled: 'onSelect',
-                        captured: 'onSelectCapture',
-                    },
+                    phasedRegistrationNames: { bubbled: 'onSelect', captured: 'onSelectCapture' },
                     dependencies: 'blur contextmenu dragend focus keydown keyup mousedown mouseup selectionchange'.split(' '),
                 },
             },
@@ -17908,12 +17301,7 @@ object-assign
                     null === di)
                 ) {
                     if (null === gi) throw Error(D(308));
-                    (di = t),
-                        (gi.dependencies = {
-                            expirationTime: 0,
-                            firstContext: t,
-                            responders: null,
-                        });
+                    (di = t), (gi.dependencies = { expirationTime: 0, firstContext: t, responders: null });
                 } else di = di.next = t;
             return e._currentValue;
         }
@@ -17945,15 +17333,7 @@ object-assign
             };
         }
         function Ti(e, t) {
-            return {
-                expirationTime: e,
-                suspenseConfig: t,
-                tag: 0,
-                payload: null,
-                callback: null,
-                next: null,
-                nextEffect: null,
-            };
+            return { expirationTime: e, suspenseConfig: t, tag: 0, payload: null, callback: null, next: null, nextEffect: null };
         }
         function ji(e, t) {
             null === e.lastUpdate ? (e.firstUpdate = e.lastUpdate = t) : ((e.lastUpdate.next = t), (e.lastUpdate = t));
@@ -18501,26 +17881,14 @@ object-assign
             (na.current = Ra), (la = c = sa = aa = u = ia = null), (fa = !1), (ga = ca = null), (da = pa = ua = oa = 0);
         }
         function ya() {
-            var e = {
-                memoizedState: null,
-                baseState: null,
-                queue: null,
-                baseUpdate: null,
-                next: null,
-            };
+            var e = { memoizedState: null, baseState: null, queue: null, baseUpdate: null, next: null };
             return null === c ? (sa = c = e) : (c = c.next = e), c;
         }
         function _a() {
             if (null !== la) (la = (c = la).next), (aa = null !== (u = aa) ? u.next : null);
             else {
                 if (null === aa) throw Error(D(310));
-                var e = {
-                    memoizedState: (u = aa).memoizedState,
-                    baseState: u.baseState,
-                    queue: u.queue,
-                    baseUpdate: u.baseUpdate,
-                    next: null,
-                };
+                var e = { memoizedState: (u = aa).memoizedState, baseState: u.baseState, queue: u.queue, baseUpdate: u.baseUpdate, next: null };
                 (c = null === c ? (sa = e) : (c.next = e)), (aa = u.next);
             }
             return c;
@@ -18578,14 +17946,7 @@ object-assign
             return (
                 'function' == typeof e && (e = e()),
                 (t.memoizedState = t.baseState = e),
-                (e = (e = t.queue =
-                    {
-                        last: null,
-                        dispatch: null,
-                        lastRenderedReducer: va,
-                        lastRenderedState: e,
-                    }).dispatch =
-                    ka.bind(null, ia, e)),
+                (e = (e = t.queue = { last: null, dispatch: null, lastRenderedReducer: va, lastRenderedState: e }).dispatch = ka.bind(null, ia, e)),
                 [t.memoizedState, e]
             );
         }
@@ -18653,14 +18014,7 @@ object-assign
             if (e === ia || (null !== n && n === ia))
                 if (
                     ((fa = !0),
-                    (e = {
-                        expirationTime: oa,
-                        suspenseConfig: null,
-                        action: r,
-                        eagerReducer: null,
-                        eagerState: null,
-                        next: null,
-                    }),
+                    (e = { expirationTime: oa, suspenseConfig: null, action: r, eagerReducer: null, eagerState: null, next: null }),
                     void 0 === (r = (ga = null === ga ? new Map() : ga).get(t)))
                 )
                     ga.set(t, e);
@@ -18729,13 +18083,7 @@ object-assign
                     return (
                         (t = void 0 !== r ? r(t) : t),
                         (n.memoizedState = n.baseState = t),
-                        (e = (e = n.queue =
-                            {
-                                last: null,
-                                dispatch: null,
-                                lastRenderedReducer: e,
-                                lastRenderedState: t,
-                            }).dispatch =
+                        (e = (e = n.queue = { last: null, dispatch: null, lastRenderedReducer: e, lastRenderedState: t }).dispatch =
                             ka.bind(null, ia, e)),
                         [n.memoizedState, e]
                     );
@@ -19132,15 +18480,7 @@ object-assign
         function is(e, t, r, n, o, i) {
             var a = e.memoizedState;
             null === a
-                ? (e.memoizedState = {
-                      isBackwards: t,
-                      rendering: null,
-                      last: n,
-                      tail: r,
-                      tailExpiration: 0,
-                      tailMode: o,
-                      lastEffect: i,
-                  })
+                ? (e.memoizedState = { isBackwards: t, rendering: null, last: n, tail: r, tailExpiration: 0, tailMode: o, lastEffect: i })
                 : ((a.isBackwards = t),
                   (a.rendering = null),
                   (a.last = n),
@@ -19634,9 +18974,7 @@ object-assign
                     (e.callback = function () {
                         'function' != typeof o && (null === Ks ? (Ks = new Set([this])) : Ks.add(this), hs(t, r));
                         var e = r.stack;
-                        this.componentDidCatch(r.value, {
-                            componentStack: null !== e ? e : '',
-                        });
+                        this.componentDidCatch(r.value, { componentStack: null !== e ? e : '' });
                     }),
                 e
             );
@@ -19769,12 +19107,7 @@ object-assign
                     }
                     (e.callbackExpirationTime = t),
                         (e.callbackPriority = n),
-                        (t =
-                            1073741823 === t
-                                ? li(sl.bind(null, e))
-                                : si(n, al.bind(null, e), {
-                                      timeout: 10 * (1073741821 - t) - w(),
-                                  })),
+                        (t = 1073741823 === t ? li(sl.bind(null, e)) : si(n, al.bind(null, e), { timeout: 10 * (1073741821 - t) - w() })),
                         (e.callbackNode = t);
                 }
             }
@@ -20674,12 +20007,7 @@ object-assign
                                                       : (_.setEnd(c.node, c.offset), v.addRange(_))))),
                                         (_ = []);
                                     for (v = w; (v = v.parentNode); )
-                                        1 === v.nodeType &&
-                                            _.push({
-                                                element: v,
-                                                left: v.scrollLeft,
-                                                top: v.scrollTop,
-                                            });
+                                        1 === v.nodeType && _.push({ element: v, left: v.scrollLeft, top: v.scrollTop });
                                     for ('function' == typeof w.focus && w.focus(), w = 0; w < _.length; w++)
                                         ((v = _[w]).element.scrollLeft = v.left), (v.element.scrollTop = v.top);
                                 }
@@ -21135,14 +20463,7 @@ object-assign
                 (r.memoizedState = e.memoizedState),
                 (r.updateQueue = e.updateQueue),
                 (t = e.dependencies),
-                (r.dependencies =
-                    null === t
-                        ? null
-                        : {
-                              expirationTime: t.expirationTime,
-                              firstContext: t.firstContext,
-                              responders: t.responders,
-                          }),
+                (r.dependencies = null === t ? null : { expirationTime: t.expirationTime, firstContext: t.firstContext, responders: t.responders }),
                 (r.sibling = e.sibling),
                 (r.index = e.index),
                 (r.ref = e.ref),
@@ -21201,11 +20522,7 @@ object-assign
         function Rl(e, t, r) {
             return (
                 ((t = Bl(4, null !== e.children ? e.children : [], e.key, t)).expirationTime = r),
-                (t.stateNode = {
-                    containerInfo: e.containerInfo,
-                    pendingChildren: null,
-                    implementation: e.implementation,
-                }),
+                (t.stateNode = { containerInfo: e.containerInfo, pendingChildren: null, implementation: e.implementation }),
                 t
             );
         }
@@ -21525,12 +20842,7 @@ object-assign
                     ],
                 },
             },
-            Kl = (bo = {
-                findFiberByHostInstance: In,
-                bundleType: 0,
-                version: '16.11.0',
-                rendererPackageName: 'react-dom',
-            }).findFiberByHostInstance,
+            Kl = (bo = { findFiberByHostInstance: In, bundleType: 0, version: '16.11.0', rendererPackageName: 'react-dom' }).findFiberByHostInstance,
             bo = h({}, bo, {
                 overrideHookState: null,
                 overrideProps: null,
