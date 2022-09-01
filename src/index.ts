@@ -1,4 +1,4 @@
-import * as FileManager from './util/file.js';
+import * as FileManager from './util/file';
 
 const main = async () => {
     FileManager.isFriendsJsBackedUp();
