@@ -8,3 +8,8 @@ export const getSteamPath = () => {
 export const isFriendsJsBackedUp = () => {
     return fs.readdirSync(`${getSteamPath()}/clientui`).includes(BACK_UP_FRIEND_JS_NAME);
 };
+
+export const backupFriendJs = () => {
+    if (isFriendsJsBackedUp()) return;
+    fs.copyFileSync(`${getSteamPath()}/clientui/friends.js`, `${getSteamPath()}/clientui/${BACK_UP_FRIEND_JS_NAME}`);
+};
