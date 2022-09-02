@@ -1,4 +1,3 @@
-const require = {};
 
 require.d = (obj, stuff) => {
     for (const key in stuff) {

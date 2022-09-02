@@ -6354,7 +6354,7 @@ object-assign
                 });
             });
         let j = '',
-            ot = '',
+            webChatUrl = '',
             A = void 0,
             O = void 0,
             it = void 0,
@@ -6384,10 +6384,10 @@ object-assign
                     : ((O = setTimeout(ht, 4e3)),
                       (A = setTimeout(dt, 1e3)),
                       SteamClient.WebChat.GetWebChatURL().then((t) => {
-                          if (((ot = t), void 0 !== A && (clearTimeout(A), (A = void 0)), t)) {
+                          if (((webChatUrl = t), void 0 !== A && (clearTimeout(A), (A = void 0)), t)) {
                               let e = new URL(t);
                               e.searchParams.set('origin', window.origin),
-                                  (ot = e.href),
+                                  (webChatUrl = e.href),
                                   console.log('Loading chat from url: ', e.href),
                                   !(function t(e) {
                                       console.log('Checking network... ' + B);
@@ -6574,7 +6574,7 @@ object-assign
                 if ('ShowFriendsErrorRetryDialog' == t.data.message) R(), bt(), k.SetLoadingState(E.FailRetry), N();
                 else if ('ChatJavascriptInitialized' == t.data.message) {
                     k.SetLoadingState(E.Loaded), R();
-                    var r = ot.match(/(https:\/\/[^\/]+)\/.*/)[1];
+                    var r = webChatUrl.match(/(https:\/\/[^\/]+)\/.*/)[1];
                     if (
                         (window.frames[0].postMessage({ message: 'LoaderWindowRestoreDetails', data: at, bVisible: x }, r),
                         void 0 !== lt && (window.frames[0].postMessage({ message: 'SetPersonaState', persona_state: lt }, r), (lt = void 0)),
