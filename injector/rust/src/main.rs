@@ -46,12 +46,9 @@ fn wait_for_steam(system: &mut System) -> bool {
         system.refresh_all();
         
 
-        for (pid, process) in system.processes() {
-            if process.name() == ("steam.exe") {
-                println!("FOUND STEAM PROCESS {}:{}", pid, process.name());
-                steam_found = true;
-            }
-        };
+        if is_steam_open(system) {
+            steam_found = true;
+        }
         thread::sleep(Duration::from_millis(1000));
     }
 
