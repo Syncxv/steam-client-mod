@@ -2,7 +2,9 @@ use std::env;
 use std::process::Command;
 use std::path::Path;
 use std::fs;
-use std::fs::OpenOptions;
+use sysinfo::{ProcessExt, System, SystemExt};
+use std::{thread, time::Duration};
+
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -11,10 +13,32 @@ fn main() {
     // let client_ui_path = steam_exe_path.clone();
     // client_ui_path
 
-    restore_assets(&steam_friend_js, &steam_index_html)
+    restore_assets(&steam_friend_js, &steam_index_html);
 
-    // execute_steam(steam_exe_path)
+    execute_steam(&steam_exe_path);
 
+    println!("LOOKING FOR STEAM");
+    let mut steam_found = false;
+    let mut system = System::new_all();
+
+    while !steam_found {
+        println!("looking for steam");
+        system.refresh_all();
+        
+
+        for (pid, process) in system.processes() {
+            if process.name() == ("steam.exe") {
+                println!("FOUND STEAM PROCESS {}:{}", pid, process.name());
+                steam_found = true;
+            }
+        }
+
+        thread::sleep(Duration::from_millis(1000));
+    }
+
+
+
+    println!("steam found :D can inject javascript now")
 
     
 
