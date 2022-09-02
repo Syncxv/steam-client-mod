@@ -11,6 +11,8 @@ fn main() {
     // let client_ui_path = steam_exe_path.clone();
     // client_ui_path
 
+    restore_assets(&steam_friend_js, &steam_index_html)
+
     // execute_steam(steam_exe_path)
 
 
@@ -34,23 +36,25 @@ fn is_backed_up(steam_friend_js_bak: &String, steam_index_html_js_bak: &String) 
 }
 
 fn restore_assets(steam_friend_js: &String, steam_index_html: &String) {
-    let need_to_restore = backup_assets(steam_friend_js, steam_index_html);
+    let steam_friend_js_bak = steam_friend_js.to_string() + ".bak";
+    let steam_index_html_bak = steam_index_html.to_string()  + ".bak";
+    let need_to_restore = backup_assets(steam_friend_js, steam_index_html, &steam_friend_js_bak, &steam_index_html_bak);
     if !need_to_restore {
         println!("dont need to restore anything :)");
         return;
     }
-
-    
     
 
+    let o_contents_friend_js = fs::read_to_string(&steam_friend_js_bak).unwrap();
+    let o_contents_index_html = fs::read_to_string(&steam_index_html_bak).unwrap();
+
+    println!("{}", o_contents_index_html);
     
 
 }
 
 
-fn backup_assets(steam_friend_js: &String, steam_index_html: &String) -> bool {
-    let steam_friend_js_bak = steam_friend_js.to_string() + ".bak";
-    let steam_index_html_bak = steam_index_html.to_string()  + ".bak";
+fn backup_assets(steam_friend_js: &String, steam_index_html: &String, steam_friend_js_bak: &String, steam_index_html_bak: &String) -> bool {
     if !is_backed_up(&steam_friend_js_bak, &steam_index_html_bak) {
         fs::copy(&steam_friend_js, &steam_friend_js_bak).expect("failed backing up friends.js");
         fs::copy(&steam_index_html, &steam_index_html_bak).expect("failed backing up index_friends.html");
