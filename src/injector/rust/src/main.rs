@@ -5,21 +5,38 @@ use std::fs;
 use sysinfo::{ProcessExt, System, SystemExt};
 use std::{thread, time::Duration};
 
-
 fn main() {
+    let mut system = System::new_all();
+    if is_steam_open(&mut system) {
+        println!("close steam pls thanks");
+        return;
+    }
     let args: Vec<String> = env::args().collect();
-    let (steam_exe_path, steam_path, steam_client_ui, steam_friend_js, steam_index_html) = parse_args(&args);
+    let (steam_exe_path, steam_path, steam_client_ui, steam_friend_js, steam_index_html, timeout) = parse_args(&args).unwrap();
     println!("steam_exe = {}\nsteam_path = {}\nsteam_client_ui = {}", steam_exe_path, steam_path, steam_client_ui);
-    // let client_ui_path = steam_exe_path.clone();
-    // client_ui_path
+
+    
 
     restore_assets(&steam_friend_js, &steam_index_html);
 
     execute_steam(&steam_exe_path);
 
     println!("LOOKING FOR STEAM");
+    thread::sleep(Duration::from_millis(timeout));
+    
+    if wait_for_steam(&mut system) {
+        println!("steam found :D can inject javascript now")
+    }
+
+
+
+    
+
+}
+
+
+fn wait_for_steam(system: &mut System) -> bool {
     let mut steam_found = false;
-    let mut system = System::new_all();
 
     while !steam_found {
         println!("looking for steam");
@@ -31,19 +48,24 @@ fn main() {
                 println!("FOUND STEAM PROCESS {}:{}", pid, process.name());
                 steam_found = true;
             }
-        }
-
+        };
         thread::sleep(Duration::from_millis(1000));
     }
 
-
-
-    println!("steam found :D can inject javascript now")
-
-    
-
+    true
 }
 
+fn is_steam_open(system: &mut System) -> bool {
+    system.refresh_all();
+
+    for (pid, process) in system.processes() {
+        if process.name() == ("steam.exe") {
+            println!("FOUND STEAM PROCESS {}:{}", pid, process.name());
+            return true;
+        }
+    };
+    false
+}
 
 fn execute_steam(steam_exe_path: &String) {
     let output = Command::new(steam_exe_path)
@@ -91,13 +113,21 @@ fn backup_assets(steam_friend_js: &String, steam_index_html: &String, steam_frie
     return true;
 }
 
-fn parse_args(args: &[String]) -> (String, String, String, String, String) {
-    let steam_exe_path = &args[1];
-    let steam_path = get_steam_path(&mut steam_exe_path.clone());
-    let steam_client_ui = steam_path.to_string() + "\\clientui";
-    let steam_friend_js = steam_client_ui.to_string() + "\\friends.js";
-    let steam_index_html = steam_client_ui.to_string() + "\\index_friends.html";
-    return (steam_exe_path.to_string(), steam_path, steam_client_ui, steam_friend_js, steam_index_html);
+fn parse_args(args: &[String]) -> Result<(String, String, String, String, String, u64), String> {
+    println!("len: {}\n {:?}", args.len(), args);
+    match  args.len() < 3  {
+        true => return Err("not enough arguments :|".to_string()),
+        false => {
+            let steam_exe_path = &args[1];
+            let timeout = &args[2].parse::<u64>().unwrap();
+            let steam_path = get_steam_path(&mut steam_exe_path.clone());
+            let steam_client_ui = steam_path.to_string() + "\\clientui";
+            let steam_friend_js = steam_client_ui.to_string() + "\\friends.js";
+            let steam_index_html = steam_client_ui.to_string() + "\\index_friends.html";
+            return Ok((steam_exe_path.to_string(), steam_path, steam_client_ui, steam_friend_js, steam_index_html, timeout.to_owned()));
+        }
+    }
+    
 }
 
 fn get_steam_path(steam_exe_path: &mut String) -> String {
