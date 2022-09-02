@@ -1,6 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { BACK_UP_FRIEND_JS_NAME, BACK_UP_INDEX_FRIENDS_HTML_NAME } from '../../steamed/constants';
+import { BACK_UP_FRIEND_JS_NAME, BACK_UP_INDEX_FRIENDS_HTML_NAME } from '../constants';
 
 export const getSteamPath = () => {
     return 'C:/Program Files (x86)/Steam';
