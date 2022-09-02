@@ -7,7 +7,7 @@ use std::{thread, time::Duration};
 
 fn main() {
     let mut system = System::new_all();
-    if !is_steam_open(&mut system) {
+    if is_steam_open(&mut system) {
         println!("close steam pls thanks");
         return;
     }
