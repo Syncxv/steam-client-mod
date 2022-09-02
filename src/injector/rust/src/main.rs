@@ -29,7 +29,7 @@ fn main() {
     println!("steam found :D can inject javascript now");
     
 
-    // inject_javascript(&steam_friend_js);
+    inject_javascript(&steam_friend_js);
 
 
 
@@ -98,8 +98,11 @@ fn inject_javascript(steam_friend_js: &String) {
         e = URL.createObjectURL(blob);
         let iframe = document.getElementById(j);
         iframe.src = e;
+        ot = e;
     })();
     return;
+
+    
     "#);
 
     fs::write(steam_friend_js, patched_js).unwrap();
