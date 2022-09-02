@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "watch": "tsc -w",
-        "dev": "tsc-watch --onSuccess \"node --inspect dist/index.js\""
+        "dev": "tsc-watch --onSuccess \"node --inspect dist/steamed/index.js\""
     },
     "repository": {
         "type": "git",
