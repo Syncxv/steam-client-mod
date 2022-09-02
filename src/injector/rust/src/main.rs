@@ -24,9 +24,10 @@ fn main() {
     println!("LOOKING FOR STEAM");
     thread::sleep(Duration::from_millis(timeout));
     
-    if wait_for_steam(&mut system) {
-        println!("steam found :D can inject javascript now")
-    }
+    wait_for_steam(&mut system);
+    
+    println!("steam found :D can inject javascript now")
+    
 
 
 
