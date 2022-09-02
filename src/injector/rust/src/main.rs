@@ -2,7 +2,7 @@ use std::env;
 use std::process::Command;
 use std::path::Path;
 use std::fs;
-
+use std::fs::OpenOptions;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -49,7 +49,10 @@ fn restore_assets(steam_friend_js: &String, steam_index_html: &String) {
     let o_contents_index_html = fs::read_to_string(&steam_index_html_bak).unwrap();
 
     println!("{}", o_contents_index_html);
-    
+    fs::write(steam_friend_js, o_contents_friend_js).unwrap();
+    fs::write(steam_index_html, o_contents_index_html).unwrap();
+
+    println!("restored assets successfully :D")
 
 }
 
