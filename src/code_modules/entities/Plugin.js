@@ -17,13 +17,13 @@ class Plugin {
     get optionalDependencies() {
         return this.manifest.optionalDependencies;
     }
-    loadStylesheet(css) {
+    loadStylesheet(css, _document = window.document) {
         const id = `style-${this.entityID}-${Math.random().toString(36).slice(2)}`;
         const style = document.createElement('style');
         style.innerHTML = css;
         style.id = id;
         this.styles[id] = style;
-        document.head.appendChild(style);
+        _document.head.appendChild(style);
     }
     async _load() {
         try {

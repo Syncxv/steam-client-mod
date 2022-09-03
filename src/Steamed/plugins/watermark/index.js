@@ -1,4 +1,3 @@
-const insertCss = require('../../../code_modules/util/insertCss');
 const Plugin = require('../../../code_modules/entities/Plugin');
 
 let css = `.chatEntry.Panel.Focusable::before {
@@ -15,7 +14,7 @@ module.exports = class WatermarkPlugin extends Plugin {
         g_PopupManager.m_rgPopupCreatedCallbacks.push((popup) => {
             if (popup.m_strName.startsWith('chat_')) {
                 console.log('cool', popup);
-                insertCss(css, popup.window.document);
+                this.loadStylesheet(css, popup.window.document);
             }
         });
         // this.bruhs = [...g_PopupManager.GetPopups()].map((m) => insertCss(css, m.window.document));
