@@ -1,4 +1,4 @@
-const insertCss = require('../../util/insertCss');
+const insertCss = require('../../../code_modules/util/insertCss');
 
 let css = `.chatEntry.Panel.Focusable::before {
     content: "steamed IS INJECTED :D";
