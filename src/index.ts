@@ -1,6 +1,6 @@
 import { Webpack } from './code_modules/webpack';
 
-console.log('WHAT THE FUCK NIGGA');
+console.log('WHAT THE FUCK bro');
 
 class Bruh {
     webpack = new Webpack();

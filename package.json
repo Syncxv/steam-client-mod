@@ -5,9 +5,10 @@
     "main": "index.js",
     "scripts": {
         "watch": "tsc -w",
-        "dev": "tsc-watch --onSuccess \"node --inspect dist/steamed/index.js\"",
+        "dev": "webpack && yarn inject",
         "build": "webpack",
-        "build-injector": "cd injector/rust && cargo build --release"
+        "build-injector": "cd injector/rust && cargo build --release",
+        "inject": "cd injector/rust && ./target/release/injector.exe inject-friend \"C:\\Program Files (x86)\\Steam\""
     },
     "repository": {
         "type": "git",
