@@ -1,4 +1,5 @@
 const insertCss = require('../../../code_modules/util/insertCss');
+const Plugin = require('../../../code_modules/entities/Plugin');
 
 let css = `.chatEntry.Panel.Focusable::before {
     content: "steamed IS INJECTED :D";
@@ -8,7 +9,7 @@ let css = `.chatEntry.Panel.Focusable::before {
     z-index: 99;
     font-size: .7rem;
 }`;
-module.exports = class WatermarkPlugin {
+module.exports = class WatermarkPlugin extends Plugin {
     startPlugin() {
         console.log(g_PopupManager);
         g_PopupManager.m_rgPopupCreatedCallbacks.push((popup) => {
