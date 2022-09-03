@@ -1,4 +1,4 @@
-import { Webpack } from './code_modules/webpack';
+const Webpack = require('./code_modules/webpack');
 
 console.log('WHAT THE FUCK bro');
 

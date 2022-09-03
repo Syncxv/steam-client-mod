@@ -1,15 +1,16 @@
-import sleep from '../util/sleep';
+const sleep = require('../util/sleep');
 
 let common = {
     React: ['createRef', 'createElement', 'Component', 'PureComponent'],
     ReactDOM: ['render', 'createPortal'],
 };
 
-export class Webpack {
+module.exports = class Webpack {
     async initalize() {
         while (window.webpackChunkfriendsui == null) {
             await sleep(10);
         }
+        this.common = {};
         this.require = window.webpackChunkfriendsui.push([[[Math.random().toString(36)]], {}, (r) => r]);
         this.rawModules = this.require.m;
         this.moduleExportsProbably = Object.keys(this.rawModules).map((id) => this.require(id));
@@ -51,4 +52,4 @@ export class Webpack {
             this.common[md] = mod;
         });
     }
-}
+};
