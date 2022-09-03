@@ -8,7 +8,8 @@
         "dev": "webpack && yarn inject",
         "build": "webpack",
         "build-injector": "cd injector/rust && cargo build --release",
-        "inject": "cd injector/rust && ./target/release/injector.exe inject-friend \"C:\\Program Files (x86)\\Steam\""
+        "inject": "cd injector/rust && ./target/release/injector.exe inject-friend \"C:\\Program Files (x86)\\Steam\"",
+        "restore": "injector/rust/target/release/injector.exe restore \"C:\\Program Files (x86)\\Steam\""
     },
     "repository": {
         "type": "git",
