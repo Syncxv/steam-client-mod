@@ -22,6 +22,7 @@
     },
     "homepage": "https://github.com/Syncxv/steam-client-mod#readme",
     "dependencies": {
+        "debundle": "^0.5.4",
         "windows-app": "^2.0.0"
     },
     "devDependencies": {
