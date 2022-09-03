@@ -16,8 +16,12 @@ pub struct SteamedInjectorArgs {
 pub enum SteamInjectorCommands {
     ///Launches stamed (the mod) hHEHE
     Launch(LaunchSubCommand),
-    
-    Restore(GenericSubCommand)
+
+    ///restore to default welp
+    Restore(GenericSubCommand),
+
+    ///inject stamed into the friends chat 
+    InjectFriend(GenericSubCommand)
 }
 
 

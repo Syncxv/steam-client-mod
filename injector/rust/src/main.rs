@@ -17,17 +17,23 @@ use args::GenericSubCommand;
 fn main() {
     let args  = SteamedInjectorArgs::parse();
     match args.command {
-        SteamInjectorCommands::Launch(config) => handle_launch_steam(config),
-        SteamInjectorCommands::Restore(config) => handle_restore(config)
+        SteamInjectorCommands::Launch(arg_config) => handle_launch_steam(arg_config),
+        SteamInjectorCommands::Restore(arg_config) => handle_restore(arg_config),
+        SteamInjectorCommands::InjectFriend(arg_config) => handle_inject_friends_js(arg_config)
     };
 
     
 
 }
 
-
-fn handle_restore(config: GenericSubCommand) {
-    let config = Config::new(&config.steam_path);
+fn handle_inject_friends_js(arg_config: GenericSubCommand) {
+    let config = Config::new(&arg_config.steam_path);
+    restore_assets(&config.steam_friend_js, &config.steam_index_html);
+    inject_friend_javascript(&config.steam_friend_js, &config.steamed_dist)
+}
+ 
+fn handle_restore(arg_config: GenericSubCommand) {
+    let config = Config::new(&arg_config.steam_path);
     restore_assets(&config.steam_friend_js, &config.steam_index_html);
 }
 
@@ -132,6 +138,9 @@ fn inject_friend_javascript(steam_friend_js: &String, steamed_dist: &String) {
     patched_js.replace_range(index..index, &hehe);
 
     fs::write(steam_friend_js, patched_js).unwrap();
+
+    println!("injected steamed to friends and chat :D");
+
 }
 
 
