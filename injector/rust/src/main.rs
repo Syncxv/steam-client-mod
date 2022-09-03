@@ -8,14 +8,44 @@ use std::io;
 use std::io::prelude::*;
 
 fn main() {
+    let args: Vec<String> = env::args().collect();
+    
+
+    println!("len: {}\n {:?}", args.len(), args);
+        if args.len() < 2 {
+            return println!("not enough arguments :|")
+        }
+        let command = &args[1];
+        match command.as_str() {
+            "launch" => {
+                if args.len() < 4 {
+                    return println!("not enough arguments to launch :|")
+                }
+                launch_steam(&args);
+            },
+            "restore" => {
+                let config = Config::new(&args).unwrap();
+                restore_assets(&config.steam_friend_js, &config.steam_index_html);
+            }
+            _ => {
+                return println!("unkown command");
+            } 
+        }
+
+    
+
+}
+
+
+
+fn launch_steam(args: &[String]) {
     let mut system = System::new_all();
     if is_steam_open(&mut system) {
         println!("close steam pls thanks");
         pause();
         return;
     }
-    let args: Vec<String> = env::args().collect();
-    let config = Config::new(&args).unwrap();
+    let config = Config::steam_lauch(&args).unwrap();
     println!("steam_exe = {}\nsteam_path = {}\nsteam_client_ui = {}", config.steam_exe_path, config.steam_path, config.steam_client_ui);
 
     
@@ -33,12 +63,8 @@ fn main() {
     
 
     inject_friend_javascript(&config.steam_friend_js, &config.steamed_dist);
-
-
-
-    
-
 }
+
 
 
 fn wait_for_steam(system: &mut System) -> bool {
@@ -170,27 +196,42 @@ struct Config {
 
 
 impl Config {
-    fn new(args: &[String]) -> Result<Config, String> {
+    fn steam_lauch(args: &[String]) -> Result<Config, String> {
         println!("len: {}\n {:?}", args.len(), args);
         match  args.len() < 3  {
             true => return Err("not enough arguments :|".to_string()),
             false => {
-                let steam_exe_path = &args[1];
-                let timeout = &args[2].parse::<u64>().unwrap();
-                let steam_path = get_steam_path(&mut steam_exe_path.clone());
-                let steam_client_ui = steam_path.to_string() + "\\clientui";
-                let steam_friend_js = steam_client_ui.to_string() + "\\friends.js";
-                let steam_index_html = steam_client_ui.to_string() + "\\index_friends.html";
-                //TODO: progrimatically get the steamed js file :)
-                let steamed_dist = "C:\\Users\\USER\\Documents\\stuff\\steam-client\\dist\\js\\index.js".to_string();
-                return Ok(Config { steamed_dist, steam_exe_path: steam_exe_path.to_string(), steam_client_ui, steam_friend_js, timeout: timeout.to_owned(), steam_path, steam_index_html});
+                let steam_exe_path = &args[2];
+                let paths = get_paths(steam_exe_path);
+                let timeout = &args[3].parse::<u64>().unwrap();
+                
+                return Ok(Config { steam_exe_path: steam_exe_path.to_string(),  steam_path: (&paths[0]).to_owned(), steam_client_ui: paths[1], steam_friend_js: paths[2], steam_index_html: paths[3],   steamed_dist: paths[4], timeout: timeout.to_owned(),});
             }
         }
         
     }
 
-    
-    
+    fn new(args: &[String])  -> Result<Config, String>  {
+        println!("in ::new \nlen: {}\n{:?}", args.len(), args);
+        if args.len() < 2 {
+            return Err("".to_string());
+        }
+        let steam_exe_path = &args[2];
+        let paths = get_paths(steam_exe_path);
+        return Ok(Config { steam_exe_path: steam_exe_path.to_string(),  steam_path: paths[0], steam_client_ui: paths[1], steam_friend_js: paths[2], steam_index_html: paths[3],  steamed_dist: paths[4],timeout: 5000 });
+
+
+    }
+}
+
+fn get_paths(steam_exe_path: &String) -> Vec<String> {
+    let steam_path = get_steam_path(&mut steam_exe_path.clone());
+    let steam_client_ui = steam_path.to_string() + "\\clientui";
+    let steam_friend_js = steam_client_ui.to_string() + "\\friends.js";
+    let steam_index_html = steam_client_ui.to_string() + "\\index_friends.html";
+    //TODO: progrimatically get the steamed js file :)
+    let steamed_dist = "C:\\Users\\USER\\Documents\\stuff\\steam-client\\dist\\js\\index.js".to_string();
+    vec!(steam_path, steam_client_ui, steam_friend_js, steam_index_html, steamed_dist)
 }
 
 fn get_steam_path(steam_exe_path: &mut String) -> String {
