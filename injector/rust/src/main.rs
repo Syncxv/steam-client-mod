@@ -131,8 +131,8 @@ fn inject_friend_javascript(steam_friend_js: &String, steamed_dist: &String) {
     "#;
     
 
-    let steamed = fs::read_to_string(steamed_dist).unwrap();
-
+    let mut steamed = fs::read_to_string(steamed_dist).unwrap();
+    steamed = steamed.replace("${", "\\${");
     let hehe = frist + &steamed.replace("`", "\\`") + second;
 
     patched_js.replace_range(index..index, &hehe);
