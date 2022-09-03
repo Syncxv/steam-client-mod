@@ -4,32 +4,35 @@ use std::path::Path;
 use std::fs;
 use sysinfo::{ProcessExt, System, SystemExt};
 use std::{thread, time::Duration};
+use std::io;
+use std::io::prelude::*;
 
 fn main() {
     let mut system = System::new_all();
     if is_steam_open(&mut system) {
         println!("close steam pls thanks");
+        pause();
         return;
     }
     let args: Vec<String> = env::args().collect();
-    let (steam_exe_path, steam_path, steam_client_ui, steam_friend_js, steam_index_html, timeout) = parse_args(&args).unwrap();
-    println!("steam_exe = {}\nsteam_path = {}\nsteam_client_ui = {}", steam_exe_path, steam_path, steam_client_ui);
+    let config = Config::new(&args).unwrap();
+    println!("steam_exe = {}\nsteam_path = {}\nsteam_client_ui = {}", config.steam_exe_path, config.steam_path, config.steam_client_ui);
 
     
 
-    restore_assets(&steam_friend_js, &steam_index_html);
+    restore_assets(&config.steam_friend_js, &config.steam_index_html);
 
-    execute_steam(&steam_exe_path);
+    execute_steam(&config.steam_exe_path);
 
     println!("LOOKING FOR STEAM");
-    thread::sleep(Duration::from_millis(timeout));
+    thread::sleep(Duration::from_millis(config.timeout));
     
     wait_for_steam(&mut system);
     
     println!("steam found :D can inject javascript now");
     
 
-    inject_javascript(&steam_friend_js);
+    inject_javascript(&config.steam_friend_js);
 
 
 
@@ -142,20 +145,38 @@ fn backup_assets(steam_friend_js: &String, steam_index_html: &String, steam_frie
     return true;
 }
 
-fn parse_args(args: &[String]) -> Result<(String, String, String, String, String, u64), String> {
-    println!("len: {}\n {:?}", args.len(), args);
-    match  args.len() < 3  {
-        true => return Err("not enough arguments :|".to_string()),
-        false => {
-            let steam_exe_path = &args[1];
-            let timeout = &args[2].parse::<u64>().unwrap();
-            let steam_path = get_steam_path(&mut steam_exe_path.clone());
-            let steam_client_ui = steam_path.to_string() + "\\clientui";
-            let steam_friend_js = steam_client_ui.to_string() + "\\friends.js";
-            let steam_index_html = steam_client_ui.to_string() + "\\index_friends.html";
-            return Ok((steam_exe_path.to_string(), steam_path, steam_client_ui, steam_friend_js, steam_index_html, timeout.to_owned()));
+
+
+
+struct Config {
+    steam_exe_path: String,
+    steam_path: String,
+    steam_client_ui: String,
+    steam_friend_js: String,
+    steam_index_html: String,
+    timeout: u64,
+}
+
+
+impl Config {
+    fn new(args: &[String]) -> Result<Config, String> {
+        println!("len: {}\n {:?}", args.len(), args);
+        match  args.len() < 3  {
+            true => return Err("not enough arguments :|".to_string()),
+            false => {
+                let steam_exe_path = &args[1];
+                let timeout = &args[2].parse::<u64>().unwrap();
+                let steam_path = get_steam_path(&mut steam_exe_path.clone());
+                let steam_client_ui = steam_path.to_string() + "\\clientui";
+                let steam_friend_js = steam_client_ui.to_string() + "\\friends.js";
+                let steam_index_html = steam_client_ui.to_string() + "\\index_friends.html";
+                return Ok(Config { steam_exe_path: steam_exe_path.to_string(), steam_client_ui, steam_friend_js, timeout: timeout.to_owned(), steam_path, steam_index_html});
+            }
         }
+        
     }
+
+    
     
 }
 
@@ -166,6 +187,19 @@ fn get_steam_path(steam_exe_path: &mut String) -> String {
     splitted.join("\\")
 }
 
+
+//https://users.rust-lang.org/t/rusts-equivalent-of-cs-system-pause/4494/4
+fn pause() {
+    let mut stdin = io::stdin();
+    let mut stdout = io::stdout();
+
+    // We want the cursor to stay at the end of the line, so we print without a newline and flush manually.
+    write!(stdout, "Press any key to continue...").unwrap();
+    stdout.flush().unwrap();
+
+    // Read a single byte and discard
+    let _ = stdin.read(&mut [0u8]).unwrap();
+}
 //WORKS IT INJEDCTS it
 //ok time to play rocket :D
 // fn test() {
