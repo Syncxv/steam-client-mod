@@ -32,7 +32,7 @@ fn main() {
     println!("steam found :D can inject javascript now");
     
 
-    inject_javascript(&config.steam_friend_js);
+    inject_friend_javascript(&config.steam_friend_js, &config.steamed_dist);
 
 
 
@@ -80,11 +80,11 @@ fn execute_steam(steam_exe_path: &String) {
 }
 
 
-fn inject_javascript(steam_friend_js: &String) {
+fn inject_friend_javascript(steam_friend_js: &String, steamed_dist: &String) {
     let mut patched_js = fs::read_to_string(&steam_friend_js).unwrap();
     let index: usize = patched_js.find(r#"console.log("Loading chat from url: ",e)"#).unwrap();
     
-    patched_js.replace_range(index..index,r#"(async () => {
+    let frist = r#"(async () => {
         const createElement = (html) => {
             const temp = document.createElement('div');
             temp.innerHTML = html;
@@ -93,17 +93,27 @@ fn inject_javascript(steam_friend_js: &String) {
         let parser = new DOMParser();
         const steamHtmlString = await (await fetch(e)).text();
         const HTML = parser.parseFromString(steamHtmlString, 'text/html');
-        HTML.head.appendChild(createElement('<script>console.log("INJECTED GANG YOOOOO")</script>'));
-        let blob = new Blob([HTML.documentElement.innerHTML], { type: 'text/html' });
-        e = URL.createObjectURL(blob);
-        let iframe = document.getElementById(j);
-        iframe.src = e;
-        ot = e;
+        HTML.head.appendChild(createElement(`<script>"#.to_string();
+    
+
+    let second = r#"</script>`));
+    let blob = new Blob([HTML.documentElement.innerHTML], { type: 'text/html' });
+    e = URL.createObjectURL(blob);
+    let iframe = document.getElementById(j);
+    iframe.src = e;
+    ot = e;
     })();
     return;
 
+
+    "#;
     
-    "#);
+
+    let steamed = fs::read_to_string(steamed_dist).unwrap();
+
+    let hehe = frist + &steamed + second;
+
+    patched_js.replace_range(index..index, &hehe);
 
     fs::write(steam_friend_js, patched_js).unwrap();
 }
@@ -154,6 +164,7 @@ struct Config {
     steam_client_ui: String,
     steam_friend_js: String,
     steam_index_html: String,
+    steamed_dist: String,
     timeout: u64,
 }
 
@@ -170,7 +181,9 @@ impl Config {
                 let steam_client_ui = steam_path.to_string() + "\\clientui";
                 let steam_friend_js = steam_client_ui.to_string() + "\\friends.js";
                 let steam_index_html = steam_client_ui.to_string() + "\\index_friends.html";
-                return Ok(Config { steam_exe_path: steam_exe_path.to_string(), steam_client_ui, steam_friend_js, timeout: timeout.to_owned(), steam_path, steam_index_html});
+                //TODO: progrimatically get the steamed js file :)
+                let steamed_dist = "C:\\Users\\USER\\Documents\\stuff\\steam-client\\dist\\js\\index.js".to_string();
+                return Ok(Config { steamed_dist, steam_exe_path: steam_exe_path.to_string(), steam_client_ui, steam_friend_js, timeout: timeout.to_owned(), steam_path, steam_index_html});
             }
         }
         
