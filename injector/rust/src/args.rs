@@ -15,7 +15,9 @@ pub struct SteamedInjectorArgs {
 #[derive(Debug, Subcommand)]
 pub enum SteamInjectorCommands {
     ///Launches stamed (the mod) hHEHE
-    Launch(LaunchSubCommand)
+    Launch(LaunchSubCommand),
+    
+    Restore(GenericSubCommand)
 }
 
 
@@ -26,4 +28,12 @@ pub struct LaunchSubCommand {
 
     /// how long the program should wait for steam
     pub timeout: u64
+}
+
+
+
+#[derive(Debug, Args)]
+pub struct GenericSubCommand {
+    /// steam path bruh what else do you want me to say
+    pub steam_path: String
 }

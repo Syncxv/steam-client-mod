@@ -12,11 +12,13 @@ mod args;
 use args::SteamedInjectorArgs;
 use args::SteamInjectorCommands;
 use args::LaunchSubCommand;
+use args::GenericSubCommand;
 
 fn main() {
     let args  = SteamedInjectorArgs::parse();
     match args.command {
-        SteamInjectorCommands::Launch(config) => launch_steam(config),
+        SteamInjectorCommands::Launch(config) => handle_launch_steam(config),
+        SteamInjectorCommands::Restore(config) => handle_restore(config)
     };
 
     
@@ -24,15 +26,19 @@ fn main() {
 }
 
 
+fn handle_restore(config: GenericSubCommand) {
+    let config = Config::new(&config.steam_path);
+    restore_assets(&config.steam_friend_js, &config.steam_index_html);
+}
 
-fn launch_steam(arg_config:LaunchSubCommand) {
+fn handle_launch_steam(arg_config:LaunchSubCommand) {
     let mut system = System::new_all();
     if is_steam_open(&mut system) {
         println!("close steam pls thanks");
         pause();
         return;
     }
-    let config = Config::new(arg_config);
+    let config = Config::new_launch(arg_config);
     println!("steam_exe = {}\nsteam_path = {}\nsteam_client_ui = {}", config.steam_exe_path, config.steam_path, config.steam_client_ui);
 
     
@@ -180,14 +186,20 @@ struct Config {
 }
 
 impl Config {
-    fn new(clap_config: LaunchSubCommand) -> Config {
-        let steam_exe_path = clap_config.steam_path.clone() + "\\steam.exe";
-        let steam_client_ui = clap_config.steam_path.clone() + "\\clientui";
+    fn new(steam_path: &String) -> Self {
+        let steam_exe_path = steam_path.clone() + "\\steam.exe";
+        let steam_client_ui = steam_path.clone() + "\\clientui";
         let steam_friend_js = steam_client_ui.to_string() + "\\friends.js";
         let steam_index_html = steam_client_ui.to_string() + "\\index_friends.html";
         //TODO: progrimatically get the steamed js file :)
         let steamed_dist = "C:\\Users\\USER\\Documents\\stuff\\steam-client\\dist\\js\\index.js".to_string();
-        return Config { steamed_dist, steam_exe_path: steam_exe_path.to_string(), steam_client_ui, steam_friend_js, timeout: clap_config.timeout, steam_path: clap_config.steam_path, steam_index_html};
+        return Config { steamed_dist, steam_exe_path: steam_exe_path.to_string(), steam_client_ui, steam_friend_js, timeout: 5000, steam_path: steam_path.clone(), steam_index_html};
+    }
+
+    fn new_launch(clap_config: LaunchSubCommand) -> Self {
+        let mut what = Config::new(&clap_config.steam_path);
+        what.timeout = clap_config.timeout;
+        what
     }
 }
 
