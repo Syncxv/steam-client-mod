@@ -1,17 +1,11 @@
-import { WebpackRequire } from '../../types/global';
 import sleep from '../util/sleep';
 
-let common: { [key: string]: string[] } = {
+let common = {
     React: ['createRef', 'createElement', 'Component', 'PureComponent'],
     ReactDOM: ['render', 'createPortal'],
 };
 
 export class Webpack {
-    require!: WebpackRequire;
-    rawModules!: WebpackRequire['m'];
-    moduleExportsProbably!: any[];
-    modules!: any[];
-    common: { [key: string]: any } = {};
     async initalize() {
         while (window.webpackChunkfriendsui == null) {
             await sleep(10);
@@ -24,13 +18,13 @@ export class Webpack {
         this.getCommonModules();
     }
 
-    getModule(filter: ((module: any) => boolean) | string[]) {
+    getModule(filter) {
         const bruh = this.getAllAModule(filter);
         if (bruh != null) return bruh[0];
         return null;
     }
 
-    getAllAModule(filter: ((module: any) => boolean) | string[]) {
+    getAllAModule(filter) {
         const bruh = typeof filter === 'function';
         return this.moduleExportsProbably
             .map((m) => {
@@ -45,7 +39,7 @@ export class Webpack {
             .filter((m) => m != null);
     }
 
-    badGetModule(filter: ((module: any) => boolean) | string[]) {
+    badGetModule(filter) {
         if (typeof filter === 'function') return this.modules.filter((m) => typeof m !== 'string').find(filter);
         const keys = filter;
         return this.modules.find((m) => keys.every((key) => (m && m.hasOwnProperty(key)) || (m && m.__proto__ && m.__proto__.hasOwnProperty(key))));
@@ -53,7 +47,7 @@ export class Webpack {
 
     getCommonModules() {
         Object.keys(common).forEach((md) => {
-            const [_, mod] = this.getModule(common[md])!;
+            const [_, mod] = this.getModule(common[md]);
             this.common[md] = mod;
         });
     }

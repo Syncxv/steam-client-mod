@@ -9,4 +9,5 @@ class Steamed {
     }
 }
 
-(window as any).steamed = new Steamed();
+window.steamed = new Steamed();
+window.webpackChunkfriendsui;
