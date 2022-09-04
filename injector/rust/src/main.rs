@@ -29,7 +29,7 @@ fn main() {
 fn handle_inject_friends_js(arg_config: GenericSubCommand) {
     let config = Config::new(&arg_config.steam_path);
     restore_assets(&config.steam_friend_js, &config.steam_index_html);
-    inject_friend_javascript(&config.steam_friend_js, &config.steamed_dist)
+    inject_friend_javascript(&config);
 }
  
 fn handle_restore(arg_config: GenericSubCommand) {
@@ -60,7 +60,7 @@ fn handle_launch_steam(arg_config:LaunchSubCommand) {
     println!("steam found :D can inject javascript now");
     
 
-    inject_friend_javascript(&config.steam_friend_js, &config.steamed_dist);
+    inject_friend_javascript(&config);
 }
 
 fn wait_for_steam(system: &mut System) -> bool {
@@ -102,11 +102,14 @@ fn execute_steam(steam_exe_path: &String) {
 }
 
 
-fn inject_friend_javascript(steam_friend_js: &String, steamed_dist: &String) {
-    let mut patched_js = fs::read_to_string(&steam_friend_js).unwrap();
+fn inject_friend_javascript(config: &Config) {
+    let steamed = fs::read_to_string(&config.steamed_dist).unwrap();
+    fs::write((&config.steam_client_ui).to_string() + "\\steamed.js", steamed).unwrap();
+
+    let mut patched_js = fs::read_to_string(&config.steam_friend_js).unwrap();
     let index: usize = patched_js.find(r#"console.log("Loading chat from url: ",e)"#).unwrap();
     
-    let frist = r#"(async () => {
+    let hehe = r#"(async () => {
         const createElement = (html) => {
             const temp = document.createElement('div');
             temp.innerHTML = html;
@@ -115,29 +118,26 @@ fn inject_friend_javascript(steam_friend_js: &String, steamed_dist: &String) {
         let parser = new DOMParser();
         const steamHtmlString = await (await fetch(e)).text();
         const HTML = parser.parseFromString(steamHtmlString, 'text/html');
-        HTML.head.appendChild(createElement(`<script>"#.to_string();
+        //edit html if ya want
+        let blob = new Blob([HTML.documentElement.innerHTML], { type: 'text/html' });
+        e = URL.createObjectURL(blob);
+        let iframe = document.getElementById(j);
+        iframe.src = e;
+        ot = e;
+        })();
+        return;
+    
+    
+        "#;
     
 
-    let second = r#"</script>`));
-    let blob = new Blob([HTML.documentElement.innerHTML], { type: 'text/html' });
-    e = URL.createObjectURL(blob);
-    let iframe = document.getElementById(j);
-    iframe.src = e;
-    ot = e;
-    })();
-    return;
 
-
-    "#;
-    
-
-    let mut steamed = fs::read_to_string(steamed_dist).unwrap();
-    steamed = steamed.replace("${", "\\${");
-    let hehe = frist + &steamed.replace("`", "\\`") + second;
+    // steamed = steamed.replace("${", "\\${");
+    // let hehe = frist + &steamed.replace("`", "\\`") + second;
 
     patched_js.replace_range(index..index, &hehe);
 
-    fs::write(steam_friend_js, patched_js).unwrap();
+    fs::write(&config.steam_friend_js, patched_js).unwrap();
 
     println!("injected steamed to friends and chat :D");
 

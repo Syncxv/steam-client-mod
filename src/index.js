@@ -9,16 +9,18 @@ class Steamed {
     patcher = Patcher;
     pluginManager = new PluginManager();
     constructor() {
+        window.steamed = this;
         this.webpack.initalize();
         this.pluginManager.initalize();
     }
 }
 
-window.steamed = new Steamed();
-`let unpatch = steamed.patcher.before("hi", _this.props.chatView, 'SendChatMessage', (_this, args, res) => {
-    console.log(_this, args, res)
-    args[0] = args[0].replace(":sunglasses:", "😎")
-    console.log(args)
-    
-    return args
-})`;
+const steamed = new Steamed();
+module.exports = steamed;
+// `let unpatch = steamed.patcher.before("hi", _this.props.chatView, 'SendChatMessage', (_this, args, res) => {
+//     console.log(_this, args, res)
+//     args[0] = args[0].replace(":sunglasses:", "😎")
+//     console.log(args)
+
+//     return args
+// })`;

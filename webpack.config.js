@@ -1,6 +1,6 @@
 const path = require('path');
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     devtool: 'inline-source-map',
     entry: {
         index: './src/index.js',
@@ -18,18 +18,13 @@ module.exports = {
         rules: [
             { test: /\.tsx?$/, loader: 'ts-loader' },
             {
-                test: /\.js$/,
+                test: /\.jsx$/,
                 exclude: /(node_modules)/,
                 use: [
                     {
-                        loader: 'babel-loader?cacheDirectory',
+                        loader: 'babel-loader',
                     },
                 ],
-            },
-            {
-                test: /\.jsx$/,
-                exclude: /(node_modules)/,
-                use: [{ loader: 'babel-loader' }],
             },
         ],
     },
