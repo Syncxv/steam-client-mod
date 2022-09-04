@@ -9,6 +9,7 @@ let css = `.chatEntry.Panel.Focusable::before {
     font-size: .7rem;
 }`;
 module.exports = class WatermarkPlugin extends Plugin {
+    manifest = { name: 'Chat WaterMark', description: 'adds a watermark above the chat textarea', author: 'Aria' };
     startPlugin() {
         console.log(g_PopupManager);
         g_PopupManager.m_rgPopupCreatedCallbacks.push((popup) => {

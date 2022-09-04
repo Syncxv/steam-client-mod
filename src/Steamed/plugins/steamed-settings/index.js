@@ -2,6 +2,11 @@ const Plugin = require('../../../code_modules/entities/Plugin');
 const SettingsView = require('./components/SettingsView');
 
 module.exports = class SettingsPluginGAng extends Plugin {
+    manifest = {
+        name: 'Settings Patcher',
+        description: 'this plugin patches the settings sidebar thingy and adds our own stuff to it',
+        author: 'Aria',
+    };
     startPlugin() {
         steamed.api.settings.registerSetting(this.entityID, {
             title: 'Steamed',
@@ -17,7 +22,8 @@ module.exports = class SettingsPluginGAng extends Plugin {
         this.SettingsComponent = mod[key];
         this.unpatch = steamed.patcher.before('bruh', mod[key], 'render', (_this, [props], res) => {
             console.log(_this, props, res);
-            const sections = Object.values(steamed.api.settings.sections);
+            //what the fuck?
+            const sections = Object.values(steamed.api.settings.sections).sort((a, b) => (b.identifier === 'steamed' ? 1 : -1));
             sections.forEach((s) => {
                 if (!props.pages.find((m) => m.identifier === s.identifier)) props.pages.push(s);
             });

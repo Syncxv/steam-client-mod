@@ -1,6 +1,7 @@
 const Plugin = require('../../../code_modules/entities/Plugin');
 
 module.exports = class PluginsSection extends Plugin {
+    manifest = { name: 'Plugins Settings', description: 'the plugins section in settings HEHEH HA', author: 'Aria' };
     startPlugin() {
         steamed.api.settings.registerSetting(this.entityID, {
             title: 'Plugins',
