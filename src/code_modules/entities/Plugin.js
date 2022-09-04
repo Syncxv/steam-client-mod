@@ -1,5 +1,8 @@
+const SteamedPluginSettingsStore = require('../settings');
+
 class Plugin {
     constructor() {
+        this.settings = new SteamedPluginSettingsStore(this.entityID);
         this.ready = false;
         this.styles = {};
     }

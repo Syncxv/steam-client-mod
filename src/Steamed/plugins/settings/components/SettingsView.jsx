@@ -7,7 +7,7 @@ module.exports = ({}) => (
         <p>nothing here at the moment :( no where near done developing steamed HEHEH HA</p>
 
         <div className="SettingsGroup">
-            <SwitchItem label="HEHHE HA" description="bruh moment" checked={true}></SwitchItem>
+            <SwitchItem label="HEHHE HA" description="" checked={true}></SwitchItem>
         </div>
     </form>
 );
