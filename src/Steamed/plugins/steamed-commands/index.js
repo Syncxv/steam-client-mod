@@ -57,7 +57,7 @@ module.exports = class CommandsPlugin extends Plugin {
             } else {
                 const msg = new MessageClass(-1, g_FriendsUIApp.m_CMInterface.GetServerRTime32(), result.result);
                 //idk how to change avatar and stuff
-                return thisObject.SendChatMessageInternal(msg);
+                return thisObject.InternalAppendChatMsg(msg);
             }
             return original(...args);
         });
