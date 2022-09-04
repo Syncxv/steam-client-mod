@@ -1,4 +1,4 @@
-const SteamedPluginSettingsStore = require('../settings');
+const SteamedPluginSettingsStore = require('../settings/SteamedPluginSettingsStore');
 
 class Plugin {
     constructor() {
