@@ -103,9 +103,28 @@ fn execute_steam(steam_exe_path: &String) {
 
 
 fn inject_friend_javascript(config: &Config) {
+    //add steamed :)
     let steamed = fs::read_to_string(&config.steamed_dist).unwrap();
     fs::write((&config.steam_client_ui).to_string() + "\\steamed.js", steamed).unwrap();
+    println!("inserted steamed to clientui folder");
 
+
+    //inject bruh.js / js-injector :)
+    let steamed_js_injector_path = (&config.steamed).to_string() + "\\injector\\js-injector\\injector.js";
+    let steamed_js_injector = fs::read_to_string(&steamed_js_injector_path).unwrap();
+    fs::write((&config.steam_client_ui).to_string() + "\\bruh.js", steamed_js_injector).unwrap();
+    println!("inserted js-injector to clientui folder");
+
+
+    //insert srcipt tag into html
+    let mut index_html = fs::read_to_string(&config.steam_index_html).unwrap();
+    let index: usize = index_html.find("</script>").map(|i| i + "</script>".len()).unwrap();
+    index_html.replace_range(index..index,"\n\n\t\t<script src=\"bruh.js\"> </script>\n");
+    fs::write(&config.steam_index_html, index_html).unwrap();
+    println!("injected js-injector into html");
+
+    
+    //patching friends.js :)
     let mut patched_js = fs::read_to_string(&config.steam_friend_js).unwrap();
     let index: usize = patched_js.find(r#"console.log("Loading chat from url: ",e)"#).unwrap();
     
@@ -190,6 +209,7 @@ struct Config {
     steam_client_ui: String,
     steam_friend_js: String,
     steam_index_html: String,
+    steamed: String,
     steamed_dist: String,
     timeout: u64,
 }
@@ -200,9 +220,10 @@ impl Config {
         let steam_client_ui = steam_path.clone() + "\\clientui";
         let steam_friend_js = steam_client_ui.to_string() + "\\friends.js";
         let steam_index_html = steam_client_ui.to_string() + "\\index_friends.html";
-        //TODO: progrimatically get the steamed js file :)
-        let steamed_dist = "C:\\Users\\USER\\Documents\\stuff\\steam-client\\dist\\js\\index.js".to_string();
-        return Config { steamed_dist, steam_exe_path: steam_exe_path.to_string(), steam_client_ui, steam_friend_js, timeout: 5000, steam_path: steam_path.clone(), steam_index_html};
+        //TODO: progrimatically get the steamed folder :)
+        let steamed = "C:\\Users\\USER\\Documents\\stuff\\steam-client".to_string();
+        let steamed_dist = (&steamed).to_string() +"\\dist\\js\\index.js";
+        return Config { steamed, steamed_dist, steam_exe_path: steam_exe_path.to_string(), steam_client_ui, steam_friend_js, timeout: 5000, steam_path: steam_path.clone(), steam_index_html};
     }
 
     fn new_launch(clap_config: LaunchSubCommand) -> Self {
