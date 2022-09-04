@@ -5,10 +5,9 @@ const main = async () => {
     let goodWindow = document.getElementById('tracked_frame_friends_chat').contentWindow;
 
     function wait() {
-        if (!condition) {
+        if (!goodWindow?.g_FriendsUIApp?.ready_to_render) {
             setTimeout(wait, 100);
         } else {
-            // CODE GOES IN HERE
             goodWindow.eval(steamedDist);
         }
     }
