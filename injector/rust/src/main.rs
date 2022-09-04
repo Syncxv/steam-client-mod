@@ -180,7 +180,6 @@ fn restore_assets(steam_friend_js: &String, steam_index_html: &String) {
     let o_contents_friend_js = fs::read_to_string(&steam_friend_js_bak).unwrap();
     let o_contents_index_html = fs::read_to_string(&steam_index_html_bak).unwrap();
 
-    println!("{}", o_contents_index_html);
     fs::write(steam_friend_js, o_contents_friend_js).unwrap();
     fs::write(steam_index_html, o_contents_index_html).unwrap();
 
