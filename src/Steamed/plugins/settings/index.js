@@ -12,7 +12,7 @@ module.exports = class SettingsPluginGAng extends Plugin {
                 props.pages.push({
                     title: 'Steamed',
                     identifier: 'steamed',
-                    content: steamed.webpack.common.React.createElement(SettingsView),
+                    content: steamed.webpack.common.React.createElement(SettingsView, { settings: this.settings }),
                 });
             return res;
         });
