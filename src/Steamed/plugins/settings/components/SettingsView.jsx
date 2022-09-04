@@ -1,9 +1,13 @@
-module.exports = ({ ToggleComponent }) => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center', justifyContent: 'center' }}>
+const { SwitchItem } = require('../../../../code_modules/components');
+
+module.exports = ({}) => (
+    <form className="DialogBody">
         <p>WELCOME TO STEAMED</p>
 
         <p>nothing here at the moment :( no where near done developing steamed HEHEH HA</p>
 
-        <ToggleComponent label="HEHHE HA" description="bruh moment" checked={true}></ToggleComponent>
-    </div>
+        <div className="SettingsGroup">
+            <SwitchItem label="HEHHE HA" description="bruh moment" checked={true}></SwitchItem>
+        </div>
+    </form>
 );
