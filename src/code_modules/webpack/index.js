@@ -19,13 +19,13 @@ module.exports = class Webpack {
         this.getCommonModules();
     }
 
-    getModule(filter) {
-        const bruh = this.getAllAModule(filter);
+    getModule(filter, getTarget = false) {
+        const bruh = this.getAllAModule(filter, getTarget);
         if (bruh != null) return bruh[0];
         return null;
     }
 
-    getAllAModule(filter) {
+    getAllAModule(filter, getTarget = false) {
         const bruh = typeof filter === 'function';
         return this.moduleExportsProbably
             .map((m) => {
@@ -33,7 +33,7 @@ module.exports = class Webpack {
                     const isFound = bruh
                         ? filter(value)
                         : filter.every((key) => (m && m.hasOwnProperty(key)) || (m && m.__proto__ && m.__proto__.hasOwnProperty(key)));
-                    if (isFound) return [key, m];
+                    if (isFound) return getTarget ? m[key] : [key, m];
                 }
                 return null;
             })
