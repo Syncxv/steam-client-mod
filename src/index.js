@@ -1,3 +1,5 @@
+const SettingsAPI = require('./code_modules/api/settings');
+const SteamedPluginSettingsStore = require('./code_modules/api/settings/SteamedPluginSettingsStore');
 const Patcher = require('./code_modules/injector');
 const Webpack = require('./code_modules/webpack');
 const PluginManager = require('./Steamed/managers/pluginManager');
@@ -8,8 +10,12 @@ class Steamed {
     webpack = new Webpack();
     patcher = Patcher;
     pluginManager = new PluginManager();
+    api = {};
+    entityID = 'STEAMED_GANG_GANG';
     constructor() {
         window.steamed = this;
+        this.api.settings = new SettingsAPI();
+        this.settings = new SteamedPluginSettingsStore(this.entityID);
         this.webpack.initalize();
         this.pluginManager.initalize();
     }
