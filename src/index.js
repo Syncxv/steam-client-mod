@@ -1,3 +1,4 @@
+const CommandAPI = require('./code_modules/api/commands');
 const SettingsAPI = require('./code_modules/api/settings');
 const SteamedPluginSettingsStore = require('./code_modules/api/settings/SteamedPluginSettingsStore');
 const Patcher = require('./code_modules/injector');
@@ -15,6 +16,7 @@ class Steamed {
     constructor() {
         window.steamed = this;
         this.api.settings = new SettingsAPI();
+        this.api.commands = new CommandAPI();
         this.settings = new SteamedPluginSettingsStore(this.entityID);
         this.webpack.initalize();
         this.pluginManager.initalize();
