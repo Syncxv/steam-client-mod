@@ -5,13 +5,16 @@ module.exports = class SettingsPluginGAng extends Plugin {
     startPlugin() {
         let [key, mod] = steamed.webpack.getModule((m) => m?.render?.toString().includes('pages'));
         this.SettingsComponent = mod[key];
+
+        let [toogleKey, toggleMod] = steamed.webpack.getModule((m) => m?.render?.toString().includes('ToggleField'));
+
         this.unpatch = steamed.patcher.before('bruh', mod[key], 'render', (_this, [props], res) => {
             console.log(_this, props, res);
             if (!props.pages.find((m) => m.identifier === 'steamed'))
                 props.pages.push({
                     title: 'Steamed',
                     identifier: 'steamed',
-                    content: steamed.webpack.common.React.createElement(SettingsView),
+                    content: steamed.webpack.common.React.createElement(SettingsView, { ToggleComponent: toggleMod[toogleKey] }),
                 });
             return res;
         });
