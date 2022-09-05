@@ -34,6 +34,17 @@ module.exports = class AutocompleteBruh extends React.Component {
     }
     render() {
         console.log(this.state.text);
-        return ReactDOM.createPortal(<div>HEHHE HA</div>, this.el);
+        if (!this.state.text.startsWith(steamed.api.commands.prefix)) return null;
+        return ReactDOM.createPortal(
+            <div
+                style={{
+                    position: 'absolute',
+                    bottom: `${this.window.document.querySelector('.chatEntry.Panel.Focusable').getBoundingClientRect().height}px`,
+                }}
+            >
+                HEHHE HA
+            </div>,
+            this.el
+        );
     }
 };
