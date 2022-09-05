@@ -18,6 +18,10 @@ module.exports = {
         extensions: ['.js', '.tsx', '.js', '.jsx'],
         alias: {
             'steamed/util': path.resolve(__dirname, 'src', 'code_modules', 'util'),
+            'steamed/entities': path.resolve(__dirname, 'src', 'code_modules', 'entities'),
+            'steamed/components': path.resolve(__dirname, 'src', 'code_modules', 'components'),
+            'steamed/patcher': path.resolve(__dirname, 'src', 'code_modules', 'patcher'),
+            steamed: path.resolve(__dirname, 'src', 'code_modules'),
         },
     },
     module: {

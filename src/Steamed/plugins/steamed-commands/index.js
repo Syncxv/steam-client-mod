@@ -1,5 +1,5 @@
-const getReactInstance = require('../../../code_modules/util/getReactInstance');
-const Plugin = require('../../../code_modules/entities/Plugin');
+const { getReactInstance } = require('steamed/util');
+const { Plugin } = require('steamed/entities');
 const commands = require('./commands');
 module.exports = class CommandsPlugin extends Plugin {
     manifest = { name: 'Commands', description: 'adds commands HEHHE HA', author: 'Aria' };

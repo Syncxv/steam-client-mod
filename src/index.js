@@ -1,7 +1,7 @@
 const CommandAPI = require('./code_modules/api/commands');
 const SettingsAPI = require('./code_modules/api/settings');
 const SteamedPluginSettingsStore = require('./code_modules/api/settings/SteamedPluginSettingsStore');
-const Patcher = require('./code_modules/injector');
+const Patcher = require('./code_modules/patcher');
 const Webpack = require('./code_modules/webpack');
 const PluginManager = require('./Steamed/managers/pluginManager');
 

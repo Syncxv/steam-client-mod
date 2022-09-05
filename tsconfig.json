@@ -24,7 +24,7 @@
         "resolveJsonModule": true,
         "baseUrl": ".",
         "paths": {
-            "steamed/util": ["src/code_modules/util"]
+            "steamed/*": ["src/code_modules/*"]
         }
     },
     "exclude": ["node_modules"],
