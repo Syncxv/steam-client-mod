@@ -4,7 +4,9 @@ module.exports = class AutocompleteBruh extends React.Component {
         this.state = {
             text: '',
             selectedIndex: 0,
+            isOpen: false,
         };
+        this.matchedCommands = [];
         this.el = document.createElement('div');
         this.classes = {
             ...steamed.webpack.getModule(['mentionDialogPosition'], false, { module: true }),
@@ -29,7 +31,7 @@ module.exports = class AutocompleteBruh extends React.Component {
                         console.log('FOUND IT WOAH');
                         popup.window.document
                             .querySelector('textarea')
-                            .addEventListener('input', (e) => this.setState({ ...this.state, text: e.target.value }));
+                            .addEventListener('input', (e) => this.setState({ ...this.state, isOpen: true, selectedIndex: 0, text: e.target.value }));
                         popup.window.document.querySelector('textarea').addEventListener('keyup', this.KeyUpHandler.bind(this));
                         this.forceUpdate();
                     }
@@ -40,22 +42,36 @@ module.exports = class AutocompleteBruh extends React.Component {
     }
 
     KeyUpHandler(e) {
+        if (!this.matchedCommands.length) return;
+        e.preventDefault();
         switch (e.keyCode) {
             case 38:
-                if (this.state.selectedIndex - 1 < 0) return this.setState({ ...this.state, selectedIndex: steamed.api.commands.length - 1 });
+                if (this.state.selectedIndex - 1 < 0) return this.setState({ ...this.state, selectedIndex: this.matchedCommands.length - 1 });
 
                 return this.setState({ ...this.state, selectedIndex: this.state.selectedIndex - 1 });
 
             case 40:
-                if (this.state.selectedIndex + 1 > steamed.api.commands.length - 1) return this.setState({ ...this.state, selectedIndex: 0 });
+                if (this.state.selectedIndex + 1 > this.matchedCommands.length - 1) return this.setState({ ...this.state, selectedIndex: 0 });
 
                 return this.setState({ ...this.state, selectedIndex: this.state.selectedIndex + 1 });
+
+            case 13:
+                if (!this.matchedCommands.length) this.setState({ ...this.state, text: '' });
+                console.log('insert command into the thingy pls');
+                this.matchedCommands = [];
+                this.CloseAutoComplete();
         }
     }
 
+    CloseAutoComplete() {
+        this.setState({ ...this.state, isOpen: false });
+    }
+
     render() {
-        console.log(this.state);
         if (!this.state.text.startsWith(steamed.api.commands.prefix)) return null;
+        this.matchedCommands = steamed.api.commands.filter((item) => item.name.toLowerCase().includes(this.state.text.substring(1).toLowerCase()));
+        console.log(this.state, this.matchedCommands);
+        if (!this.matchedCommands.length || !this.state.isOpen) return null;
         return ReactDOM.createPortal(
             <div
                 className={this.classes.mentionDialogPosition}
@@ -72,7 +88,7 @@ module.exports = class AutocompleteBruh extends React.Component {
                         transform: `translateX(6px)`,
                     }}
                 >
-                    {steamed.api.commands.map((command, i) => (
+                    {this.matchedCommands.map((command, i) => (
                         <div
                             classNme={`${this.classes.mentionSearchOption} ${this.classes.suggestOption} ${
                                 this.state.selectedIndex === i ? this.classes.selected : ''
