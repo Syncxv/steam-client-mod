@@ -42,7 +42,20 @@ module.exports = class AutocompleteBruh extends React.Component {
                     bottom: `${this.window.document.querySelector('.chatEntry.Panel.Focusable').getBoundingClientRect().height}px`,
                 }}
             >
-                HEHHE HA
+                <div
+                    className="cool"
+                    style={{
+                        width: this.window.document.querySelector('form').getBoundingClientRect().width,
+                        backgroundColor: '#2c3036',
+                        transform: `translateX(6px)`,
+                    }}
+                >
+                    {steamed.api.commands.map((m) => (
+                        <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '16px', marginTop: '5px', marginBottom: '5px' }}>
+                            <p style={{ fontWeight: 'bold' }}>{m.name}</p>: {m.description}
+                        </div>
+                    ))}
+                </div>
             </div>,
             this.el
         );
