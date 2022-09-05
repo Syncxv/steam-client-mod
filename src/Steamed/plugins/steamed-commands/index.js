@@ -25,15 +25,26 @@ module.exports = class CommandsPlugin extends Plugin {
         this.autoComplete();
     }
 
+    createContainer() {
+        const CONTAINER_ELEM = document.createElement('div');
+        CONTAINER_ELEM.classList.add('popoutContianerGang');
+        return CONTAINER_ELEM;
+    }
+
     autoComplete() {
-        this.chatViewObserver = new MutationObserver((e) => {
-            console.log('new chat view :O', e);
+        this.chatViewObserver = new MutationObserver(([e]) => {
+            console.log('new chat view :O', e.target.lastChild);
+            let chatElem = this.window.document.querySelector('[data-activechat="true"]');
+            console.log(chatElem);
+            // chatElem.id = 'ADDING AUTO COMPLETE MUTATION OBSERVER';
+            chatElem.appendChild(this.createContainer());
+            ReactDOM.render(<AutocompeteBruh chatElem={chatElem} window={this.window} />, document.createElement('div'));
         });
-        this.textAreaObserver = new MutationObserver((e) => {
-            if (e.length > 3) {
-                console.log('chat loaded', e);
-            }
-        });
+        // this.textAreaObserver = new MutationObserver((e) => {
+        //     if (e.length > 3) {
+        //         console.log('chat loaded', e);
+        //     }
+        // });
         g_PopupManager.m_rgPopupCreatedCallbacks.push((popup) => {
             if (popup.m_strName.startsWith('chat_')) {
                 console.log('cool auto complete', popup);
@@ -45,10 +56,8 @@ module.exports = class CommandsPlugin extends Plugin {
                         console.log('FOUND IT WOAH');
                         this.chatViewObserver.observe(this.window.document.querySelector('.chatDialogs.Panel.Focusable'), { childList: true });
                         [...this.window.document.querySelector('.chatDialogs.Panel.Focusable').children].forEach((chatElem) => {
-                            const CONTAINER_ELEM = document.createElement('div');
-                            CONTAINER_ELEM.classList.add('popoutContianerGang');
-                            chatElem.appendChild(CONTAINER_ELEM);
-                            if (chatElem.dataset.activechat === 'false') this.textAreaObserver.observe(chatElem, { childList: true, subtree: true });
+                            chatElem.appendChild(this.createContainer());
+                            // if (chatElem.dataset.activechat === 'false') this.textAreaObserver.observe(chatElem, { childList: true, subtree: true });
                             ReactDOM.render(<AutocompeteBruh chatElem={chatElem} window={this.window} />, document.createElement('div'));
                         });
                     }
