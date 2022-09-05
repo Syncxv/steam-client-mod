@@ -14,6 +14,10 @@ module.exports = class AutocompleteBruh extends React.Component {
         window.autocomlete = this;
     }
 
+    get _this() {
+        return steamed.util.getOwnerInstance(this.props.chatElem.querySelector('.chatEntry.Panel.Focusable'));
+    }
+
     componentDidMount() {
         this.container = this.props.chatElem.querySelector('.popoutContianerGang');
         this.container.appendChild(this.el);
@@ -25,7 +29,7 @@ module.exports = class AutocompleteBruh extends React.Component {
     }
 
     KeyUpHandler(e) {
-        if (!this.matchedCommands.length) return;
+        if (!this.state.text.startsWith(steamed.api.commands.prefix) || !this.matchedCommands.length || !this.state.isOpen) return null;
         e.preventDefault();
         switch (e.keyCode) {
             case 38:
@@ -39,9 +43,22 @@ module.exports = class AutocompleteBruh extends React.Component {
                 return this.setState({ ...this.state, selectedIndex: this.state.selectedIndex + 1 });
 
             case 13:
-                if (!this.matchedCommands.length) this.setState({ ...this.state, text: '' });
-                console.log('insert command into the thingy pls');
-                this.matchedCommands = [];
+                if (!this.matchedCommands.length) return this.CloseAutoComplete();
+                console.log(this.matchedCommands);
+                this._this.setState({
+                    ...this._this.state,
+                    messageInput: `${steamed.api.commands.prefix}${this.matchedCommands[this.state.selectedIndex].name}`,
+                    shouldNotSend: true,
+                });
+
+                setTimeout(
+                    () =>
+                        this._this.setState({
+                            ...this._this.state,
+                            shouldNotSend: false,
+                        }),
+                    4
+                );
                 this.CloseAutoComplete();
         }
     }
@@ -60,13 +77,13 @@ module.exports = class AutocompleteBruh extends React.Component {
                 className={this.classes.mentionDialogPosition}
                 style={{
                     position: 'absolute',
-                    bottom: `${this.props.chatElem.querySelector('.chatEntry.Panel.Focusable').getBoundingClientRect().height}px`,
+                    bottom: `${this.props.chatElem.querySelector('.chatEntry.Panel.Focusable').getBoundingClientRect().height - 6}px`,
                 }}
             >
                 <div
                     className={this.classes.mentionDialog}
                     style={{
-                        width: this.props.chatElem.querySelector('form').getBoundingClientRect().width,
+                        width: this.props.chatElem.querySelector('form').getBoundingClientRect().width - 6,
                         // backgroundColor: '#2c3036',
                         transform: `translateX(6px)`,
                     }}
@@ -82,7 +99,7 @@ module.exports = class AutocompleteBruh extends React.Component {
                                 transition: 'transform.4s ease',
                                 ...(this.state.selectedIndex === i && {
                                     transform: 'translateX(10px)',
-                                    backgroundColor: '#451f75ff',
+                                    backgroundColor: '#434953',
                                 }),
                             }}
                         >

@@ -7,6 +7,7 @@ const sleep = require('steamed/util/sleep');
 module.exports = class CommandsPlugin extends Plugin {
     manifest = { name: 'Commands', description: 'adds commands HEHHE HA', author: 'Aria' };
     unpatches = [];
+    autoCompleteInstances = [];
     constructor(shit) {
         super(shit);
     }
@@ -31,6 +32,10 @@ module.exports = class CommandsPlugin extends Plugin {
         return CONTAINER_ELEM;
     }
 
+    getActiveTextAreaInstance() {
+        return this.autoCompleteInstances.find((m) => m.props.chatElem?.dataset?.activechat === 'true')?._this;
+    }
+
     autoComplete() {
         this.chatViewObserver = new MutationObserver(([e]) => {
             console.log('new chat view :O', e.target.lastChild);
@@ -38,13 +43,10 @@ module.exports = class CommandsPlugin extends Plugin {
             console.log(chatElem);
             // chatElem.id = 'ADDING AUTO COMPLETE MUTATION OBSERVER';
             chatElem.appendChild(this.createContainer());
-            ReactDOM.render(<AutocompeteBruh chatElem={chatElem} window={this.window} />, document.createElement('div'));
+            this.autoCompleteInstances.push(
+                (chatElem.autoComplete = ReactDOM.render(<AutocompeteBruh chatElem={chatElem} window={this.window} />, document.createElement('div')))
+            );
         });
-        // this.textAreaObserver = new MutationObserver((e) => {
-        //     if (e.length > 3) {
-        //         console.log('chat loaded', e);
-        //     }
-        // });
         g_PopupManager.m_rgPopupCreatedCallbacks.push((popup) => {
             if (popup.m_strName.startsWith('chat_')) {
                 console.log('cool auto complete', popup);
@@ -57,8 +59,12 @@ module.exports = class CommandsPlugin extends Plugin {
                         this.chatViewObserver.observe(this.window.document.querySelector('.chatDialogs.Panel.Focusable'), { childList: true });
                         [...this.window.document.querySelector('.chatDialogs.Panel.Focusable').children].forEach((chatElem) => {
                             chatElem.appendChild(this.createContainer());
-                            // if (chatElem.dataset.activechat === 'false') this.textAreaObserver.observe(chatElem, { childList: true, subtree: true });
-                            ReactDOM.render(<AutocompeteBruh chatElem={chatElem} window={this.window} />, document.createElement('div'));
+                            this.autoCompleteInstances.push(
+                                (chatElem.autoComplete = ReactDOM.render(
+                                    <AutocompeteBruh chatElem={chatElem} window={this.window} />,
+                                    document.createElement('div')
+                                ))
+                            );
                         });
                     }
                 };
@@ -73,6 +79,9 @@ module.exports = class CommandsPlugin extends Plugin {
         this.unpatches.push(
             steamed.patcher.instead('moment', MessageManagerClass.prototype, 'SendChatMessage', async (thisObject, args, original) => {
                 console.log(thisObject, args, original);
+                const activeTextAreaInstance = this.getActiveTextAreaInstance();
+                console.log(activeTextAreaInstance, activeTextAreaInstance.state.shouldNotSend);
+                if (activeTextAreaInstance && activeTextAreaInstance.state.shouldNotSend) return;
                 let [message] = args;
 
                 if (!message.startsWith(steamed.api.commands.prefix)) {
