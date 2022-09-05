@@ -9,6 +9,7 @@ module.exports = class AutocompleteBruh extends React.Component {
         this.classes = {
             ...steamed.webpack.getModule(['mentionDialogPosition'], false, { module: true }),
         };
+        window.autocomlete = this;
     }
 
     componentDidMount() {
@@ -29,6 +30,7 @@ module.exports = class AutocompleteBruh extends React.Component {
                         popup.window.document
                             .querySelector('textarea')
                             .addEventListener('input', (e) => this.setState({ ...this.state, text: e.target.value }));
+                        popup.window.document.querySelector('textarea').addEventListener('keyup', this.KeyUpHandler.bind(this));
                         this.forceUpdate();
                     }
                 };
@@ -36,8 +38,23 @@ module.exports = class AutocompleteBruh extends React.Component {
             }
         });
     }
+
+    KeyUpHandler(e) {
+        switch (e.keyCode) {
+            case 38:
+                if (this.state.selectedIndex - 1 < 0) return this.setState({ ...this.state, selectedIndex: steamed.api.commands.length - 1 });
+
+                return this.setState({ ...this.state, selectedIndex: this.state.selectedIndex - 1 });
+
+            case 40:
+                if (this.state.selectedIndex + 1 > steamed.api.commands.length - 1) return this.setState({ ...this.state, selectedIndex: 0 });
+
+                return this.setState({ ...this.state, selectedIndex: this.state.selectedIndex + 1 });
+        }
+    }
+
     render() {
-        console.log(this.state.text);
+        console.log(this.state);
         if (!this.state.text.startsWith(steamed.api.commands.prefix)) return null;
         return ReactDOM.createPortal(
             <div
@@ -60,7 +77,15 @@ module.exports = class AutocompleteBruh extends React.Component {
                             classNme={`${this.classes.mentionSearchOption} ${this.classes.suggestOption} ${
                                 this.state.selectedIndex === i ? this.classes.selected : ''
                             }`}
-                            style={{ marginLeft: '12px' }}
+                            style={{
+                                paddingLeft: '20px',
+                                width: '90%',
+                                transition: 'transform.4s ease',
+                                ...(this.state.selectedIndex === i && {
+                                    transform: 'translateX(10px)',
+                                    backgroundColor: '#451f75ff',
+                                }),
+                            }}
                         >
                             <span className="SlashCommandSuggestion">
                                 <span className="SlashCommandSuggestion_SlashCommand">

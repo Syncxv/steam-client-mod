@@ -25,6 +25,11 @@ class CommandAPI {
         const arr = Object.values(this.commands);
         return arr.sort.bind(arr);
     }
+
+    get length() {
+        return Object.values(this.commands).length;
+    }
+
     new(cmd) {
         if (!typeof cmd === 'object' && cmd !== null) {
             throw Error('invald command');
