@@ -21,6 +21,7 @@ module.exports = {
             'steamed/entities': path.resolve(__dirname, 'src', 'code_modules', 'entities'),
             'steamed/components': path.resolve(__dirname, 'src', 'code_modules', 'components'),
             'steamed/patcher': path.resolve(__dirname, 'src', 'code_modules', 'patcher'),
+            'steamed/webpack': path.resolve(__dirname, 'src', 'code_modules', 'webpack'),
             steamed: path.resolve(__dirname, 'src', 'code_modules'),
         },
     },
@@ -28,7 +29,7 @@ module.exports = {
         rules: [
             { test: /\.tsx?$/, loader: 'ts-loader' },
             {
-                test: /\.jsx$/,
+                test: /\.js$|jsx/,
                 exclude: /(node_modules)/,
                 use: [
                     {

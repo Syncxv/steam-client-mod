@@ -12,6 +12,7 @@ class Steamed {
     patcher = Patcher;
     pluginManager = new PluginManager();
     api = {};
+    util = require('./code_modules/util');
     entityID = 'STEAMED_GANG_GANG';
     constructor() {
         window.steamed = this;
