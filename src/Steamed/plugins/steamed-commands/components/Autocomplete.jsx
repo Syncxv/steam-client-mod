@@ -26,11 +26,20 @@ module.exports = class AutocompleteBruh extends React.Component {
             .querySelector('textarea')
             .addEventListener('input', (e) => this.setState({ ...this.state, isOpen: true, selectedIndex: 0, text: e.target.value }));
         this.props.chatElem.querySelector('textarea').addEventListener('keyup', this.KeyUpHandler.bind(this));
+        this.props.chatElem.querySelector('textarea').addEventListener('keydown', this.KeyDownHandler.bind(this));
+    }
+
+    KeyDownHandler(e) {
+        if (e.keyCode === 9) {
+            if (!this.matchedCommands.length) return this.CloseAutoComplete();
+            this.InsertCommand();
+            this._this.props.chatView.FocusTextInput();
+            this.CloseAutoComplete();
+        }
     }
 
     KeyUpHandler(e) {
         if (!this.state.text.startsWith(steamed.api.commands.prefix) || !this.matchedCommands.length || !this.state.isOpen) return null;
-        e.preventDefault();
         switch (e.keyCode) {
             case 38:
                 if (this.state.selectedIndex - 1 < 0) return this.setState({ ...this.state, selectedIndex: this.matchedCommands.length - 1 });
@@ -45,13 +54,17 @@ module.exports = class AutocompleteBruh extends React.Component {
             case 13:
                 if (!this.matchedCommands.length) return this.CloseAutoComplete();
                 console.log(this.matchedCommands);
-                this._this.setState({
-                    ...this._this.state,
-                    messageInput: `${steamed.api.commands.prefix}${this.matchedCommands[this.state.selectedIndex].name}`,
-                });
-
+                this.InsertCommand();
                 this.CloseAutoComplete();
+                break;
         }
+    }
+
+    InsertCommand() {
+        this._this.setState({
+            ...this._this.state,
+            messageInput: `${steamed.api.commands.prefix}${this.matchedCommands[this.state.selectedIndex].name}`,
+        });
     }
 
     CloseAutoComplete() {
