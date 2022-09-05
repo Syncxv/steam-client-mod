@@ -3,12 +3,19 @@ const { Plugin } = require('steamed/entities');
 const commands = require('./commands');
 
 const AutocompeteBruh = require('./components/Autocomplete');
+const sleep = require('steamed/util/sleep');
 module.exports = class CommandsPlugin extends Plugin {
     manifest = { name: 'Commands', description: 'adds commands HEHHE HA', author: 'Aria' };
     unpatches = [];
+    constructor(shit) {
+        super(shit);
+    }
     get _this() {
-        return getReactInstance(g_PopupManager.m_mapPopups.get('chat_ChatWindow_0')?.window?.document?.querySelector('.displayColumn.fullWidth'))
-            ?.child?.sibling?.stateNode;
+        return getReactInstance(
+            [...g_PopupManager.m_mapPopups.entries]
+                .find((p) => p.m_strName.startsWith('chat_'))
+                ?.window?.document?.querySelector('.displayColumn.fullWidth')
+        )?.child?.sibling?.stateNode;
     }
 
     startPlugin() {
@@ -19,8 +26,36 @@ module.exports = class CommandsPlugin extends Plugin {
     }
 
     autoComplete() {
-        // popup.window.document.getElementById("popup_target").appendChild()
-        ReactDOM.render(<AutocompeteBruh />, document.createElement('div'));
+        this.chatViewObserver = new MutationObserver((e) => {
+            console.log('new chat view :O', e);
+        });
+        this.textAreaObserver = new MutationObserver((e) => {
+            if (e.length > 3) {
+                console.log('chat loaded', e);
+            }
+        });
+        g_PopupManager.m_rgPopupCreatedCallbacks.push((popup) => {
+            if (popup.m_strName.startsWith('chat_')) {
+                console.log('cool auto complete', popup);
+                this.window = popup.window;
+                const wait = () => {
+                    if (!popup.window.document.querySelector('textarea')) {
+                        setTimeout(wait, 100);
+                    } else {
+                        console.log('FOUND IT WOAH');
+                        this.chatViewObserver.observe(this.window.document.querySelector('.chatDialogs.Panel.Focusable'), { childList: true });
+                        [...this.window.document.querySelector('.chatDialogs.Panel.Focusable').children].forEach((chatElem) => {
+                            const CONTAINER_ELEM = document.createElement('div');
+                            CONTAINER_ELEM.classList.add('popoutContianerGang');
+                            chatElem.appendChild(CONTAINER_ELEM);
+                            if (chatElem.dataset.activechat === 'false') this.textAreaObserver.observe(chatElem, { childList: true, subtree: true });
+                            ReactDOM.render(<AutocompeteBruh chatElem={chatElem} window={this.window} />, document.createElement('div'));
+                        });
+                    }
+                };
+                wait();
+            }
+        });
     }
 
     monkey() {
