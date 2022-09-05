@@ -3,8 +3,12 @@ module.exports = class AutocompleteBruh extends React.Component {
         super(props);
         this.state = {
             text: '',
+            selectedIndex: 0,
         };
         this.el = document.createElement('div');
+        this.classes = {
+            ...steamed.webpack.getModule(['mentionDialogPosition'], false, { module: true }),
+        };
     }
 
     componentDidMount() {
@@ -37,22 +41,34 @@ module.exports = class AutocompleteBruh extends React.Component {
         if (!this.state.text.startsWith(steamed.api.commands.prefix)) return null;
         return ReactDOM.createPortal(
             <div
+                className={this.classes.mentionDialogPosition}
                 style={{
                     position: 'absolute',
                     bottom: `${this.window.document.querySelector('.chatEntry.Panel.Focusable').getBoundingClientRect().height}px`,
                 }}
             >
                 <div
-                    className="cool"
+                    className={this.classes.mentionDialog}
                     style={{
                         width: this.window.document.querySelector('form').getBoundingClientRect().width,
-                        backgroundColor: '#2c3036',
+                        // backgroundColor: '#2c3036',
                         transform: `translateX(6px)`,
                     }}
                 >
-                    {steamed.api.commands.map((m) => (
-                        <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '16px', marginTop: '5px', marginBottom: '5px' }}>
-                            <p style={{ fontWeight: 'bold' }}>{m.name}</p>: {m.description}
+                    {steamed.api.commands.map((command, i) => (
+                        <div
+                            classNme={`${this.classes.mentionSearchOption} ${this.classes.suggestOption} ${
+                                this.state.selectedIndex === i ? this.classes.selected : ''
+                            }`}
+                            style={{ marginLeft: '12px' }}
+                        >
+                            <span className="SlashCommandSuggestion">
+                                <span className="SlashCommandSuggestion_SlashCommand">
+                                    {steamed.api.commands.prefix}
+                                    {command.name}
+                                </span>
+                                : <span className="SlashCommandSuggestion_SlashCommandDescription">{command.description}</span>
+                            </span>
                         </div>
                     ))}
                 </div>

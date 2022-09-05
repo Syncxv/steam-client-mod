@@ -19,9 +19,9 @@ module.exports = class Webpack {
         this.getCommonModules();
     }
 
-    getModule(filter, getTarget = false) {
+    getModule(filter, getTarget = false, opt = { module: false }) {
         const bruh = this.getAllAModule(filter, getTarget);
-        if (bruh != null) return bruh[0];
+        if (bruh.length) return opt.module ? bruh[0][1] : bruh[0];
         return null;
     }
 
