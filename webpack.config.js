@@ -14,6 +14,12 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.ts', '.tsx', '.js', '.jsx'],
     },
+    resolve: {
+        extensions: ['.js', '.tsx', '.js', '.jsx'],
+        alias: {
+            'steamed/util': path.resolve(__dirname, 'src', 'code_modules', 'util'),
+        },
+    },
     module: {
         rules: [
             { test: /\.tsx?$/, loader: 'ts-loader' },
