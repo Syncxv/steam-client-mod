@@ -32,8 +32,8 @@ module.exports = class CommandsPlugin extends Plugin {
         return CONTAINER_ELEM;
     }
 
-    getActiveTextAreaInstance() {
-        return this.autoCompleteInstances.find((m) => m.props.chatElem?.dataset?.activechat === 'true')?._this;
+    getActiveAutoCompleteInstance() {
+        return this.autoCompleteInstances.find((m) => m.props.chatElem?.dataset?.activechat === 'true');
     }
 
     autoComplete() {
@@ -79,9 +79,6 @@ module.exports = class CommandsPlugin extends Plugin {
         this.unpatches.push(
             steamed.patcher.instead('moment', MessageManagerClass.prototype, 'SendChatMessage', async (thisObject, args, original) => {
                 console.log(thisObject, args, original);
-                const activeTextAreaInstance = this.getActiveTextAreaInstance();
-                console.log(activeTextAreaInstance, activeTextAreaInstance.state.shouldNotSend);
-                if (activeTextAreaInstance && activeTextAreaInstance.state.shouldNotSend) return;
                 let [message] = args;
 
                 if (!message.startsWith(steamed.api.commands.prefix)) {
@@ -94,7 +91,11 @@ module.exports = class CommandsPlugin extends Plugin {
                 );
 
                 console.log(command);
-
+                const activeAutoCompleteInstance = this.getActiveAutoCompleteInstance();
+                console.log(activeAutoCompleteInstance.matchedCommands);
+                if (activeAutoCompleteInstance.matchedCommands.length && !command) {
+                    return;
+                }
                 if (!command) {
                     return original(...args);
                 }

@@ -48,17 +48,8 @@ module.exports = class AutocompleteBruh extends React.Component {
                 this._this.setState({
                     ...this._this.state,
                     messageInput: `${steamed.api.commands.prefix}${this.matchedCommands[this.state.selectedIndex].name}`,
-                    shouldNotSend: true,
                 });
 
-                setTimeout(
-                    () =>
-                        this._this.setState({
-                            ...this._this.state,
-                            shouldNotSend: false,
-                        }),
-                    4
-                );
                 this.CloseAutoComplete();
         }
     }
