@@ -1,6 +1,6 @@
 const getReactInstance = require('../../../code_modules/util/getReactInstance');
 const Plugin = require('../../../code_modules/entities/Plugin');
-
+const commands = require('./commands');
 module.exports = class CommandsPlugin extends Plugin {
     manifest = { name: 'Commands', description: 'adds commands HEHHE HA', author: 'Aria' };
 
@@ -11,6 +11,7 @@ module.exports = class CommandsPlugin extends Plugin {
 
     startPlugin() {
         window.testing_gang = this;
+        Object.values(commands).forEach((command) => steamed.api.commands.new(command));
         this.monkey();
     }
 

@@ -1,4 +1,4 @@
-const sleep = require('../util/sleep');
+const sleep = require('steamed/util');
 
 let common = {
     React: ['createRef', 'createElement', 'Component', 'PureComponent'],

@@ -9,7 +9,8 @@ module.exports = class PluginManager {
     }
 
     initalize() {
-        const pluginIDs = [...require.context('../plugins', true, /\.js$/).keys()].map((item) => item.split('/').slice(1)[0]);
+        const pluginIDs = [...new Set([...require.context('../plugins', true, /\.js$/).keys()].map((item) => item.split('/').slice(1)[0]))];
+        console.log(pluginIDs);
         for (let pluginID of pluginIDs) {
             const pluginClass = require(`../plugins/${pluginID}`);
             try {
@@ -24,6 +25,7 @@ module.exports = class PluginManager {
                 this.plugins.set(pluginID, new pluginClass());
             } catch (err) {
                 console.error('welp', err);
+                console.log(pluginClass);
             }
         }
 
