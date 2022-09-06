@@ -90,6 +90,8 @@ module.exports = class AutocompleteBruh extends React.Component {
                         width: this.props.chatElem.querySelector('form').getBoundingClientRect().width - 6,
                         // backgroundColor: '#2c3036',
                         transform: `translateX(6px)`,
+                        maxHeight: '250px',
+                        overflowY: 'auto',
                     }}
                 >
                     {this.matchedCommands.map((command, i) => (
