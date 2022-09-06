@@ -1,4 +1,3 @@
-let sleep = (ms) => new Promise((res) => setTimeout(() => res, ms));
 const main = async () => {
     const steamedDist = await (await fetch('./steamed.js')).text();
 
@@ -8,6 +7,7 @@ const main = async () => {
         if (!goodWindow?.g_FriendsUIApp?.ready_to_render) {
             setTimeout(wait, 100);
         } else {
+            goodWindow.reload = () => location.reload();
             goodWindow.eval(steamedDist);
         }
     }
