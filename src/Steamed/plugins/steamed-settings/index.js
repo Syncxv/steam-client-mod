@@ -32,6 +32,6 @@ module.exports = class SettingsPluginGAng extends Plugin {
     }
 
     unloadPlugin() {
-        this.unpatch();
+        steamed.api.settings.unregisterSetting(this.entityID);
     }
 };

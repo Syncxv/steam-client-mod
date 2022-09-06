@@ -11,4 +11,8 @@ module.exports = class PluginsSection extends Plugin {
             content: steamed.webpack.common.React.createElement(PluginSettings),
         });
     }
+
+    unloadPlugin() {
+        steamed.api.settings.unregisterSetting(this.entityID);
+    }
 };
