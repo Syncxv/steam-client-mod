@@ -24,9 +24,9 @@
         "resolveJsonModule": true,
         "baseUrl": ".",
         "paths": {
-            "steamed/*": ["src/code_modules/*"]
+            "steamed/*": ["src/modules/*"]
         }
     },
     "exclude": ["node_modules"],
-    "include": ["./src/**/*.tsx", "./src/**/*.ts", "./src/**/*.js"]
+    "include": ["./src/**/*.tsx", "./src/**/*.ts", "./src/**/*.js", "./src/**/*.jsx"]
 }

@@ -1,4 +1,4 @@
-const Plugin = require('../../../code_modules/entities/Plugin');
+const { Plugin } = require('steamed/entities');
 
 module.exports = class Dummy extends Plugin {
     manifest = { name: 'Dummy Plugin', description: 'this plugin does nothing', author: 'Aria' };

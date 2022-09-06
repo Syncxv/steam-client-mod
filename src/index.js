@@ -1,8 +1,8 @@
-const CommandAPI = require('./code_modules/api/commands');
-const SettingsAPI = require('./code_modules/api/settings');
-const SteamedPluginSettingsStore = require('./code_modules/api/settings/SteamedPluginSettingsStore');
-const Patcher = require('./code_modules/patcher');
-const Webpack = require('./code_modules/webpack');
+const CommandAPI = require('./modules/api/commands');
+const SettingsAPI = require('./modules/api/settings');
+const SteamedPluginSettingsStore = require('./modules/api/settings/SteamedPluginSettingsStore');
+const Patcher = require('./modules/patcher');
+const Webpack = require('./modules/webpack');
 const PluginManager = require('./Steamed/managers/pluginManager');
 
 console.log('WHAT THE FUCK bro');
@@ -12,7 +12,7 @@ class Steamed {
     patcher = Patcher;
     pluginManager = new PluginManager();
     api = {};
-    util = require('./code_modules/util');
+    util = require('./modules/util');
     entityID = 'STEAMED_GANG_GANG';
     constructor() {
         window.steamed = this;

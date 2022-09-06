@@ -17,12 +17,12 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.tsx', '.js', '.jsx'],
         alias: {
-            'steamed/util': path.resolve(__dirname, 'src', 'code_modules', 'util'),
-            'steamed/entities': path.resolve(__dirname, 'src', 'code_modules', 'entities'),
-            'steamed/components': path.resolve(__dirname, 'src', 'code_modules', 'components'),
-            'steamed/patcher': path.resolve(__dirname, 'src', 'code_modules', 'patcher'),
-            'steamed/webpack': path.resolve(__dirname, 'src', 'code_modules', 'webpack'),
-            steamed: path.resolve(__dirname, 'src', 'code_modules'),
+            'steamed/util': path.resolve(__dirname, 'src', 'modules', 'util'),
+            'steamed/entities': path.resolve(__dirname, 'src', 'modules', 'entities'),
+            'steamed/components': path.resolve(__dirname, 'src', 'modules', 'components'),
+            'steamed/patcher': path.resolve(__dirname, 'src', 'modules', 'patcher'),
+            'steamed/webpack': path.resolve(__dirname, 'src', 'modules', 'webpack'),
+            steamed: path.resolve(__dirname, 'src', 'modules'),
         },
     },
     module: {

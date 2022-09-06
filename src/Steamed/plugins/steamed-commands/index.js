@@ -1,9 +1,8 @@
-const { getReactInstance, findInReactTree } = require('steamed/util');
+const { getReactInstance, findInReactTree, sleep } = require('steamed/util');
 const { Plugin } = require('steamed/entities');
 const commands = require('./commands');
 
 const AutocompeteBruh = require('./components/Autocomplete');
-const sleep = require('steamed/util/sleep');
 module.exports = class CommandsPlugin extends Plugin {
     manifest = { name: 'Commands', description: 'adds commands HEHHE HA', author: 'Aria' };
     unpatches = [];

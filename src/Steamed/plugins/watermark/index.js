@@ -1,4 +1,4 @@
-const Plugin = require('../../../code_modules/entities/Plugin');
+const { Plugin } = require('steamed/entities');
 
 let css = `.chatEntry.Panel.Focusable::before {
     content: "steamed IS INJECTED :D";

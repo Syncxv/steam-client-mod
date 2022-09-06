@@ -1,4 +1,4 @@
-const Plugin = require('../../../code_modules/entities/Plugin');
+const { Plugin } = require('steamed/entities');
 const SettingsView = require('./components/SettingsView');
 
 module.exports = class SettingsPluginGAng extends Plugin {

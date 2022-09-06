@@ -1,4 +1,4 @@
-const { SwitchItem } = require('../../../../code_modules/components');
+const { SwitchItem } = require('steamed/components');
 
 module.exports = ({ settings }) => (
     <form className="DialogBody">
