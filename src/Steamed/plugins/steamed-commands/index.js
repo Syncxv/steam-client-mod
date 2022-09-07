@@ -88,7 +88,7 @@ module.exports = class CommandsPlugin extends Plugin {
                 );
                 let [message] = args;
 
-                if (!message.startsWith(steamed.api.commands.prefix) || !message.startsWith(':')) {
+                if (!message.startsWith(steamed.api.commands.prefix) && !message.startsWith(':')) {
                     return original(...args);
                 }
 
@@ -100,7 +100,7 @@ module.exports = class CommandsPlugin extends Plugin {
                 console.log(command);
                 const emoji = emojis.find((e) => e.emoji === activeAutoCompleteInstance._this.state.messageInput);
                 console.log(emojis, activeAutoCompleteInstance._this.state.messageInput, activeAutoCompleteInstance.state.text);
-                if (activeAutoCompleteInstance.matchedResults.length && (!command || !emoji)) {
+                if (activeAutoCompleteInstance.matchedResults.length && !command && !emoji) {
                     return;
                 }
                 if (!command) {
