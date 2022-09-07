@@ -5,7 +5,7 @@ const main = async () => {
 
     function wait() {
         if (!goodWindow?.g_FriendsUIApp?.ready_to_render) {
-            setTimeout(wait, 100);
+            setTimeout(wait, 1);
         } else {
             goodWindow.reload = () => location.reload();
             goodWindow.eval(steamedDist);
