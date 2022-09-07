@@ -3,6 +3,7 @@ const { Plugin } = require('steamed/entities');
 const commands = require('./commands');
 
 const AutocompeteBruh = require('./components/Autocomplete');
+const emojis = require('./emojis');
 module.exports = class CommandsPlugin extends Plugin {
     manifest = { name: 'Commands', description: 'adds commands HEHHE HA', author: 'Aria' };
     unpatches = [];
@@ -78,9 +79,16 @@ module.exports = class CommandsPlugin extends Plugin {
         this.unpatches.push(
             steamed.patcher.instead('moment', MessageManagerClass.prototype, 'SendChatMessage', async (thisObject, args, original) => {
                 console.log(thisObject, args, original);
+                const activeAutoCompleteInstance = this.getActiveAutoCompleteInstance();
+                console.log(
+                    'WHY MAN WHAT IS THIS SHIT',
+                    emojis,
+                    activeAutoCompleteInstance._this.state.messageInput,
+                    activeAutoCompleteInstance.state.text
+                );
                 let [message] = args;
 
-                if (!message.startsWith(steamed.api.commands.prefix)) {
+                if (!message.startsWith(steamed.api.commands.prefix) || !message.startsWith(':')) {
                     return original(...args);
                 }
 
@@ -90,9 +98,9 @@ module.exports = class CommandsPlugin extends Plugin {
                 );
 
                 console.log(command);
-                const activeAutoCompleteInstance = this.getActiveAutoCompleteInstance();
-                console.log(activeAutoCompleteInstance.matchedCommands);
-                if (activeAutoCompleteInstance.matchedCommands.length && !command) {
+                const emoji = emojis.find((e) => e.emoji === activeAutoCompleteInstance._this.state.messageInput);
+                console.log(emojis, activeAutoCompleteInstance._this.state.messageInput, activeAutoCompleteInstance.state.text);
+                if (activeAutoCompleteInstance.matchedResults.length && (!command || !emoji)) {
                     return;
                 }
                 if (!command) {
