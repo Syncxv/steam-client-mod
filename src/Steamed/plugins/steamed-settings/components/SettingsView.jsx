@@ -15,7 +15,11 @@ module.exports = ({ settings }) => (
                     settings.toggle('cool');
                 }}
                 checked={settings.get('cool', true)}
-            ></SwitchItem>
+            />
+
+            <button className="DialogButton _DialogLayout Secondary Focusable" onClick={() => window.reload()}>
+                Reload Steamed
+            </button>
         </div>
     </form>
 );

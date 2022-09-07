@@ -3,6 +3,8 @@ use std::fs;
 use sysinfo::{System, SystemExt};
 use std::{thread, time::Duration};
 use clap::Parser;
+use std::env;
+
 
 mod args;
 mod utils;
@@ -189,6 +191,7 @@ impl Config {
         let steam_friend_js = steam_client_ui.to_string() + "\\friends.js";
         let steam_index_html = steam_client_ui.to_string() + "\\index_friends.html";
         //TODO: progrimatically get the steamed folder :)
+        println!("{}", env::current_dir().unwrap().to_str().unwrap());
         let steamed = "C:\\Users\\USER\\Documents\\stuff\\steam-client".to_string();
         let steamed_dist = (&steamed).to_string() +"\\dist\\js\\index.js";
         return Config { steamed, steamed_dist, steam_exe_path: steam_exe_path.to_string(), steam_client_ui, steam_friend_js, timeout: 5000, steam_path: steam_path.clone(), steam_index_html};
