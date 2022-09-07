@@ -1,18 +1,22 @@
-use std::process::Command;
 use std::path::Path;
 use std::fs;
-use sysinfo::{ProcessExt, System, SystemExt};
+use sysinfo::{System, SystemExt};
 use std::{thread, time::Duration};
-use std::io;
-use std::io::prelude::*;
 use clap::Parser;
 
 mod args;
+mod utils;
 
 use args::SteamedInjectorArgs;
 use args::SteamInjectorCommands;
 use args::LaunchSubCommand;
 use args::GenericSubCommand;
+
+
+use utils::execute_steam;
+use utils::is_steam_open;
+use utils::pause;
+use utils::wait_for_steam;
 
 fn main() {
     let args  = SteamedInjectorArgs::parse();
@@ -53,8 +57,10 @@ fn handle_launch_steam(arg_config:LaunchSubCommand) {
     execute_steam(&config.steam_exe_path);
 
     println!("LOOKING FOR STEAM");
+    
     thread::sleep(Duration::from_millis(config.timeout));
     
+
     wait_for_steam(&mut system);
     
     println!("steam found :D can inject javascript now");
@@ -63,43 +69,6 @@ fn handle_launch_steam(arg_config:LaunchSubCommand) {
     inject_friend_javascript(&config);
 }
 
-fn wait_for_steam(system: &mut System) -> bool {
-    let mut steam_found = false;
-
-    while !steam_found {
-        println!("looking for steam");
-        system.refresh_all();
-        
-
-        if is_steam_open(system) {
-            steam_found = true;
-        }
-        thread::sleep(Duration::from_millis(1000));
-    }
-
-    true
-}
-
-fn is_steam_open(system: &mut System) -> bool {
-    system.refresh_all();
-
-    for (pid, process) in system.processes() {
-        if process.name() == ("steam.exe") {
-            println!("FOUND STEAM PROCESS {}:{}", pid, process.name());
-            return true;
-        }
-    };
-    false
-}
-
-fn execute_steam(steam_exe_path: &String) {
-    let output = Command::new(steam_exe_path)
-        .arg("-dev")
-        .spawn()
-        .expect("welp wrong steam path probably");
-    let steam_instance = output.stdout;
-    println!("{:?}", steam_instance);
-}
 
 
 fn inject_friend_javascript(config: &Config) {
@@ -232,18 +201,7 @@ impl Config {
     }
 }
 
-//https://users.rust-lang.org/t/rusts-equivalent-of-cs-system-pause/4494/4
-fn pause() {
-    let mut stdin = io::stdin();
-    let mut stdout = io::stdout();
 
-    // We want the cursor to stay at the end of the line, so we print without a newline and flush manually.
-    write!(stdout, "Press any key to continue...").unwrap();
-    stdout.flush().unwrap();
-
-    // Read a single byte and discard
-    let _ = stdin.read(&mut [0u8]).unwrap();
-}
 //WORKS IT INJEDCTS it
 //ok time to play rocket :D
 // fn test() {
