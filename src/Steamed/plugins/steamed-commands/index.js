@@ -23,7 +23,7 @@ module.exports = class CommandsPlugin extends Plugin {
     startPlugin() {
         window.testing_gang = this;
         Object.values(commands).forEach((command) => steamed.api.commands.new(command));
-        this.patchOnSubmit();
+        // this.patchOnSubmit(); // doesnt work
         this.monkey();
         this.autoComplete();
     }
