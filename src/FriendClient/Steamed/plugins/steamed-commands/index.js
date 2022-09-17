@@ -130,7 +130,7 @@ module.exports = class CommandsPlugin extends Plugin {
                 );
                 let [message] = args;
 
-                if (!message.startsWith(steamed.api.commands.prefix) && !message.startsWith(':')) {
+                if (message.length < 2 || (!message.startsWith(steamed.api.commands.prefix) && !message.startsWith(':'))) {
                     return original(...args);
                 }
 
