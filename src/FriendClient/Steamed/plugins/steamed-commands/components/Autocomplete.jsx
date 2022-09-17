@@ -84,8 +84,8 @@ module.exports = class AutocompleteBruh extends React.Component {
     }
 
     GetAutoCompleteType() {
-        if (this.state.text.startsWith(steamed.api.commands.prefix)) return constants.AutoCompleteTypes.Command;
-        if (this.state.text.startsWith(':')) return constants.AutoCompleteTypes.Emoji;
+        if (this.state.text.length > 2 && this.state.text.startsWith(steamed.api.commands.prefix)) return constants.AutoCompleteTypes.Command;
+        if (this.state.text.length > 2 && this.state.text.startsWith(':')) return constants.AutoCompleteTypes.Emoji;
         return null;
     }
 
