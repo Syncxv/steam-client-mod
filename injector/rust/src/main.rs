@@ -75,7 +75,7 @@ fn handle_launch_steam(arg_config:LaunchSubCommand) {
 
 fn inject_friend_javascript(config: &Config) {
     //add steamed :)
-    let steamed = fs::read_to_string(&config.steamed_dist).unwrap();
+    let steamed = fs::read_to_string(&config.steamed_friend_client).unwrap();
     fs::write((&config.steam_client_ui).to_string() + "\\steamed.js", steamed).unwrap();
     println!("inserted steamed to clientui folder");
 
@@ -180,7 +180,8 @@ struct Config {
     steam_friend_js: String,
     steam_index_html: String,
     steamed: String,
-    steamed_dist: String,
+    steamed_friend_client: String,
+    steamed_library_client: String,
     timeout: u64,
 }
 
@@ -193,8 +194,9 @@ impl Config {
         //TODO: progrimatically get the steamed folder :)
         println!("{}", env::current_dir().unwrap().to_str().unwrap());
         let steamed = "C:\\Users\\USER\\Documents\\stuff\\steam-client".to_string();
-        let steamed_dist = (&steamed).to_string() +"\\dist\\js\\index.js";
-        return Config { steamed, steamed_dist, steam_exe_path: steam_exe_path.to_string(), steam_client_ui, steam_friend_js, timeout: 5000, steam_path: steam_path.clone(), steam_index_html};
+        let steamed_friend_client = (&steamed).to_string() +"\\dist\\js\\FriendClient.js";
+        let steamed_library_client = (&steamed).to_string() +"\\dist\\js\\LibraryClient.js";
+        return Config { steamed, steamed_friend_client, steamed_library_client, steam_exe_path: steam_exe_path.to_string(), steam_client_ui, steam_friend_js, timeout: 5000, steam_path: steam_path.clone(), steam_index_html};
     }
 
     fn new_launch(clap_config: LaunchSubCommand) -> Self {
