@@ -4,6 +4,7 @@ const commands = require('./commands');
 
 const AutocompeteBruh = require('./components/Autocomplete');
 const emojis = require('./emojis');
+const injector = require('../../../modules/patcher/wierd_getter');
 module.exports = class CommandsPlugin extends Plugin {
     manifest = { name: 'Commands', description: 'adds commands HEHHE HA', author: 'Aria' };
     unpatches = [];
@@ -22,6 +23,7 @@ module.exports = class CommandsPlugin extends Plugin {
     startPlugin() {
         window.testing_gang = this;
         Object.values(commands).forEach((command) => steamed.api.commands.new(command));
+        this.patchOnSubmit();
         this.monkey();
         this.autoComplete();
     }
@@ -73,7 +75,45 @@ module.exports = class CommandsPlugin extends Plugin {
         });
     }
 
-    patchOnSubmit() {}
+    patchOnSubmit() {
+        const _this = this;
+        const TextArea = steamed.webpack.getModule((m) => m?.prototype?.UpdateMentionSearchState, true);
+        this.unpatches.push(
+            this.getterBruh(TextArea, 'OnSubmit', function (args) {
+                let autocompelte = _this.getActiveAutoCompleteInstance();
+                console.log('IM AM A PATCH', this, args, autocompelte.state);
+                return true;
+            })
+        );
+    }
+
+    getterBruh(module, methodName, patch) {
+        const originalGetter = module.prototype.__lookupGetter__(methodName);
+        window.originalGetter = originalGetter;
+        if (!originalGetter) return null;
+        let patchedGetter = function () {
+            console.log('PATCH GANG', arguments, this);
+            try {
+                const heeh = patch.call(this, arguments);
+                if (!heeh) return;
+                const what = originalGetter
+                    .bind(this)()
+                    .bind(this)()
+                    .call(this, ...arguments);
+                console.log('WHAT: ', what);
+            } catch (err) {
+                console.error('huge ERROR: ', err);
+            }
+        };
+        module.prototype.__defineGetter__(methodName, function () {
+            console.log('IN GETTER', arguments, this, this.props);
+            return patchedGetter.bind(this);
+        });
+        return () =>
+            module.prototype.__defineGetter__(methodName, function () {
+                return originalGetter;
+            });
+    }
 
     monkey() {
         const MessageManagerClass = steamed.webpack.getModule((m) => m?.prototype?.SendChatMessage, true);
