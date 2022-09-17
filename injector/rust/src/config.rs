@@ -1,5 +1,3 @@
-use std::env;
-
 use crate::args::LaunchSubCommand;
 
 
@@ -23,7 +21,6 @@ impl Config {
         let steam_friend_js = steam_client_ui.to_string() + "\\friends.js";
         let steam_index_html = steam_client_ui.to_string() + "\\index_friends.html";
         //TODO: progrimatically get the steamed folder :)
-        println!("{}", env::current_dir().unwrap().to_str().unwrap());
         let steamed = "C:\\Users\\USER\\Documents\\stuff\\steam-client".to_string();
         let steamed_friend_client = (&steamed).to_string() +"\\dist\\js\\FriendClient.js";
         let steamed_library_client = (&steamed).to_string() +"\\dist\\js\\LibraryClient.js";

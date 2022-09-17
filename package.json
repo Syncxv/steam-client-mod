@@ -7,9 +7,9 @@
         "watch": "tsc -w",
         "dev": "webpack && yarn inject",
         "build": "webpack",
-        "build-injector": "cd injector/rust && cargo build --release",
-        "inject": "cd injector/rust && ./target/release/injector.exe inject-friend \"C:\\Program Files (x86)\\Steam\"",
-        "restore": "injector/rust/target/release/injector.exe restore \"C:\\Program Files (x86)\\Steam\""
+        "build-injector": "cd injector/rust && cargo build --release && copy \".\\target\\release\\injector.exe\" \"../../injector.exe\"",
+        "inject": "./injector.exe inject-friend \"C:\\Program Files (x86)\\Steam\"",
+        "restore": "./injector.exe restore \"C:\\Program Files (x86)\\Steam\""
     },
     "repository": {
         "type": "git",

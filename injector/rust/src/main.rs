@@ -1,6 +1,8 @@
 use sysinfo::{System, SystemExt};
 use std::{thread, time::Duration};
 use clap::Parser;
+use std::env;
+
 
 mod config;
 mod args;
@@ -24,6 +26,7 @@ use friend::inject_friend_javascript;
 use friend::restore_friend_assets;
 
 fn main() {
+    println!("{}", env::current_dir().unwrap().to_str().unwrap());
     let args  = SteamedInjectorArgs::parse();
     match args.command {
         SteamInjectorCommands::Launch(arg_config) => handle_launch_steam(arg_config),
