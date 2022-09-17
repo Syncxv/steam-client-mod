@@ -1,15 +1,18 @@
 const getReactInstance = require('../util/getReactInstance');
 
 module.exports = class Injector {
-    inject_prototype(id, module, methodName, patch) {
+    inject_prototype(id, module, thisBruh, methodName, patch) {
         const originalGetter = module.prototype.__lookupGetter__(methodName);
+        // TextArea = steamed.webpack.getModule(m => m?.prototype?.UpdateMentionSearchState, true)
+        // TextArea.prototype.__lookupGetter__("OnSubmit").bind(bro)
         if (!originalGetter) return null;
+        const binded = originalGetter.bind(thisBruh);
         let originalBRUH = module.prototype[methodName];
         let patchedGetter = (function (original) {
             return function () {
                 console.log('PATCH GANG', arguments, this);
                 try {
-                    const what = originalBRUH.call({}, ...arguments);
+                    const what = binded().call({}, ...arguments);
                     patch.call(this, arguments, what);
                     console.log('WHAT: ', what);
                     return what;
@@ -35,5 +38,7 @@ module.exports = class Injector {
             });
     }
 };
-
+// injector.inject_prototype('', TextArea, bro, 'OnSubmit', function(args) {
+//     console.log(this, args)
+// })
 //    [...g_PopupManager.m_mapPopups.values()].find((m) => m.m_strName.startsWith('chat')).window.document.querySelector('.displayColumn.fullWidth')).child.sibling.stateNode

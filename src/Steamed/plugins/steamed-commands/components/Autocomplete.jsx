@@ -25,7 +25,9 @@ module.exports = class AutocompleteBruh extends React.Component {
         this.container = this.props.chatElem.querySelector('.popoutContianerGang');
         this.container.appendChild(this.el);
 
-        this.props.chatElem.querySelector('textarea').addEventListener('input', (e) =>
+        this.textarea = this.props.chatElem.querySelector('textarea');
+
+        this.textarea.addEventListener('input', (e) =>
             this.setState({
                 ...this.state,
                 isOpen: e.target.value.startsWith(steamed.api.commands.prefix) || e.target.value.startsWith(':'),
@@ -33,8 +35,8 @@ module.exports = class AutocompleteBruh extends React.Component {
                 text: e.target.value,
             })
         );
-        this.props.chatElem.querySelector('textarea').addEventListener('keyup', this.KeyUpHandler.bind(this));
-        this.props.chatElem.querySelector('textarea').addEventListener('keydown', this.KeyDownHandler.bind(this));
+        this.textarea.addEventListener('keyup', this.KeyUpHandler.bind(this));
+        this.textarea.addEventListener('keydown', this.KeyDownHandler.bind(this));
     }
 
     KeyDownHandler(e) {
