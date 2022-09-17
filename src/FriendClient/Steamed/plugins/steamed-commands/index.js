@@ -5,6 +5,7 @@ const commands = require('./commands');
 const AutocompeteBruh = require('./components/Autocomplete');
 const emojis = require('./emojis');
 const injector = require('../../../modules/patcher/wierd_getter');
+const constants = require('../../../constants');
 module.exports = class CommandsPlugin extends Plugin {
     manifest = { name: 'Commands', description: 'adds commands HEHHE HA', author: 'Aria' };
     unpatches = [];
@@ -125,12 +126,17 @@ module.exports = class CommandsPlugin extends Plugin {
                 console.log(
                     'WHY MAN WHAT IS THIS SHIT',
                     emojis,
+                    activeAutoCompleteInstance.shouldSend,
                     activeAutoCompleteInstance._this.state.messageInput,
                     activeAutoCompleteInstance.state.text
                 );
                 let [message] = args;
 
-                if (message.length < 2 || (!message.startsWith(steamed.api.commands.prefix) && !message.startsWith(':'))) {
+                if (
+                    !activeAutoCompleteInstance.shouldSend ||
+                    (activeAutoCompleteInstance.GetAutoCompleteType() === constants.AutoCompleteTypes.Emoji && message.length < 2) ||
+                    (!message.startsWith(steamed.api.commands.prefix) && !message.startsWith(':'))
+                ) {
                     return original(...args);
                 }
 

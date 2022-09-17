@@ -49,7 +49,7 @@ module.exports = class AutocompleteBruh extends React.Component {
     }
 
     KeyUpHandler(e) {
-        if (!this.matchedResults.length || !this.state.isOpen) return null;
+        if (!this.matchedResults.length || !this.state.isOpen || !this.shouldSend) return null;
         switch (e.keyCode) {
             //up arrow
             case 38:
@@ -84,13 +84,14 @@ module.exports = class AutocompleteBruh extends React.Component {
     }
 
     GetAutoCompleteType() {
-        if (this.state.text.length > 2 && this.state.text.startsWith(steamed.api.commands.prefix)) return constants.AutoCompleteTypes.Command;
+        if (this.state.text.startsWith(steamed.api.commands.prefix)) return constants.AutoCompleteTypes.Command;
         if (this.state.text.length > 2 && this.state.text.startsWith(':')) return constants.AutoCompleteTypes.Emoji;
         return null;
     }
 
     render() {
         if (!this.state.isOpen) return null;
+        this.shouldSend = true;
         switch (this.GetAutoCompleteType()) {
             case constants.AutoCompleteTypes.Command:
                 this.matchedResults = steamed.api.commands.filter((item) =>
@@ -106,6 +107,7 @@ module.exports = class AutocompleteBruh extends React.Component {
                 if (!this.matchedResults.length || !this.state.isOpen) return null;
                 return this.renderPortal(constants.AutoCompleteTypes.Emoji);
             default:
+                this.shouldSend = false;
                 return null;
         }
     }
