@@ -14,7 +14,7 @@ module.exports = class Webpack {
         this.require = window[webpackChunkName].push([[[Math.random().toString(36)]], {}, (r) => r]);
         this.rawModules = this.require.m;
         this.moduleExportsProbably = Object.keys(this.rawModules).map((id) => this.require(id));
-        this.modules = this.moduleExportsProbably.reduce((prev, m) => prev.concat(Object.values(m)), []);
+        // this.modules = this.moduleExportsProbably.reduce((prev, m) => prev.concat(Object.values(m)), []);
 
         this.getCommonModules();
     }
@@ -41,16 +41,17 @@ module.exports = class Webpack {
             .filter((m) => m != null);
     }
 
-    badGetModule(filter) {
-        if (typeof filter === 'function') return this.modules.filter((m) => typeof m !== 'string').find(filter);
-        const keys = filter;
-        return this.modules.find((m) => keys.every((key) => (m && m.hasOwnProperty(key)) || (m && m.__proto__ && m.__proto__.hasOwnProperty(key))));
-    }
+    // badGetModule(filter) {
+    //     if (typeof filter === 'function') return this.modules.filter((m) => typeof m !== 'string').find(filter);
+    //     const keys = filter;
+    //     return this.modules.find((m) => keys.every((key) => (m && m.hasOwnProperty(key)) || (m && m.__proto__ && m.__proto__.hasOwnProperty(key))));
+    // }
 
     getCommonModules() {
         Object.keys(common).forEach((md) => {
             const [_, mod] = this.getModule(common[md]);
             this.common[md] = mod;
+            window[md] = mod;
         });
     }
 };
