@@ -34,3 +34,21 @@ pub fn restore_library_assets(steam_lib_index_html: &String) {
     println!("[Library Injector] restored assets successfully :D")
 
 }
+
+
+pub fn inject_library(config: &Config) {
+    //add LibraryClient.js to steamui folder :)
+    let steamed_library_client = fs::read_to_string(&config.steamed_library_client).unwrap();
+    fs::write((&config.steam_ui).to_string() + "\\steamed_library_client.js", steamed_library_client).unwrap();
+    println!("[Library Injector] inserted steamed_library_client.js to steamui folder");
+
+
+    //insert srcipt tag into html
+    let mut index_html = fs::read_to_string(&config.steam_library_index_html).unwrap();
+    let index: usize = index_html.find("</head>").unwrap();
+    index_html.replace_range(index..index,"<script defer src=\"steamed_library_client.js\"></script>");
+    fs::write(&config.steam_library_index_html, index_html).unwrap();
+    println!("[Library Injector] injected LibraryClient to html");
+
+
+}
