@@ -4,7 +4,7 @@ const commands = require('./commands');
 
 const AutocompeteBruh = require('./components/Autocomplete');
 const emojis = require('./emojis');
-const injector = require('../../../modules/patcher/wierd_getter');
+const injector = require('../../../../modules/patcher/wierd_getter');
 const constants = require('../../../constants');
 module.exports = class CommandsPlugin extends Plugin {
     manifest = { name: 'Commands', description: 'adds commands HEHHE HA', author: 'Aria' };
