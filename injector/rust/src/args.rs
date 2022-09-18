@@ -21,7 +21,7 @@ pub enum SteamInjectorCommands {
     Restore(GenericSubCommand),
 
     ///inject stamed into the friends chat 
-    InjectFriend(GenericSubCommand)
+    Inject(GenericSubCommand)
 }
 
 

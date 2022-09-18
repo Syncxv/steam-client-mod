@@ -7,6 +7,7 @@ mod config;
 mod args;
 mod utils;
 mod friend;
+mod library;
 
 use config::Config;
 
@@ -24,27 +25,35 @@ use utils::wait_for_steam;
 use friend::inject_friend_javascript;
 use friend::restore_friend_assets;
 
+use library::restore_library_assets;
+
+
 fn main() {
     let args  = SteamedInjectorArgs::parse();
     match args.command {
         SteamInjectorCommands::Launch(arg_config) => handle_launch_steam(arg_config),
         SteamInjectorCommands::Restore(arg_config) => handle_restore(arg_config),
-        SteamInjectorCommands::InjectFriend(arg_config) => handle_inject_friends_js(arg_config)
+        SteamInjectorCommands::Inject(arg_config) => handle_inject(arg_config)
     };
 
     
 
 }
 
-fn handle_inject_friends_js(arg_config: GenericSubCommand) {
+fn restore(config: &Config) {
+    restore_library_assets(&config.steam_library_index_html);
+    restore_friend_assets(&config.steam_friend_js, &config.steam_friend_index_html);
+}
+
+fn handle_inject(arg_config: GenericSubCommand) {
     let config = Config::new(&arg_config.steam_path);
-    restore_friend_assets(&config.steam_friend_js, &config.steam_index_html);
+    restore(&config);
     inject_friend_javascript(&config);
 }
  
 fn handle_restore(arg_config: GenericSubCommand) {
     let config = Config::new(&arg_config.steam_path);
-    restore_friend_assets(&config.steam_friend_js, &config.steam_index_html);
+    restore(&config);
 }
 
 fn handle_launch_steam(arg_config:LaunchSubCommand) {
@@ -57,8 +66,7 @@ fn handle_launch_steam(arg_config:LaunchSubCommand) {
     let config = Config::new_launch(arg_config);
     println!("steam_exe = {}\nsteam_path = {}\nsteam_client_ui = {}", config.steam_exe_path, config.steam_path, config.steam_client_ui);
 
-    
-    restore_friend_assets(&config.steam_friend_js, &config.steam_index_html);
+    restore(&config);
 
     execute_steam(&config.steam_exe_path);
 
