@@ -28,6 +28,7 @@ module.exports = class Webpack {
     getAllAModule(filter, getTarget = false) {
         const bruh = typeof filter === 'function';
         return this.moduleExportsProbably
+            .filter((m) => m != null)
             .map((m) => {
                 for (const [key, value] of Object.entries(m)) {
                     const isFound = bruh
