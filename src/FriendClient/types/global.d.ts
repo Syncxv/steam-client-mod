@@ -1,9 +1,9 @@
-import bruh from '../index';
+import steamed from '../index';
 
 declare global {
     interface Window {
         webpackChunkfriendsui: WebpackArray;
-        steamed: bruh;
+        steamed: steamed;
     }
 }
 export interface WebpackArray {

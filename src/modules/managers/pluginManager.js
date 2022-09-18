@@ -8,21 +8,22 @@ module.exports = class PluginManager {
         return this.plugins.get(pluginID);
     }
 
-    initalize() {
-        const pluginIDs = [...new Set([...require.context('../plugins', true, /\.js$/).keys()].map((item) => item.split('/').slice(1)[0]))];
+    initalize(client) {
+        const pluginIDs = this.getPluginIds(client);
         console.log(pluginIDs);
         for (let pluginID of pluginIDs) {
-            const pluginClass = require(`../plugins/${pluginID}`);
+            const pluginClass = require(`../../${client}/Steamed/plugins/${pluginID}`);
             try {
+                const newPluginID = `${client}-${pluginID}`;
                 Object.defineProperties(pluginClass.prototype, {
                     entityID: {
-                        get: () => pluginID,
+                        get: () => newPluginID,
                         set: () => {
                             throw new Error('Plugins cannot update their ID at runtime!');
                         },
                     },
                 });
-                this.plugins.set(pluginID, new pluginClass());
+                this.plugins.set(newPluginID, new pluginClass());
             } catch (err) {
                 console.error('welp', err);
                 console.log(pluginClass);
@@ -33,6 +34,23 @@ module.exports = class PluginManager {
             const disabled_plugins = JSON.parse(localStorage.getItem('steamed_disabled_plugins') ?? '[]');
             if (disabled_plugins.includes(plugin.entityID)) continue;
             this.load(plugin.entityID);
+        }
+    }
+
+    getPluginIds(client) {
+        switch (client) {
+            case 'LibraryClient':
+                return [
+                    ...new Set(
+                        [...require.context('../../LibraryClient/Steamed/plugins', true, /\.js$/).keys()].map((item) => item.split('/').slice(1)[0])
+                    ),
+                ];
+            case 'FriendClient':
+                return [
+                    ...new Set(
+                        [...require.context('../../FriendClient/Steamed/plugins', true, /\.js$/).keys()].map((item) => item.split('/').slice(1)[0])
+                    ),
+                ];
         }
     }
 

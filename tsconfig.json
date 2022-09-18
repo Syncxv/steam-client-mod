@@ -23,6 +23,7 @@
         "experimentalDecorators": true,
         "resolveJsonModule": true,
         "baseUrl": ".",
+        "noEmit": false,
         "paths": {
             "steamed/*": ["src/modules/*"]
         }

@@ -3,7 +3,7 @@ const SettingsAPI = require('../modules/api/settings');
 const SteamedPluginSettingsStore = require('../modules/api/settings/SteamedPluginSettingsStore');
 const Patcher = require('../modules/patcher');
 const Webpack = require('../modules/webpack');
-const PluginManager = require('./Steamed/managers/pluginManager');
+const PluginManager = require('../modules/managers/pluginManager');
 
 console.log('WHAT THE FUCK bro');
 
@@ -20,7 +20,7 @@ class Steamed {
         this.api.commands = new CommandAPI();
         this.settings = new SteamedPluginSettingsStore(this.entityID);
         this.webpack.initalize('webpackChunkfriendsui');
-        this.pluginManager.initalize();
+        this.pluginManager.initalize('FriendClient');
     }
 }
 

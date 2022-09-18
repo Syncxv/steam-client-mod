@@ -1,6 +1,6 @@
 const path = require('path');
 module.exports = {
-    mode: 'production',
+    mode: 'development',
     devtool: 'inline-source-map',
     entry: {
         FriendClient: './src/FriendClient/index.js',
@@ -28,15 +28,15 @@ module.exports = {
     },
     module: {
         rules: [
-            { test: /\.tsx?$/, loader: 'ts-loader' },
             {
-                test: /\.js$|jsx/,
-                exclude: /(node_modules)/,
-                use: [
-                    {
-                        loader: 'babel-loader',
+                test: /\.(ts|js)x?$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
                     },
-                ],
+                },
             },
         ],
     },
