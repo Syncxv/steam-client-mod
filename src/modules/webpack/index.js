@@ -6,12 +6,12 @@ let common = {
 };
 
 module.exports = class Webpack {
-    async initalize() {
-        while (window.webpackChunkfriendsui == null) {
+    async initalize(webpackChunkName) {
+        while (window[webpackChunkName] == null) {
             await sleep(10);
         }
         this.common = {};
-        this.require = window.webpackChunkfriendsui.push([[[Math.random().toString(36)]], {}, (r) => r]);
+        this.require = window[webpackChunkName].push([[[Math.random().toString(36)]], {}, (r) => r]);
         this.rawModules = this.require.m;
         this.moduleExportsProbably = Object.keys(this.rawModules).map((id) => this.require(id));
         this.modules = this.moduleExportsProbably.reduce((prev, m) => prev.concat(Object.values(m)), []);

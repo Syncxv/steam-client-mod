@@ -19,7 +19,7 @@ class Steamed {
         this.api.settings = new SettingsAPI();
         this.api.commands = new CommandAPI();
         this.settings = new SteamedPluginSettingsStore(this.entityID);
-        this.webpack.initalize();
+        this.webpack.initalize('webpackChunkfriendsui');
         this.pluginManager.initalize();
     }
 }
