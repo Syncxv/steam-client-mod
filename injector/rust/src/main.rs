@@ -2,7 +2,7 @@ use sysinfo::{System, SystemExt};
 use std::{thread, time::Duration};
 use clap::Parser;
 use std::env;
-
+use std::fs;
 
 mod config;
 mod args;
@@ -34,33 +34,63 @@ fn main() {
     println!("{}", env::current_dir().unwrap().to_str().unwrap());
     let args  = SteamedInjectorArgs::parse();
     match args.command {
-        SteamInjectorCommands::Launch(arg_config) => handle_launch_steam(arg_config),
-        SteamInjectorCommands::Restore(arg_config) => handle_restore(arg_config),
-        SteamInjectorCommands::Inject(arg_config) => handle_inject(arg_config)
+        None => {
+            let mut system = System::new_all();
+
+            let steam_path = env::current_dir().unwrap().to_str().unwrap().to_string(); // bruh
+            let steamed_path = fs::read_to_string("steamed_path.txt").unwrap();
+        
+            let bruh_config = Config::new(&steam_path, Some(steamed_path));
+
+            restore(&bruh_config);
+
+            execute_steam(&bruh_config.steam_exe_path);
+
+            println!("LOOKING FOR STEAM");
+            
+            thread::sleep(Duration::from_millis(8000));
+            
+
+            wait_for_steam(&mut system);
+            
+            println!("steam found :D can inject javascript now");
+            
+
+            inject(&bruh_config);
+            return;
+
+        },
+        Some(x) => {
+            match x {
+                SteamInjectorCommands::Launch(arg_config) => handle_launch_steam(arg_config),
+                SteamInjectorCommands::Restore(arg_config) => handle_restore(arg_config),
+                SteamInjectorCommands::Inject(arg_config) => handle_inject(arg_config)
+            }
+        }
     };
 
     
 
 }
 
-fn restore(config: &Config) {
+pub fn restore(config: &Config) {
     restore_library_assets(&config.steam_library_index_html);
     restore_friend_assets(&config.steam_friend_js, &config.steam_friend_index_html);
 }
 
-fn inject(config: &Config) {
+pub fn inject(config: &Config) {
     inject_library(&config);
     inject_friend_javascript(&config);
 }
 
 fn handle_inject(arg_config: GenericSubCommand) {
-    let config = Config::new(&arg_config.steam_path);
+    let config = Config::new(&arg_config.steam_path, None);
     restore(&config);
     inject(&config);
 }
  
 fn handle_restore(arg_config: GenericSubCommand) {
-    let config = Config::new(&arg_config.steam_path);
+    let config = Config::new(&arg_config.steam_path, None);
     restore(&config);
 }
 

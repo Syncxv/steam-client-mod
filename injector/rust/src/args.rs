@@ -9,7 +9,7 @@ use clap:: {
 #[clap(author, version, about)]
 pub struct SteamedInjectorArgs {
     #[clap(subcommand)]
-    pub command: SteamInjectorCommands,
+    pub command: Option<SteamInjectorCommands>,
 }
 
 #[derive(Debug, Subcommand)]
