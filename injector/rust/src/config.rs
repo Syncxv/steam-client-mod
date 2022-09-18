@@ -18,7 +18,7 @@ pub struct Config {
 
 impl Config {
     pub fn new(steam_path: &String, steamed: Option<String>) -> Self {
-        let steam_exe_path = steam_path.clone() + "\\_steam.exe";
+        let steam_exe_path = steam_path.clone() + "\\steam.exe";
 
         //friends paths
         let steam_client_ui = steam_path.clone() + "\\clientui";

@@ -2,7 +2,6 @@ use sysinfo::{System, SystemExt};
 use std::{thread, time::Duration};
 use clap::Parser;
 use std::env;
-use std::fs;
 
 mod config;
 mod args;
@@ -35,30 +34,7 @@ fn main() {
     let args  = SteamedInjectorArgs::parse();
     match args.command {
         None => {
-            let mut system = System::new_all();
-
-            let steam_path = env::current_dir().unwrap().to_str().unwrap().to_string(); // bruh
-            let steamed_path = fs::read_to_string("steamed_path.txt").unwrap();
-        
-            let bruh_config = Config::new(&steam_path, Some(steamed_path));
-
-            restore(&bruh_config);
-
-            execute_steam(&bruh_config.steam_exe_path);
-
-            println!("LOOKING FOR STEAM");
-            
-            thread::sleep(Duration::from_millis(8000));
-            
-
-            wait_for_steam(&mut system);
-            
-            println!("steam found :D can inject javascript now");
-            
-
-            inject(&bruh_config);
-            return;
-
+            println!("welp you cant replace steam.exe with our one HAVE TO USE A FUCKING shortcut for now")
         },
         Some(x) => {
             match x {
