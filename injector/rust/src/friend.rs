@@ -30,7 +30,7 @@ pub fn inject_friend_javascript(config: &Config) {
     
     //patching friends.js :)
     let mut patched_js = fs::read_to_string(&config.steam_friend_js).unwrap();
-    let index: usize = patched_js.find(r#"console.log("Loading chat from url: ",e)"#).unwrap();
+    let index: usize = patched_js.find(r#"console.log('Loading chat from url: ', strURL);"#).unwrap();
     
     let hehe = r#"(async () => {
         const createElement = (html) => {
@@ -39,14 +39,14 @@ pub fn inject_friend_javascript(config: &Config) {
             return temp.firstChild;
         };
         let parser = new DOMParser();
-        const steamHtmlString = await (await fetch(e)).text();
+        const steamHtmlString = await (await fetch(strURL)).text();
         const HTML = parser.parseFromString(steamHtmlString, 'text/html');
         //edit html if ya want
         let blob = new Blob([HTML.documentElement.innerHTML], { type: 'text/html' });
-        e = URL.createObjectURL(blob);
-        let iframe = document.getElementById(j);
-        iframe.src = e;
-        ot = e;
+        strURL = URL.createObjectURL(blob);
+        let iframe = document.getElementById(g_strFrame);
+        iframe.src = strURL;
+        g_strFrameURL = strURL;
         })();
         return;
     
@@ -99,5 +99,16 @@ pub fn backup_friend_assets(steam_friend_js: &String, steam_friend_index_html: &
         return false;
     }
     println!("[Friends Injector] files already backed up :D");
+    return true;
+}
+
+
+pub fn delete_backups(steam_friend_js_bak: &String, steam_friend_index_html_bak: &String) -> bool {
+    if is_friend_backed_up(&steam_friend_js_bak, &steam_friend_index_html_bak) {
+        fs::remove_file(&steam_friend_js_bak).expect("[Friends Injector] failed removing backup friend.js.bak");
+        fs::remove_file(&steam_friend_index_html_bak).expect("[Friends Injector] failed removing backup up index_friends.html.bak");
+        return false;
+    }
+    println!("[Friends Injector] nothing to delete bruh");
     return true;
 }

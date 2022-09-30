@@ -9,7 +9,9 @@
         "build": "webpack",
         "build-injector": "cd injector/rust && cargo build --release && copy \".\\target\\release\\injector.exe\" \"../../injector.exe\"",
         "inject": "./injector.exe inject \"C:\\Program Files (x86)\\Steam\"",
-        "restore": "./injector.exe restore \"C:\\Program Files (x86)\\Steam\""
+        "restore": "./injector.exe restore \"C:\\Program Files (x86)\\Steam\"",
+        "new-bak": "./injector.exe create-backups \"C:\\Program Files (x86)\\Steam\"",
+        "del-bak": "./injector.exe delete-backups \"C:\\Program Files (x86)\\Steam\""
     },
     "repository": {
         "type": "git",

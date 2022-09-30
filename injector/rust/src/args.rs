@@ -21,7 +21,13 @@ pub enum SteamInjectorCommands {
     Restore(GenericSubCommand),
 
     ///inject stamed into the friends chat 
-    Inject(GenericSubCommand)
+    Inject(GenericSubCommand),
+
+    ///creates the backups for friends
+    CreateBackups(GenericSubCommand),
+
+    ///removes the backups for friends
+    DeleteBackups(GenericSubCommand)
 }
 
 

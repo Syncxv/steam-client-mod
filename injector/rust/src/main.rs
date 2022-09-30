@@ -24,6 +24,8 @@ use utils::wait_for_steam;
 
 use friend::inject_friend_javascript;
 use friend::restore_friend_assets;
+use friend::delete_backups;
+use friend::backup_friend_assets;
 
 use library::restore_library_assets;
 use library::inject_library;
@@ -40,13 +42,37 @@ fn main() {
             match x {
                 SteamInjectorCommands::Launch(arg_config) => handle_launch_steam(arg_config),
                 SteamInjectorCommands::Restore(arg_config) => handle_restore(arg_config),
-                SteamInjectorCommands::Inject(arg_config) => handle_inject(arg_config)
+                SteamInjectorCommands::Inject(arg_config) => handle_inject(arg_config),
+                SteamInjectorCommands::DeleteBackups(arg_config) => handle_delete_backup(arg_config),
+                SteamInjectorCommands::CreateBackups(arg_config) => handle_create_backup(arg_config)
+
             }
         }
     };
 
     
 
+}
+
+fn handle_create_backup(arg_config: GenericSubCommand) {
+    let config = Config::new(&arg_config.steam_path, None);
+    let steam_friend_js_bak = config.steam_friend_js.to_string() + ".bak";
+    let steam_friend_index_html_bak = config.steam_friend_index_html.to_string()  + ".bak";
+    let need_to_restore = backup_friend_assets(&config.steam_friend_js, &config.steam_friend_index_html, &steam_friend_js_bak, &steam_friend_index_html_bak);
+    if !need_to_restore {
+        println!("[Friends Injector] dont need to restore anything :)");
+    }
+}
+
+fn handle_delete_backup(arg_config: GenericSubCommand) {
+    let config = Config::new(&arg_config.steam_path, None);
+    remove_back_up(&config)
+}
+
+pub fn remove_back_up(config: &Config) {
+    let steam_friend_js_bak = config.steam_friend_js.to_string() + ".bak";
+    let steam_friend_index_html_bak = config.steam_friend_index_html.to_string()  + ".bak";
+    delete_backups(&steam_friend_js_bak, &steam_friend_index_html_bak);
 }
 
 pub fn restore(config: &Config) {
@@ -78,7 +104,7 @@ fn handle_launch_steam(arg_config:LaunchSubCommand) {
         return;
     }
     let config = Config::new_launch(arg_config);
-    println!("steam_exe = {}\nsteam_path = {}\nsteam_client_ui = {}", config.steam_exe_path, config.steam_path, config.steam_client_ui);
+    println!("{:?}", config);
 
     restore(&config);
 

@@ -116,7 +116,8 @@ module.exports = class CommandsPlugin extends Plugin {
             });
     }
 
-    monkey() {
+    async monkey() {
+        await sleep(1000); //im not sorry
         const MessageManagerClass = steamed.webpack.getModule((m) => m?.prototype?.SendChatMessage, true);
         const MessageClass = steamed.webpack.getModule((m) => m?.prototype?.constructor.toString().includes('eErrorSendingObservable'), true);
         this.unpatches.push(
