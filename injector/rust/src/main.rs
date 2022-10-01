@@ -80,15 +80,13 @@ pub fn restore(config: &Config) {
     restore_friend_assets(&config.steam_friend_js, &config.steam_friend_index_html);
 }
 
-pub fn inject(config: &Config) {
-    inject_library(&config);
-    inject_friend_javascript(&config);
-}
 
 fn handle_inject(arg_config: GenericSubCommand) {
     let config = Config::new(&arg_config.steam_path, None);
+    print!("{:?}", arg_config);
     restore(&config);
-    inject(&config);
+    inject_friend_javascript(&config);
+    // inject_library(&config);
 }
  
 fn handle_restore(arg_config: GenericSubCommand) {
@@ -120,7 +118,8 @@ fn handle_launch_steam(arg_config:LaunchSubCommand) {
     println!("steam found :D can inject javascript now");
     
 
-    inject(&config);
+    inject_library(&config);
+    inject_friend_javascript(&config);
 }
 
 
