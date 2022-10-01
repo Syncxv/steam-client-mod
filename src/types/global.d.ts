@@ -1,4 +1,4 @@
-import steamed from '../index';
+import steamed from '../FriendClient/index';
 
 declare global {
     interface Window {
