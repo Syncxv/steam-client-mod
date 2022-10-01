@@ -11,12 +11,8 @@ module.exports = {
         path: path.resolve(__dirname, 'dist/js'),
         filename: '[name].js',
     },
-
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.jsx'],
-    },
-    resolve: {
-        extensions: ['.js', '.jsx', 'ts', '.tsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
         alias: {
             'steamed/util': path.resolve(__dirname, 'src', 'modules', 'util'),
             'steamed/entities': path.resolve(__dirname, 'src', 'modules', 'entities'),

@@ -1,5 +1,5 @@
 const { sleep } = require('steamed/util');
-
+const dostuff = require('./patchWebpack');
 let common = {
     React: ['createRef', 'createElement', 'Component', 'PureComponent'],
     ReactDOM: ['render', 'createPortal'],
@@ -7,6 +7,8 @@ let common = {
 
 module.exports = class Webpack {
     async initalize(webpackChunkName) {
+        dostuff(webpackChunkName);
+
         while (window[webpackChunkName] == null) {
             await sleep(10);
         }

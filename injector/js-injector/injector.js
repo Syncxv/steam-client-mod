@@ -1,17 +1,33 @@
+function iframeURLChange(iframe, callback) {
+    var unloadHandler = function () {
+        // Timeout needed because the URL changes immediately after
+        // the `unload` event is dispatched.
+        setTimeout(function () {
+            callback(iframe.contentWindow.location.href);
+        }, 0);
+    };
+
+    function attachUnload() {
+        // Remove the unloadHandler in case it was already attached.
+        // Otherwise, the change will be dispatched twice.
+        iframe.contentWindow.removeEventListener('unload', unloadHandler);
+        iframe.contentWindow.addEventListener('unload', unloadHandler);
+    }
+
+    iframe.addEventListener('load', attachUnload);
+    attachUnload();
+}
+
 const main = async () => {
     const steamedDist = await (await fetch('./steamed.js')).text();
 
-    let goodWindow = document.getElementById('tracked_frame_friends_chat').contentWindow;
-
-    function wait() {
-        if (!goodWindow?.g_FriendsUIApp?.ready_to_render) {
-            setTimeout(wait, 1);
-        } else {
-            goodWindow.reload = () => location.reload();
-            goodWindow.eval(steamedDist);
-        }
-    }
-    wait();
+    iframeURLChange(document.getElementById('tracked_frame_friends_chat'), function (newURL) {
+        console.log('URL changed:', newURL);
+        let goodWindow = document.getElementById('tracked_frame_friends_chat').contentWindow;
+        goodWindow.steamedDist = steamedDist;
+        goodWindow.reload = () => location.reload();
+        goodWindow.eval(steamedDist);
+    });
 };
 
 main().catch((err) => console.error(err));

@@ -16,11 +16,18 @@ class Steamed {
     entityID = 'STEAMED_GANG_GANG';
     constructor() {
         window.steamed = this;
+        this.webpack.initalize('webpackChunkfriendsui');
         this.api.settings = new SettingsAPI();
         this.api.commands = new CommandAPI();
         this.settings = new SteamedPluginSettingsStore(this.entityID);
-        this.webpack.initalize('webpackChunkfriendsui');
-        this.pluginManager.initalize('FriendClient');
+        function wait() {
+            if (!window?.g_FriendsUIApp?.ready_to_render) {
+                setTimeout(wait, 1);
+            } else {
+                this.pluginManager.initalize('FriendClient');
+            }
+        }
+        wait();
     }
 }
 
