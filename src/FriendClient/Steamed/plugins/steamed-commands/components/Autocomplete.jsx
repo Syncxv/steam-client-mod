@@ -1,4 +1,4 @@
-const constants = require('../../../../constants');
+const constants = require('globals/constants');
 const emojis = require('../emojis');
 
 module.exports = class AutocompleteBruh extends React.Component {
