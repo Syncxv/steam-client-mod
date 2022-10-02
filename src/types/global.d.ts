@@ -1,9 +1,13 @@
 import steamed from '../FriendClient/index';
 
 declare global {
+    steamed: steamed;
     interface Window {
-        webpackChunkfriendsui: WebpackArray;
-        steamed: steamed;
+        webpackChunkfriendsui: {
+            push(chunk: any): any;
+            pop(): any;
+        };
+        [k: PropertyKey]: any;
     }
 }
 export interface WebpackArray {

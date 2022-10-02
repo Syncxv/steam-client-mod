@@ -3,4 +3,4 @@ export enum AutoCompleteTypes {
     Emoji = 2,
 }
 
-export const WEBPACK_CHUNK: string = Object.keys(window).find((m) => m.startsWith('webpack'))!;
+export const WEBPACK_CHUNK = 'webpackChunkfriendsui';
