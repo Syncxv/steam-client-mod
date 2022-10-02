@@ -19,22 +19,7 @@ export default interface __webpack_require__ {
     g: typeof globalThis & { [key: string]: any };
     l: Function;
 
-    /**
-     * This houses all modules that have been pushed, loaded or not.
-     *
-     * This can be useful for force lazy-loading classes and other modules that haven't been instantiated yet but have been pushed.
-     *
-     * @param ret The return value from the module will be `Object.assign`ed to this object.
-     */
-    m: (
-        e: {
-            exports: any;
-            id: number;
-            loaded: boolean;
-        },
-        ret: object,
-        req: __webpack_require__
-    ) => void;
+    m: { [id: number]: Function };
 
     n: Function;
     nmd: Function;
