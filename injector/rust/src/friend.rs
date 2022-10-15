@@ -42,6 +42,10 @@ pub fn inject_friend_javascript(config: &Config) {
         const steamHtmlString = await (await fetch(strURL)).text();
         const HTML = parser.parseFromString(steamHtmlString, 'text/html');
         //edit html if ya want
+        HTML.querySelector('[src*="friends.js"]').remove()
+        let cooleo = await (await fetch("http://localhost:8080/?url=https://community.cloudflare.steamstatic.com/public/javascript/webui/friends.js?v=iXbT9rmgxoRc&l=english&_cdn=cloudflare")).text()
+    
+        HTML.head.appendChild(createElement(`<script> ${"document.currentScript.src = 'https://community.cloudflare.steamstatic.com/public/javascript/webui/friends.js?v=iXbT9rmgxoRc&l=english&_cdn=cloudflare';" + cooleo} </script>`))
         let blob = new Blob([HTML.documentElement.innerHTML], { type: 'text/html' });
         strURL = URL.createObjectURL(blob);
         let iframe = document.getElementById(g_strFrame);

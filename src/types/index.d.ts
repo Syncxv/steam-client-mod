@@ -1,1 +1,1 @@
-export { defualt as WebpackInstance } from './WebpackInstance';
+export type { defualt as WebpackInstance } from './WebpackInstance';

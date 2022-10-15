@@ -1,14 +1,42 @@
 <!doctype html>
 <html>
-	<head>
-		<title>Steam</title>
-		<link href="css/friends.css" rel="stylesheet">
 
-		<script src="friends.js"></script>
-	</head>
-	<body class="fullheight">
-		<div id='root'>
-			<iframe id="tracked_frame_friends_chat" key="single_instance" name="tracked_frame_friends_chat" allow="microphone" src="about:blank"></iframe>
-		</div>
-	</body>
+<head>
+	<title>Steam</title>
+	<link href="css/friends.css" rel="stylesheet">
+
+	<script src="friends.js"></script>
+</head>
+
+<body class="fullheight">
+	<div id='root'>
+		<iframe id="tracked_frame_friends_chat" key="single_instance" name="tracked_frame_friends_chat"
+			allow="microphone" src="about:blank"></iframe>
+	</div>
+	<iframe id="request-dispatch" src="https://api.my-service.com/request-dispatch.html"></iframe>
+
+	<script type="text/javascript">
+		// Subscribe to replies from the <iframe>
+		window.addEventListener('message', event => {
+			// Setup validation and security checks
+			if (!isValidAndFromIframe(event)) {
+				return;
+			}
+
+			// Resolve a Promise, Observable, etc. with the
+			// new data.
+			notifyAppOfReply(event.data);
+		});
+
+		function dispatchRequest(requestInfo) {
+			const frame = document.getElementById('request-dispatch');
+
+			// Post requestInfo to the target iframe
+			frame.contentWindow.postMessage(requestInfo);
+		}
+
+    // Other app code...
+	</script>
+</body>
+
 </html>

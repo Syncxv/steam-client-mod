@@ -18,6 +18,7 @@ use args::GenericSubCommand;
 
 
 use utils::execute_steam;
+use utils::execute_app;
 use utils::is_steam_open;
 use utils::pause;
 use utils::wait_for_steam;
@@ -105,6 +106,8 @@ fn handle_launch_steam(arg_config:LaunchSubCommand) {
     println!("{:?}", config);
 
     restore(&config);
+
+    execute_app(&(config.steamed.clone() + "\\server.exe"));
 
     execute_steam(&config.steam_exe_path);
 
