@@ -17,14 +17,14 @@ pub fn inject_friend_javascript(config: &Config) -> Result<(), Box<dyn std::erro
 
     //add steamed :)
     let steamed = fs::read_to_string(&config.steamed_friend_client).unwrap();
-    fs::write((&config.steam_client_ui).to_string() + "\\steamed.js", steamed).unwrap();
+    fs::write(Config::join(&config.steam_client_ui, &["\\steamed.js"]), steamed).unwrap();
     println!("[Friends Injector] inserted steamed to clientui folder");
 
 
     //inject bruh.js / js-injector :)
     let steamed_js_injector_path = (&config.steamed).to_string() + "\\injector\\js-injector\\injector.js";
     let steamed_js_injector = fs::read_to_string(&steamed_js_injector_path).unwrap();
-    fs::write((&config.steam_client_ui).to_string() + "\\bruh.js", steamed_js_injector).unwrap();
+    fs::write(Config::join(&config.steam_client_ui, &["\\bruh.js"]), steamed_js_injector).unwrap();
     println!("[Friends Injector] inserted js-injector to clientui folder");
 
 
