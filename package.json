@@ -11,7 +11,9 @@
         "inject": "./injector.exe inject \"C:\\Program Files (x86)\\Steam\"",
         "restore": "./injector.exe restore \"C:\\Program Files (x86)\\Steam\"",
         "new-bak": "./injector.exe create-backups \"C:\\Program Files (x86)\\Steam\"",
-        "del-bak": "./injector.exe delete-backups \"C:\\Program Files (x86)\\Steam\""
+        "del-bak": "./injector.exe delete-backups \"C:\\Program Files (x86)\\Steam\"",
+        "inj-test": "./injector.exe test \"C:\\Program Files (x86)\\Steam\"",
+        "launch-steam": "injector.exe launch \"C:\\Program Files (x86)\\Steam\" 10000"
     },
     "repository": {
         "type": "git",

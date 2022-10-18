@@ -6,7 +6,15 @@ pub use crate::config::Config;
 
 
 
-pub fn inject_friend_javascript(config: &Config) {
+
+pub fn inject_friend_javascript(config: &Config) -> Result<(), Box<dyn std::error::Error>> {
+    //get friends.js from steam chat
+    let bruh = reqwest::blocking::get("https://community.cloudflare.steamstatic.com/public/javascript/webui/friends.js")?
+    .text()?;
+    fs::write(Config::join(&config.steam_client_ui, &["friends_web_ui.js"]), bruh).unwrap();
+    println!("[Friends Injector] inserted friends_web_ui.js to clientui folder");
+    
+
     //add steamed :)
     let steamed = fs::read_to_string(&config.steamed_friend_client).unwrap();
     fs::write((&config.steam_client_ui).to_string() + "\\steamed.js", steamed).unwrap();
@@ -67,6 +75,7 @@ pub fn inject_friend_javascript(config: &Config) {
     fs::write(&config.steam_friend_js, patched_js).unwrap();
 
     println!("[Friends Injector] injected steamed to friends and chat :D");
+    Ok(())
 
 }
 

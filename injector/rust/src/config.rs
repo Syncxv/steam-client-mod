@@ -44,5 +44,9 @@ impl Config {
         what.timeout = clap_config.timeout;
         what
     }
+
+    pub fn join(str1: &String, str2: &[&str]) -> String {
+        return str1.clone() + "\\" + &str2.join("\\")
+    }
 }
 

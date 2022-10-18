@@ -57,13 +57,13 @@ pub fn execute_steam(steam_exe_path: &String) {
 }
 
 
-pub fn execute_app(path: &String) {
-    let output = Command::new(path)
-        .arg("-dev")
-        .spawn()
-        .expect("welp wrong steam path probably");
-    let steam_instance = output.stdout;
-    println!("{:?}", steam_instance);
-}
+// pub fn execute_app(path: &String) {
+//     let output = Command::new(path)
+//         .arg("-dev")
+//         .spawn()
+//         .expect("welp wrong steam path probably");
+//     let steam_instance = output.stdout;
+//     println!("{:?}", steam_instance);
+// }
 
 

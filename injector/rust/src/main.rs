@@ -18,7 +18,7 @@ use args::GenericSubCommand;
 
 
 use utils::execute_steam;
-use utils::execute_app;
+// use utils::execute_app;
 use utils::is_steam_open;
 use utils::pause;
 use utils::wait_for_steam;
@@ -45,7 +45,8 @@ fn main() {
                 SteamInjectorCommands::Restore(arg_config) => handle_restore(arg_config),
                 SteamInjectorCommands::Inject(arg_config) => handle_inject(arg_config),
                 SteamInjectorCommands::DeleteBackups(arg_config) => handle_delete_backup(arg_config),
-                SteamInjectorCommands::CreateBackups(arg_config) => handle_create_backup(arg_config)
+                SteamInjectorCommands::CreateBackups(arg_config) => handle_create_backup(arg_config),
+                SteamInjectorCommands::Test(arg_config) => test(arg_config)
 
             }
         }
@@ -53,6 +54,11 @@ fn main() {
 
     
 
+}
+
+fn test(arg_config: GenericSubCommand) {
+    let config = Config::new(&arg_config.steam_path, None);
+    println!("{}", Config::join(&config.steam_client_ui, &["friends_web_ui", "DUDE.js"]));
 }
 
 fn handle_create_backup(arg_config: GenericSubCommand) {
@@ -86,7 +92,7 @@ fn handle_inject(arg_config: GenericSubCommand) {
     let config = Config::new(&arg_config.steam_path, None);
     print!("{:?}", arg_config);
     restore(&config);
-    inject_friend_javascript(&config);
+    inject_friend_javascript(&config).unwrap();
     // inject_library(&config);
 }
  
@@ -107,7 +113,9 @@ fn handle_launch_steam(arg_config:LaunchSubCommand) {
 
     restore(&config);
 
-    execute_app(&(config.steamed.clone() + "\\server.exe"));
+    // execute_app(&(config.steamed.clone() + "\\server.exe"));
+
+    println!("{}", &config.steam_exe_path);
 
     execute_steam(&config.steam_exe_path);
 
@@ -122,7 +130,7 @@ fn handle_launch_steam(arg_config:LaunchSubCommand) {
     
 
     inject_library(&config);
-    inject_friend_javascript(&config);
+    inject_friend_javascript(&config).unwrap();
 }
 
 

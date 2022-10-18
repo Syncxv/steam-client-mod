@@ -27,7 +27,10 @@ pub enum SteamInjectorCommands {
     CreateBackups(GenericSubCommand),
 
     ///removes the backups for friends
-    DeleteBackups(GenericSubCommand)
+    DeleteBackups(GenericSubCommand),
+
+    ///testing gang
+    Test(GenericSubCommand)
 }
 
 
