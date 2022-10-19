@@ -1,6 +1,22 @@
-import * as webpack from '../modules/webpack';
-import * as settings from '../modules/api/settings';
+export * as Plugins from './plugins';
+export * as Webpack from '../modules/webpack';
+
+import { SteamedPluginSettingsStore } from '../modules/api/settings';
+import { startAllPlugins } from './plugins';
+
 import 'steamed/webpack/patchWebpack';
 
-export const Webpack = webpack;
-export const Settings = new settings.SteamedPluginSettingsStore('STEAMED_FRIENDS_GANG');
+export const Settings = new SteamedPluginSettingsStore('STEAMED_FRIENDS_GANG');
+async function init() {
+    function wait() {
+        if (!window?.g_FriendsUIApp?.ready_to_render) {
+            setTimeout(wait, 1);
+        } else {
+            console.log('READY');
+            startAllPlugins();
+        }
+    }
+    wait();
+}
+
+init();
