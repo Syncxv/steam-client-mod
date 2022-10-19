@@ -6,7 +6,7 @@ export class Plugin {
     public ready: boolean;
     public styles: { [key: string]: HTMLStyleElement };
     public manifest: { name: string; authors: { name: string; discordId?: string }[]; description: string; version: string };
-    public static patches?: { match: RegExp | string; replace: ((substring: string, ...args: any[]) => string) | string }[];
+    public patches: { match: RegExp | string; replace: ((substring: string, ...args: any[]) => string) | string }[] = [];
     constructor() {
         this.settings = new SteamedPluginSettingsStore(this.entityID);
         this.ready = false;

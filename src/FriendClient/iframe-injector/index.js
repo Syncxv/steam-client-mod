@@ -20,7 +20,15 @@ console.log('PLUGINS :O ', Plugins);
     cooleo = cooleo.replace(/(,(.{1,2})\.amdO=)/, `,$2.c=${cacheVar}$1`);
 
     //ima do it in a min
-    // for (let patches of Plugins.plugins)
+    for (const plugin of Object.values(Plugins.plugins)) {
+        console.log(plugin);
+        if (!(localStorage.getItem('steamed_disabled_plugins') ?? []).includes(plugin.manifest.name) || !plugin.patches) continue;
+        for (const patch of plugin.patches) {
+            cooleo = cooleo.replace(patch.match, patch.replace);
+        }
+    }
+
+    window.cooleo = cooleo;
 
     //re add the fukinn thingy
     HTML.head.appendChild(

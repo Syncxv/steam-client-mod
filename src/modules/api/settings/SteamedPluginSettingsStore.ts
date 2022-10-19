@@ -24,7 +24,7 @@ export class SteamedPluginSettingsStore {
         localStorage.setItem(this._getSettingsId, JSON.stringify(settings));
     }
 
-    get(key: string, defaultValue?: any) {
+    get<T>(key: string, defaultValue: T): T {
         return this.getSettings()[key] ?? defaultValue;
     }
 
@@ -35,7 +35,7 @@ export class SteamedPluginSettingsStore {
     }
 
     toggle(key: string) {
-        let bool = this.get(key);
+        let bool = this.get(key, false);
         this.set(key, !bool);
     }
 }
