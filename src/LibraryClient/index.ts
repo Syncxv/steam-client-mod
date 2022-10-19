@@ -15,8 +15,8 @@ class Steamed {
     entityID = 'STEAMED_GANG_GANG';
     constructor() {
         window.steamed = this;
-        this.api.settings = new SettingsAPI();
-        this.settings = new SteamedPluginSettingsStore(this.entityID);
+        // this.api.settings = new SettingsAPI();
+        // this.settings = new SteamedPluginSettingsStore(this.entityID);
         this.webpack.initalize('webpackChunksteamui');
         this.pluginManager.initalize('LibraryClient');
     }
