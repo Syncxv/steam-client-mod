@@ -1,4 +1,5 @@
 import type { WebpackInstance } from '../../types';
+import { initCommon } from './common';
 // import { proxyLazy } from "../utils/proxyLazy";
 
 export let wreq: WebpackInstance;
@@ -30,6 +31,8 @@ export function _initWebpack(instance: typeof window.webpackChunkdiscord_app) {
     wreq = instance.push([[Symbol()], {}, (r: WebpackInstance) => r]);
     cache = wreq.c;
     instance.pop();
+
+    initCommon();
 }
 
 export function find(filter: FilterFn, getDefault = true) {

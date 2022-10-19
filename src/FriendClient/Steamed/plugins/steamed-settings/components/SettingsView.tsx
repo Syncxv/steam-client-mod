@@ -1,6 +1,8 @@
-const { SwitchItem } = require('steamed/components');
+import { SteamedPluginSettingsStore } from '../../../../../modules/api/settings';
 
-module.exports = ({ settings }) => (
+import { SwitchItem } from 'steamed/components';
+
+export const Settings: React.FC<{ settings: SteamedPluginSettingsStore }> = ({ settings }) => (
     <form className="DialogBody">
         <p>WELCOME TO STEAMED</p>
 
@@ -10,7 +12,7 @@ module.exports = ({ settings }) => (
             <SwitchItem
                 label="Is Cool?"
                 description=""
-                onChange={(val) => {
+                onChange={(val: boolean) => {
                     console.log(val);
                     settings.toggle('cool');
                 }}

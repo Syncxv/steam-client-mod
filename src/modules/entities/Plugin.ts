@@ -6,6 +6,7 @@ export class Plugin {
     public ready: boolean;
     public styles: { [key: string]: HTMLStyleElement };
     public manifest: { name: string; authors: { name: string; discordId?: string }[]; description: string; version: string };
+    public static patches?: { match: RegExp | string; replace: (substring: string, ...args: any[]) => string }[];
     constructor() {
         this.settings = new SteamedPluginSettingsStore(this.entityID);
         this.ready = false;
@@ -74,3 +75,7 @@ export class Plugin {
         console.error(`%c[Steamed:Plugin:${this.constructor.name}]`, `color: ${this.color}`, ...data);
     }
 }
+
+'sdqf'.replace(/dude/, () => {
+    return '';
+});
