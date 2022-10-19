@@ -1,7 +1,7 @@
 import steamed from '../FriendClient/index';
 
 declare global {
-    steamed: steamed;
+    export var steamed: typeof import('../FriendClient/steamed');
     interface Window {
         webpackChunkfriendsui: {
             push(chunk: any): any;
