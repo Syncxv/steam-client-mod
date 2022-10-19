@@ -11,8 +11,8 @@ export default definePlugin({
             replace: 'Steamed Gang for life $1',
         },
         {
-            match: /("FriendSettingsContainer",pages:\[)/,
-            replace: '$1 ...Object.values(steamed.Api.Settings.PluginSections.sections),',
+            match: /("FriendSettingsContainer",pages:\[.{1,700})(\])/,
+            replace: '$1,...Object.values(steamed.Api.Settings.PluginSections.sections)$2',
         },
     ],
 });
