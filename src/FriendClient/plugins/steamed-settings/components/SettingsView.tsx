@@ -1,8 +1,6 @@
-import { SteamedPluginSettingsStore } from '../../../../modules/api/settings';
-
 import { SwitchItem } from 'steamed/components';
 
-export const Settings: React.FC<{ settings: SteamedPluginSettingsStore }> = ({ settings }) => (
+export const Settings: React.FC<{ settings: typeof import('../../../../modules/api/settings') }> = ({ settings }) => (
     <form className="DialogBody">
         <p>WELCOME TO STEAMED</p>
 
