@@ -6,11 +6,14 @@ export const find = (cb: (c: Command) => boolean) => Object.values(commands).fin
 
 export const registerCommand = (cmd: Command) => {
     if (commands[cmd.name]) throw Error(`Name ${cmd.name} already exists boy`);
+    steamed.Webpack.Common.i18n.m_mapTokens.set(`SteamedSlashCommandDescription_${cmd.name}`, cmd.description);
     commands[cmd.name] = cmd;
 };
 export const unRegisterCommand = (name: string) => {
     let value;
-    commands[name] ? (delete commands[name], (value = true)) : (value = false);
+    commands[name]
+        ? (delete commands[name], steamed.Webpack.Common.i18n.m_mapTokens.delete(`SteamedSlashCommandDescription_${name}`), (value = true))
+        : (value = false);
     return value;
 };
 
@@ -47,6 +50,7 @@ export const processCommand = (thisObj: any) => {
         thisObj.state.messageInput = '';
         const msg = new steamed.Webpack.Common.MessageClass(-1, g_FriendsUIApp.m_CMInterface.GetServerRTime32(), result.result);
         //idk how to change avatar and stuff
-        return thisObj.props.chatView.chat.InternalAppendChatMsg(msg);
+        thisObj.props.chatView.chat.InternalAppendChatMsg(msg);
+        thisObj.setState({ ...thisObj.state, messageInput: '' });
     }
 };

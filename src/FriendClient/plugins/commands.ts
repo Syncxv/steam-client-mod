@@ -10,6 +10,12 @@ export default definePlugin({
             match: /(OnSubmit\(e\){.{1,50},)(this\.props\.chatView)/,
             replace: '$1\nconsole.log(e, this, this.state);steamed.Api.Commands.processCommand(this);\n$2',
         },
+        {
+            match: /(.{1,2}\.bAvailableInChina.{1,25})return (.{1,2})\}/,
+            replace: `$1
+            return {...Object.values(steamed.Api.Commands.commands).map(c => ({...c, strDescriptionToken: \`#SteamedSlashCommandDescription_\${c.name}\`, bAvailableInChina: true })).reduce((prev, curr) => ({...prev, [\`/\${curr.name}\`]: curr}), {}), ...$2}}
+            `,
+        },
     ],
     commands: [
         {

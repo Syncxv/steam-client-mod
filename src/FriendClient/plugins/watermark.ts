@@ -1,5 +1,5 @@
-import insertCss from '../../../modules/util/insertCss';
-import { definePlugin } from '../../../modules/util/definePlugin';
+import insertCss from '../../modules/util/insertCss';
+import { definePlugin } from '../../modules/util/definePlugin';
 
 let css = `.chatEntry.Panel.Focusable::before {
     content: "steamed IS INJECTED :D";
