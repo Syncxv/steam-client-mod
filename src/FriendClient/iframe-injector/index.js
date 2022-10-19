@@ -13,6 +13,8 @@ import createElement from '../../modules/util/createElement';
     let cooleo = await (await fetch('friends_web_ui.js')).text();
 
     //do some regex magic replacement if ya want
+    let [_, cacheVar] = cooleo.match(/,(.{1,2})={};function/);
+    cooleo = cooleo.replace(/(,(.{1,2})\.amdO=)/, `,$2.c=${cacheVar}$1`);
 
     //re add the fukinn thingy
     HTML.head.appendChild(
