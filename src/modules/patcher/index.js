@@ -27,7 +27,7 @@ const Logger = require('../util/logger');
  * @return {*} Makes sense only when using an `instead` or `after` patch. If something other than `undefined` is returned, the returned value replaces the value of `returnValue`. If used for `before` the return value is ignored.
  */
 
-module.exports = class Patcher {
+export class Patcher {
     static get patches() {
         return this._patches || (this._patches = []);
     }
@@ -223,9 +223,9 @@ module.exports = class Patcher {
         patch.counter++;
         return child.unpatch;
     }
-};
+}
 
-module.exports.MonkeyPatch = (caller, module, displayName) => ({
+export const MonkeyPatch = (caller, module, displayName) => ({
     before: (functionName, callBack) => Patcher.before(caller, module, functionName, callBack, displayName),
     after: (functionName, callBack) => Patcher.after(caller, module, functionName, callBack, displayName),
     instead: (functionName, callBack) => Patcher.instead(caller, module, functionName, callBack, displayName),

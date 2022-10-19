@@ -1,7 +1,7 @@
 const { Plugin } = require('steamed/entities');
 const createElement = require('../../../../modules/util/createElement');
 
-module.exports = class SkinLoader extends Plugin {
+export class SkinLoader extends Plugin {
     manifest = { name: 'bruh', description: 'i dont know', author: 'Aria' };
     startPlugin() {
         this.loadStylesheet(`.smartscrollcontainer_Body_g6Mwh.libraryhome_InnerContainer_2AUVZ {
@@ -41,4 +41,4 @@ module.exports = class SkinLoader extends Plugin {
             border-radius: 42px;
         }`);
     }
-};
+}

@@ -1,7 +1,7 @@
 const constants = require('globals/constants');
 const emojis = require('../emojis');
 
-module.exports = class AutocompleteBruh extends React.Component {
+export class AutocompleteBruh extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -169,4 +169,4 @@ module.exports = class AutocompleteBruh extends React.Component {
             </span>
         );
     }
-};
+}

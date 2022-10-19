@@ -1,4 +1,5 @@
 import esbuild from 'esbuild';
+import { globPlugins } from './common.mjs';
 
 const watch = process.argv.includes('--watch');
 
@@ -21,11 +22,15 @@ Promise.all([
         ...commonOptions,
         entryPoints: ['src/FriendClient/index.ts'],
         outfile: 'dist/js/FriendClient.js',
+        external: ['plugins'],
+        plugins: [globPlugins],
     }),
     esbuild.build({
         ...commonOptions,
         entryPoints: ['src/FriendClient/iframe-injector/index.js'],
         outfile: 'dist/js/iframe-injector.js',
+        external: ['plugins'],
+        plugins: [globPlugins],
     }),
     esbuild.build({
         ...commonOptions,

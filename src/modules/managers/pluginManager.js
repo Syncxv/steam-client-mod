@@ -1,4 +1,4 @@
-module.exports = class PluginManager {
+export class PluginManager {
     constructor() {
         this.plugins = new Map();
     }
@@ -109,4 +109,4 @@ module.exports = class PluginManager {
     log(...args) {
         console.log('%c[Steamed:PluginManager]', 'color: ' + PluginManager.color, ...args);
     }
-};
+}

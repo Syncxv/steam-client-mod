@@ -1,5 +1,6 @@
 import createElement from '../../modules/util/createElement';
-
+import * as Plugins from '../plugins';
+console.log('PLUGINS :O ', Plugins);
 (async () => {
     const parser = new DOMParser();
     //get original chat thingy
@@ -13,8 +14,13 @@ import createElement from '../../modules/util/createElement';
     let cooleo = await (await fetch('friends_web_ui.js')).text();
 
     //do some regex magic replacement if ya want
+
+    //expose cached webpack modules
     let [_, cacheVar] = cooleo.match(/,(.{1,2})={};function/);
     cooleo = cooleo.replace(/(,(.{1,2})\.amdO=)/, `,$2.c=${cacheVar}$1`);
+
+    //ima do it in a min
+    // for (let patches of Plugins.plugins)
 
     //re add the fukinn thingy
     HTML.head.appendChild(

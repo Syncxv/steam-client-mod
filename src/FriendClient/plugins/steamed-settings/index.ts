@@ -7,5 +7,10 @@ export default class SettingsPluginGAng extends Plugin {
         authors: [{ name: 'Aria' }],
         version: 'fwefw',
     };
-    public static patches: [];
+    public static patches = [
+        {
+            match: /(FriendsUI ready to render after)/,
+            replace: 'Steamed Gang for life $1',
+        },
+    ];
 }

@@ -2,7 +2,7 @@ const { Plugin } = require('steamed/entities');
 
 const PluginSettings = require('./components/PluginSettings');
 
-module.exports = class PluginsSection extends Plugin {
+export class PluginsSection extends Plugin {
     manifest = { name: 'Plugins Settings', description: 'the plugins section in settings HEHEH HA', author: 'Aria' };
     startPlugin() {
         steamed.api.settings.registerSetting(this.entityID, {
@@ -15,4 +15,4 @@ module.exports = class PluginsSection extends Plugin {
     unloadPlugin() {
         steamed.api.settings.unregisterSetting(this.entityID);
     }
-};
+}

@@ -1,4 +1,4 @@
-import { SteamedPluginSettingsStore } from '../../../../../modules/api/settings';
+import { SteamedPluginSettingsStore } from '../../../../modules/api/settings';
 
 import { SwitchItem } from 'steamed/components';
 

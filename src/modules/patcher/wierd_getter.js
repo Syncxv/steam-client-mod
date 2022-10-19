@@ -29,8 +29,7 @@ class Injector {
     }
 }
 exports.Injector = Injector;
-const injector = new Injector();
-module.exports = injector;
+export const injector = new Injector();
 // injector.inject_prototype(TextArea, 'OnSubmit', function(args) {
 //     console.log(this, args)
 // })
