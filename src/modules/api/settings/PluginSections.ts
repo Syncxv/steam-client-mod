@@ -1,14 +1,16 @@
-export interface PluginSections {
-    [key: string]: {
-        title: string;
-        identifier: string;
-        content: any;
-    };
+export interface Section {
+    title: string;
+    identifier: string;
+    content: any;
 }
 
-let sections: PluginSections = {};
+export interface PluginSections {
+    [key: string]: Section;
+}
 
-export const registerSetting = (id: string, section: any) => {
+export let sections: PluginSections = {};
+
+export const registerSetting = (id: string, section: Section) => {
     if (sections[id]) {
         throw new Error(`Settings tab ${id} is already registered!`);
     }
