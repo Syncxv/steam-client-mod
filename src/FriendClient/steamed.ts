@@ -1,6 +1,7 @@
 export * as Plugins from './plugins';
 export * as Webpack from '../modules/webpack';
 export * as Api from '../modules/api';
+export * as Util from '../modules/util';
 
 import { PluginSettings } from '../modules/api/settings';
 

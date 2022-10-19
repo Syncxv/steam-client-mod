@@ -1,4 +1,4 @@
-import insertCss from '../../modules/util/insertCss';
+import { insertCss } from '../../modules/util';
 import { definePlugin } from '../../modules/util/definePlugin';
 
 let css = `.chatEntry.Panel.Focusable::before {
