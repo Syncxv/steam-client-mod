@@ -5,8 +5,8 @@
     "main": "index.js",
     "scripts": {
         "watch": "tsc -w",
-        "dev": "webpack && yarn inject",
-        "build": "webpack",
+        "dev": "node scripts/build.mjs && yarn inject",
+        "build": "node scripts/build.mjs",
         "build-injector": "cd injector/rust && cargo build --release && copy \".\\target\\release\\injector.exe\" \"../../injector.exe\"",
         "inject": "./injector.exe inject \"C:\\Program Files (x86)\\Steam\"",
         "restore": "./injector.exe restore \"C:\\Program Files (x86)\\Steam\"",

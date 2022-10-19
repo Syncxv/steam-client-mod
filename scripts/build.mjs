@@ -24,6 +24,11 @@ Promise.all([
     }),
     esbuild.build({
         ...commonOptions,
+        entryPoints: ['src/FriendClient/iframe-injector/index.js'],
+        outfile: 'dist/js/iframe-injector.js',
+    }),
+    esbuild.build({
+        ...commonOptions,
         entryPoints: ['src/LibraryClient/index.ts'],
         outfile: 'dist/js/LibraryClient.js',
     }),
