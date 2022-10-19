@@ -1,4 +1,5 @@
 import Plugins from 'plugins';
+import { registerCommand, unRegisterCommand } from '../../modules/api/commands';
 import { Plugin } from '../../types';
 
 export const plugins = Plugins;
@@ -28,18 +29,17 @@ export function startPlugin(p: Plugin) {
         }
     }
 
-    // if (p.commands?.length) {
-    //     console.info("Registering commands of plugin", p.name);
-    //     for (const cmd of p.commands) {
-    //         try {
-    //             registerCommand(cmd, p.name);
-    //         } catch (e) {
-    //             console.error(`Failed to register command ${cmd.name}\n`, e);
-    //             return false;
-    //         }
-    //     }
-
-    // }
+    if (p.commands?.length) {
+        console.info('Registering commands of plugin', p.name);
+        for (const cmd of p.commands) {
+            try {
+                registerCommand(cmd);
+            } catch (e) {
+                console.error(`Failed to register command ${cmd.name}\n`, e);
+                return false;
+            }
+        }
+    }
 
     return true;
 }
@@ -60,17 +60,17 @@ export function stopPlugin(p: Plugin) {
         }
     }
 
-    // if (p.commands?.length) {
-    //     console.info("Unregistering commands of plugin", p.name);
-    //     for (const cmd of p.commands) {
-    //         try {
-    //             unregisterCommand(cmd.name);
-    //         } catch (e) {
-    //             console.error(`Failed to unregister command ${cmd.name}\n`, e);
-    //             return false;
-    //         }
-    //     }
-    // }
+    if (p.commands?.length) {
+        console.info('Unregistering commands of plugin', p.name);
+        for (const cmd of p.commands) {
+            try {
+                unRegisterCommand(cmd.name);
+            } catch (e) {
+                console.error(`Failed to unregister command ${cmd.name}\n`, e);
+                return false;
+            }
+        }
+    }
 
     return true;
 }

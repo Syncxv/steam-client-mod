@@ -1,45 +1,52 @@
 import { Command } from '../../../types';
 
-export class CommandAPI {
-    public commands: { [key: string]: Command };
-    constructor() {
-        this.commands = {};
-    }
-    get prefix() {
-        return steamed.Settings.get('prefix', '.');
+export let commands: { [key: string]: Command } = {};
+
+export const find = (cb: (c: Command) => boolean) => Object.values(commands).find(cb);
+
+export const registerCommand = (cmd: Command) => {
+    if (commands[cmd.name]) throw Error(`Name ${cmd.name} already exists boy`);
+    commands[cmd.name] = cmd;
+};
+export const unRegisterCommand = (name: string) => {
+    let value;
+    commands[name] ? (delete commands[name], (value = true)) : (value = false);
+    return value;
+};
+
+export const processCommand = (thisObj: any) => {
+    if (!thisObj.state.messageInput.startsWith('/')) return;
+    let message: string = thisObj.state.messageInput;
+    let [cmd, ...cmdArgs] = message.slice(1).split(' ');
+    console.log(cmd, cmdArgs, steamed.Webpack.Common.MessageClass);
+
+    let command = find((c) => c.name.toLowerCase().includes(cmd.toLowerCase()));
+    if (!command) return;
+
+    let result;
+
+    try {
+        //ill figure out async later
+        result = command.execute(cmdArgs, this);
+    } catch (e) {
+        result = {
+            send: false,
+            result: `An error occurred while executing the command: ${e.message}.\nCheck the console for more details.`,
+        };
+
+        console.error('An error occurred while executing command %s: %o', command.name, e);
     }
 
-    get find() {
-        const arr = Object.values(this.commands);
-        return arr.find.bind(arr);
+    if (!result || !result.result) {
+        return;
     }
 
-    get filter() {
-        const arr = Object.values(this.commands);
-        return arr.filter.bind(arr);
+    if (result.send) {
+        thisObj.state.messageInput = result.result;
+    } else {
+        thisObj.state.messageInput = '';
+        const msg = new steamed.Webpack.Common.MessageClass(-1, g_FriendsUIApp.m_CMInterface.GetServerRTime32(), result.result);
+        //idk how to change avatar and stuff
+        return thisObj.props.chatView.chat.InternalAppendChatMsg(msg);
     }
-
-    get map() {
-        const arr = Object.values(this.commands);
-        return arr.map.bind(arr);
-    }
-
-    get sort() {
-        const arr = Object.values(this.commands);
-        return arr.sort.bind(arr);
-    }
-
-    get length() {
-        return Object.values(this.commands).length;
-    }
-
-    new(cmd: Command) {
-        if (this.commands[cmd.name]) throw Error(`Name ${cmd.name} already exists boy`);
-        this.commands[cmd.name] = cmd;
-    }
-    delete(name: string) {
-        let value;
-        this.commands[name] ? (delete this.commands[name], (value = true)) : (value = false);
-        return value;
-    }
-}
+};

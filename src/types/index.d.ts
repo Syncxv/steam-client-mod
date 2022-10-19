@@ -2,7 +2,7 @@ export type { defualt as WebpackInstance } from './WebpackInstance';
 export interface Command {
     name: string;
     description: string;
-    execute: () => void;
+    execute: (args: string[], thisObj: any) => void;
 }
 
 export interface Patch {
@@ -21,6 +21,7 @@ export interface PluginDef {
     start?(): void;
     stop?(): void;
     patches?: Patch[];
+    commands?: Command[];
     settingsAboutComponent?: React.ComponentType;
 }
 
