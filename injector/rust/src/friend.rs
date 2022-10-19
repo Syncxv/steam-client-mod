@@ -17,62 +17,41 @@ pub fn inject_friend_javascript(config: &Config) -> Result<(), Box<dyn std::erro
 
     //add steamed :)
     let steamed = fs::read_to_string(&config.steamed_friend_client).unwrap();
-    fs::write(Config::join(&config.steam_client_ui, &["\\steamed.js"]), steamed).unwrap();
+    fs::write(Config::join(&config.steam_client_ui, &["steamed.js"]), steamed).unwrap();
     println!("[Friends Injector] inserted steamed to clientui folder");
 
 
     //inject bruh.js / js-injector :)
     let steamed_js_injector_path = (&config.steamed).to_string() + "\\injector\\js-injector\\injector.js";
     let steamed_js_injector = fs::read_to_string(&steamed_js_injector_path).unwrap();
-    fs::write(Config::join(&config.steam_client_ui, &["\\bruh.js"]), steamed_js_injector).unwrap();
+    fs::write(Config::join(&config.steam_client_ui, &["bruh.js"]), steamed_js_injector).unwrap();
     println!("[Friends Injector] inserted js-injector to clientui folder");
 
 
     //insert srcipt tag into html
-    let mut index_html = fs::read_to_string(&config.steam_friend_index_html).unwrap();
-    let index: usize = index_html.find("</script>").map(|i| i + "</script>".len()).unwrap();
+    let mut index_html = fs::read_to_string(&config.steam_friend_index_html).expect("FAILED TO READ FRIEND INDEX HTML");
+    let index: usize = index_html.find("</script>").map(|i| i + "</script>".len()).expect("FAILED GET SCRIPT TAG INDEX");
     index_html.replace_range(index..index,"\n\n\t\t<script src=\"bruh.js\"> </script>\n");
-    fs::write(&config.steam_friend_index_html, index_html).unwrap();
+    fs::write(&config.steam_friend_index_html, index_html).expect("FAILED TO WRITE TO FRIEND INDEX HTML");
     println!("[Friends Injector] injected js-injector into html");
 
     
     //patching friends.js :)
-    let mut patched_js = fs::read_to_string(&config.steam_friend_js).unwrap();
-    let index: usize = patched_js.find(r#"console.log('Loading chat from url: ', strURL);"#).unwrap();
+    let mut steam_friend_js = fs::read_to_string(&config.steam_friend_js).expect("FAILED TO GET STEAM_FRIEND_JS");
+    let index: usize = steam_friend_js.find(r#"console.log('Loading chat from url: ', strURL);"#).unwrap();
     
-    let hehe = r#"(async () => {
-        const createElement = (html) => {
-            const temp = document.createElement('div');
-            temp.innerHTML = html;
-            return temp.firstChild;
-        };
-        let parser = new DOMParser();
-        const steamHtmlString = await (await fetch(strURL)).text();
-        const HTML = parser.parseFromString(steamHtmlString, 'text/html');
-        //edit html if ya want
-        HTML.querySelector('[src*="friends.js"]').remove()
-        let cooleo = await (await fetch("friends_web_ui.js")).text()
-    
-        HTML.head.appendChild(createElement(`<script> ${"document.currentScript.src = 'https://community.cloudflare.steamstatic.com/public/javascript/webui/friends.js?v=iXbT9rmgxoRc&l=english&_cdn=cloudflare';" + cooleo} </script>`))
-        let blob = new Blob([HTML.documentElement.innerHTML], { type: 'text/html' });
-        strURL = URL.createObjectURL(blob);
-        let iframe = document.getElementById(g_strFrame);
-        iframe.src = strURL;
-        g_strFrameURL = strURL;
-        })();
-        return;
-    
-    
-        "#;
+
+    let hehe =  fs::read_to_string(Config::join(&config.steamed, &["dist", "js", "iframe-injector.js"])).expect("FAILED TO GET IFRAME INJECTOR");
+    let patched = &format!("return {}", hehe);
     
 
 
     // steamed = steamed.replace("${", "\\${");
     // let hehe = frist + &steamed.replace("`", "\\`") + second;
 
-    patched_js.replace_range(index..index, &hehe);
+    steam_friend_js.replace_range(index..index, &patched);
 
-    fs::write(&config.steam_friend_js, patched_js).unwrap();
+    fs::write(&config.steam_friend_js, steam_friend_js).unwrap();
 
     println!("[Friends Injector] injected steamed to friends and chat :D");
     Ok(())
