@@ -22,7 +22,7 @@ console.log('PLUGINS :O ', Plugins);
     //ima do it in a min
     for (const plugin of Object.values(Plugins.plugins)) {
         console.log(plugin);
-        if (!(localStorage.getItem('steamed_disabled_plugins') ?? []).includes(plugin.manifest.name) || !plugin.patches) continue;
+        if (JSON.parse(localStorage.getItem('steamed_disabled_plugins') ?? []).includes(plugin.manifest.name) || !plugin.patches) continue;
         for (const patch of plugin.patches) {
             cooleo = cooleo.replace(patch.match, patch.replace);
         }
