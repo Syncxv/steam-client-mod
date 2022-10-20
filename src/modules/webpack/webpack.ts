@@ -1,6 +1,7 @@
 import type { WebpackInstance } from '../../types';
 import { initCommon } from './common';
 // import { proxyLazy } from "../utils/proxyLazy";
+export type CallbackFn = (mod: any) => void;
 
 export let wreq: WebpackInstance;
 export let cache: WebpackInstance['c'];
@@ -137,6 +138,16 @@ export function findAllByProps(...props: string[]) {
 
 export function findByDisplayName(deezNuts: string) {
     return find(filters.byDisplayName(deezNuts));
+}
+
+export function waitFor(filter: string | string[] | FilterFn, callback: CallbackFn) {
+    if (typeof filter === 'string') filter = filters.byProps([filter]);
+    else if (Array.isArray(filter)) filter = filters.byProps(filter);
+    else if (typeof filter !== 'function') throw new Error('filter must be a string, string[] or function, got ' + typeof filter);
+
+    const existing = find(filter!);
+    if (existing) return void callback(existing);
+    return null;
 }
 /**
  * Search modules by keyword. This searches the factory methods,

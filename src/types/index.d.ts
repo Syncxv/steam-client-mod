@@ -1,3 +1,5 @@
+import { Section } from '../modules/api/settings/PluginSections';
+
 export type { defualt as WebpackInstance } from './WebpackInstance';
 export interface Command {
     name: string;
@@ -23,7 +25,7 @@ export interface PluginDef {
     stop?(): void;
     patches?: Patch[];
     commands?: Command[];
-    settingsAboutComponent?: React.ComponentType;
+    settingsComponent?: Section;
 }
 
 export interface Plugin extends PluginDef {

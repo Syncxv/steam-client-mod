@@ -21,7 +21,7 @@ export const globPlugins = {
                 if (!existsSync(`./src/${dir}`)) continue;
                 const files = await readdir(`./src/${dir}`);
                 for (const file of files) {
-                    if (file === 'index.ts') {
+                    if (file === 'index.ts' || file === 'iframe-plugin-patches.ts') {
                         continue;
                     }
                     const mod = `p${i}`;

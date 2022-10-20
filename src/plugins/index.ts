@@ -1,5 +1,6 @@
 import Plugins from 'plugins';
 import { registerCommand, unRegisterCommand } from '../modules/api/commands';
+import { registerSetting, unregisterSetting } from '../modules/api/settings/PluginSections';
 import { Plugin } from '../types';
 
 export const plugins = Plugins;
@@ -41,6 +42,16 @@ export function startPlugin(p: Plugin) {
         }
     }
 
+    if (p.settingsComponent) {
+        console.info('Registering settings for', p.name);
+        try {
+            registerSetting(p.settingsComponent);
+        } catch (e) {
+            console.error(`Failed to register settings for ${p.name}\n`, e);
+            return false;
+        }
+    }
+
     return true;
 }
 
@@ -69,6 +80,16 @@ export function stopPlugin(p: Plugin) {
                 console.error(`Failed to unregister command ${cmd.name}\n`, e);
                 return false;
             }
+        }
+    }
+
+    if (p.settingsComponent) {
+        console.info('Unregistering settings for', p.name);
+        try {
+            unregisterSetting(p.settingsComponent.identifier);
+        } catch (e) {
+            console.error(`Failed to Unregister settings for ${p.name}\n`, e);
+            return false;
         }
     }
 

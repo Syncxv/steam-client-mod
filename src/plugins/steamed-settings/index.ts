@@ -1,4 +1,5 @@
 import { definePlugin } from 'steamed/util';
+import { Settings } from './components/SettingsView';
 
 export default definePlugin({
     name: 'Settings Patcher',
@@ -15,4 +16,10 @@ export default definePlugin({
             replace: '$1,...Object.values(steamed.Api.Settings.PluginSections.sections)$2',
         },
     ],
+
+    settingsComponent: {
+        title: 'General Settings',
+        identifier: 'steamed-general-settings',
+        content: () => Settings,
+    },
 });

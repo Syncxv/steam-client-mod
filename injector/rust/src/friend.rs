@@ -42,7 +42,8 @@ pub fn inject_friend_javascript(config: &Config) -> Result<(), Box<dyn std::erro
     
 
     let hehe =  fs::read_to_string(Config::join(&config.steamed, &["dist", "js", "iframe-injector.js"])).expect("FAILED TO GET IFRAME INJECTOR");
-    let patched = &format!("return {}", hehe);
+    let steamed_react = "window.steamed = { Webpack: { Common: { React: __webpack_module_cache__['./node_modules/react/index.js'].exports,},},};";
+    let patched = &format!("{steamed}\nreturn {code}", steamed = steamed_react, code =hehe);
     
 
 

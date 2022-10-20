@@ -1,5 +1,5 @@
-import { createElement } from 'steamed/util';
-import * as Plugins from '../plugins';
+import { createElement } from '../modules/util';
+import * as Plugins from '../plugins/iframe-plugin-patches';
 console.log('PLUGINS :O ', Plugins);
 (async () => {
     const parser = new DOMParser();

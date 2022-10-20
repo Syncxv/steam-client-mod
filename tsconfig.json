@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
         "jsx": "react",
-        "jsxFactory": "steamed.Webpack.Common.React.createElement",
-        "jsxFragmentFactory": "steamed.Webpack.Common.React.Fragment",
+        "jsxFactory": "window.steamed.Webpack.Common.React.createElement",
+        "jsxFragmentFactory": "window.steamed.Webpack.Common.React.Fragment",
         "target": "es6",
         "module": "commonjs",
         "lib": ["dom", "es6", "es2017", "esnext.asynciterable"],

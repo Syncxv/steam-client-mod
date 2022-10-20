@@ -10,11 +10,12 @@ export interface PluginSections {
 
 export let sections: PluginSections = {};
 
-export const registerSetting = (id: string, section: Section) => {
-    if (sections[id]) {
-        throw new Error(`Settings tab ${id} is already registered!`);
+export const registerSetting = (section: Section) => {
+    if (sections[section.identifier]) {
+        throw new Error(`Settings tab ${section.identifier} is already registered!`);
     }
-    sections[id] = section;
+    section.content = steamed.Webpack.Common.React.createElement(section.content);
+    sections[section.identifier] = section;
 };
 
 export const unregisterSetting = (id: string) => {
