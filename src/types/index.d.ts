@@ -18,6 +18,7 @@ export interface PluginDef {
     name: string;
     description: string;
     authors: PluginAuthor[];
+    type?: 'friend' | 'library';
     start?(): void;
     stop?(): void;
     patches?: Patch[];
