@@ -18,8 +18,8 @@ export default definePlugin({
         },
 
         {
-            match: /(OnEmoticonSelected\(.{1,6}\){)/,
-            replace: '$1console.log(e, this);',
+            match: /(OnEmoticonSuggestionSelected\(.{1,4}\){)/,
+            replace: '$1if(arguments[1] && emojiObj[arguments[1]]) { this.ReplaceSuggestedText(":", emojiObj[arguments[1]].emoji) };',
         },
     ],
 
