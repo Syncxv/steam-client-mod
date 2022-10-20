@@ -20,6 +20,6 @@ export default definePlugin({
     settingsComponent: {
         title: 'General Settings',
         identifier: 'steamed-general-settings',
-        content: () => Settings,
+        content: () => window.React.createElement(Settings),
     },
 });

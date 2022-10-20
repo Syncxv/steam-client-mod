@@ -1,5 +1,5 @@
 import esbuild from 'esbuild';
-import { globPlugins } from './common.mjs';
+import { globPatches, globPlugins } from './common.mjs';
 
 const watch = process.argv.includes('--watch');
 
@@ -29,8 +29,8 @@ Promise.all([
         ...commonOptions,
         entryPoints: ['src/iframe-injector/index.js'],
         outfile: 'dist/js/iframe-injector.js',
-        external: ['plugins'],
-        plugins: [globPlugins],
+        external: ['patches'],
+        plugins: [globPatches],
     }),
 ]).catch((err) => {
     console.error('Build failed');

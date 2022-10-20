@@ -1,6 +1,6 @@
 import { createElement } from '../modules/util';
-import * as Plugins from '../plugins/iframe-plugin-patches';
-console.log('PLUGINS :O ', Plugins);
+import * as Patches from '../plugins/iframe-plugin-patches';
+console.log('Patches :O ', Patches);
 (async () => {
     const parser = new DOMParser();
     //get original chat thingy
@@ -19,11 +19,10 @@ console.log('PLUGINS :O ', Plugins);
     let [_, cacheVar] = cooleo.match(/,(.{1,2})={};function/);
     cooleo = cooleo.replace(/(,(.{1,2})\.amdO=)/, `,$2.c=${cacheVar}$1`);
 
-    //ima do it in a min
-    for (const plugin of Object.values(Plugins.plugins)) {
-        console.log(plugin);
-        if (JSON.parse(localStorage.getItem('steamed_disabled_plugins') ?? '[]').includes(plugin.name) || !plugin.patches) continue;
-        for (const patch of plugin.patches) {
+    for (const [key, patches] of Object.entries(Patches.patches)) {
+        console.log(patches);
+        if (JSON.parse(localStorage.getItem('steamed_disabled_plugins') ?? '[]').includes(key) || !patches) continue;
+        for (const patch of patches) {
             cooleo = cooleo.replace(patch.match, patch.replace);
         }
     }
