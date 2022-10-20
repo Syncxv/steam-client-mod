@@ -19,7 +19,12 @@ export default definePlugin({
 
         {
             match: /(OnEmoticonSuggestionSelected\(.{1,4}\){)/,
-            replace: '$1if(arguments[1] && emojiObj[arguments[1]]) { this.ReplaceSuggestedText(":", emojiObj[arguments[1]].emoji) };',
+            replace:
+                '$1if(arguments[1] && emojiObj[arguments[1]]) { return t || this.FocusTextInput(), this.ReplaceSuggestedText(":", emojiObj[arguments[1]].emoji) };',
+        },
+        {
+            match: /(OnEmoticonSelected\(.{1,6}\){)/,
+            replace: '$1if(emojiObj[e]) {  return this.InsertAtCursor(emojiObj[e].emoji) };',
         },
     ],
 
