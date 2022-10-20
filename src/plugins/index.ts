@@ -1,6 +1,6 @@
 import Plugins from 'plugins';
-import { registerCommand, unRegisterCommand } from '../../modules/api/commands';
-import { Plugin } from '../../types';
+import { registerCommand, unRegisterCommand } from '../modules/api/commands';
+import { Plugin } from '../types';
 
 export const plugins = Plugins;
 

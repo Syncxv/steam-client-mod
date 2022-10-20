@@ -20,22 +20,17 @@ const commonOptions = {
 Promise.all([
     esbuild.build({
         ...commonOptions,
-        entryPoints: ['src/FriendClient/index.ts'],
+        entryPoints: ['src/index.ts'],
         outfile: 'dist/js/FriendClient.js',
         external: ['plugins'],
         plugins: [globPlugins],
     }),
     esbuild.build({
         ...commonOptions,
-        entryPoints: ['src/FriendClient/iframe-injector/index.js'],
+        entryPoints: ['src/iframe-injector/index.js'],
         outfile: 'dist/js/iframe-injector.js',
         external: ['plugins'],
         plugins: [globPlugins],
-    }),
-    esbuild.build({
-        ...commonOptions,
-        entryPoints: ['src/LibraryClient/index.ts'],
-        outfile: 'dist/js/LibraryClient.js',
     }),
 ]).catch((err) => {
     console.error('Build failed');

@@ -1,7 +1,7 @@
-import steamed from '../FriendClient/index';
+import steamed from '../index';
 
 declare global {
-    export var steamed: typeof import('../FriendClient/steamed');
+    export var steamed: typeof import('../steamed');
     export var g_PopupManager: any;
     export var g_FriendsUIApp: any;
     interface Window {

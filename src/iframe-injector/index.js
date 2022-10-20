@@ -1,4 +1,4 @@
-import { createElement } from '../../modules/util';
+import { createElement } from 'steamed/util';
 import * as Plugins from '../plugins';
 console.log('PLUGINS :O ', Plugins);
 (async () => {

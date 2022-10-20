@@ -18,8 +18,8 @@ export const globPlugins = {
             let i = 0;
             for (const dir of pluginDirs) {
                 console.log(dir, pluginDirs);
-                if (!existsSync(`./src/FriendClient/${dir}`)) continue;
-                const files = await readdir(`./src/FriendClient/${dir}`);
+                if (!existsSync(`./src/${dir}`)) continue;
+                const files = await readdir(`./src/${dir}`);
                 for (const file of files) {
                     if (file === 'index.ts') {
                         continue;
@@ -33,7 +33,7 @@ export const globPlugins = {
             code += `export default {${plugins}};`;
             return {
                 contents: code,
-                resolveDir: './src/FriendClient',
+                resolveDir: './src',
             };
         });
     },

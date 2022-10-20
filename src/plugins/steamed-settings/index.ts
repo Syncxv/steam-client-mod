@@ -1,4 +1,4 @@
-import { definePlugin } from '../../../modules/util/definePlugin';
+import { definePlugin } from 'steamed/util';
 
 export default definePlugin({
     name: 'Settings Patcher',
