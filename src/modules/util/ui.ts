@@ -3,7 +3,7 @@ import { findInTree } from './findInTree';
 export const createElement = (html: string) => {
     const div = document.createElement('div');
     div.innerHTML = html;
-    return div.firstChild;
+    return div.firstChild!;
 };
 export const findInReactTree = (tree: any, filter: (_tree: typeof tree) => boolean) =>
     findInTree(tree, filter, {
@@ -30,9 +30,7 @@ export const getOwnerInstnace = (node: any) => {
 
 export const insertCss = (css: string, _document = window.document) => {
     let id = Math.random().toString(36);
-    const style = _document.createElement('style');
-    style.innerText = css;
-    style.id = id;
+    const style = createElement(`<style id="${id}"> ${css} </style>`);
     _document.head.appendChild(style);
     return id;
 };

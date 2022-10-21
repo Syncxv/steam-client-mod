@@ -31,7 +31,8 @@ pub fn inject_friend_javascript(config: &Config) -> Result<(), Box<dyn std::erro
     //insert srcipt tag into html
     let mut index_html = fs::read_to_string(&config.steam_friend_index_html).expect("FAILED TO READ FRIEND INDEX HTML");
     let index: usize = index_html.find("</script>").map(|i| i + "</script>".len()).expect("FAILED GET SCRIPT TAG INDEX");
-    index_html.replace_range(index..index,"\n\n\t\t<script src=\"bruh.js\"> </script>\n");
+	
+    index_html.replace_range(index..index,"\n\n\t\t<script src=\"bruh.js\"> </script>\n<meta http-equiv=\"Content-Security-Policy\" content=\"upgrade-insecure-requests\">\n");
     fs::write(&config.steam_friend_index_html, index_html).expect("FAILED TO WRITE TO FRIEND INDEX HTML");
     println!("[Friends Injector] injected js-injector into html");
 

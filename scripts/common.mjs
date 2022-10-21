@@ -1,5 +1,6 @@
+import { transform } from 'esbuild';
 import { existsSync } from 'fs';
-import { readdir } from 'fs/promises';
+import { readdir, readFile } from 'fs/promises';
 
 export const globPlugins = {
     name: 'glob-plugins',
@@ -75,6 +76,17 @@ export const globPatches = {
                 contents: code,
                 resolveDir: './src',
             };
+        });
+    },
+};
+
+export const CSSMinifyPlugin = {
+    name: 'CSSMinifyPlugin',
+    setup(build) {
+        build.onLoad({ filter: /\.css$/ }, async (args) => {
+            const f = await readFile(args.path);
+            const css = await transform(f, { loader: 'css', minify: true });
+            return { loader: 'text', contents: css.code };
         });
     },
 };
