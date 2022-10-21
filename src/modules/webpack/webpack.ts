@@ -1,4 +1,5 @@
 import type { WebpackInstance } from '../../types';
+import { initComponents } from '../components';
 import { initCommon } from './common';
 // import { proxyLazy } from "../utils/proxyLazy";
 export type CallbackFn = (mod: any) => void;
@@ -34,6 +35,7 @@ export function _initWebpack(instance: typeof window.webpackChunkdiscord_app) {
     instance.pop();
 
     initCommon();
+    initComponents();
 }
 
 export function find(filter: FilterFn, getDefault = true) {

@@ -1,6 +1,8 @@
 import { definePlugin } from 'steamed/util';
 import { Settings } from './components/SettingsView';
 
+console.log(Settings);
+
 export default definePlugin({
     name: 'Settings Patcher',
     description: 'this plugin patches the settings sidebar thingy and adds our own stuff to it',
@@ -16,7 +18,6 @@ export default definePlugin({
             replace: '$1,...Object.values(steamed.Api.Settings.PluginSections.sections)$2',
         },
     ],
-
     settingsComponent: {
         title: 'General Settings',
         identifier: 'steamed-general-settings',
