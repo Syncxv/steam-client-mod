@@ -23,9 +23,9 @@
 /*  Select one of the following avatar status types
 /*
 /*  == Outline Status == */
-@import url(https://laserflash.tk/steam-chat-skin/src/css/customisable/avatarStatus/outlineStatus.css);
+/* @import url(https://laserflash.tk/steam-chat-skin/src/css/customisable/avatarStatus/outlineStatus.css); */
 /*  == Discord Status == */
-/* @import url(https://laserflash.tk/steam-chat-skin/src/css/customisable/avatarStatus/discordStatus.css); */
+@import url(https://laserflash.tk/steam-chat-skin/src/css/customisable/avatarStatus/discordStatus.css);
 /*
 /*  ----------------------------------------------------------------------------
 /* ==== Theme Colour ====
