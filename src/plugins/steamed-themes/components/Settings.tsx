@@ -16,13 +16,11 @@ export const Settings: React.FC<{ themes: Theme[] }> = ({ themes }) => {
 
 const Theme: React.FC<{ theme: Theme }> = ({ theme }) => {
     return (
-        <button className="DialogButton _DialogLayout Secondary Focusable" onClick={() => console.log('well')}>
-            <SwitchItem
-                label={theme.name}
-                description={theme.description}
-                onChange={(enable: boolean) => (enable ? steamed.Themes.startTheme(theme) : steamed.Themes.stopTheme(theme))}
-                checked={theme.started}
-            />
-        </button>
+        <SwitchItem
+            label={theme.name}
+            description={theme.description}
+            onChange={(enable: boolean) => (enable ? steamed.Themes.startTheme(theme) : steamed.Themes.stopTheme(theme))}
+            checked={theme.started}
+        />
     );
 };

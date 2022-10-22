@@ -7,7 +7,7 @@ export const Settings: React.FC<{ settings: any }> = ({}) => (
         <div className="SettingsGroup">
             <steamed.Components.SwitchItem
                 label="Is Cool?"
-                description=""
+                description="jefwrg"
                 onChange={(val: boolean) => {
                     console.log(val);
                     steamed.Settings.toggle('cool');
