@@ -41,6 +41,43 @@ export const globPlugins = {
     },
 };
 
+export const globThemes = {
+    name: 'glob-themes',
+    setup: (build) => {
+        build.onResolve({ filter: /^themes$/ }, (args) => {
+            return {
+                namespace: 'import-themes',
+                path: args.path,
+            };
+        });
+
+        build.onLoad({ filter: /^themes$/, namespace: 'import-themes' }, async () => {
+            const dir = 'themes';
+            let code = '';
+            let themes = '\n';
+            let i = 0;
+            if (!existsSync(`./src/${dir}`)) return 'export default {}';
+            const files = await readdir(`./src/${dir}`);
+            for (const file of files) {
+                if (file === 'index.ts') {
+                    continue;
+                }
+                const them = `p${i}`;
+                code += `import ${them} from "./${dir}/${file.replace(/.tsx?$/, '')}";\n`;
+                themes += `[${them}.name]:${them},\n`;
+                i++;
+            }
+            code += `export default {${themes}};`;
+            console.log('THEMES: ', code, themes);
+            return {
+                contents: code,
+                resolveDir: './src',
+            };
+        });
+    },
+};
+
+//ill impove it later ong on me
 export const globPatches = {
     name: 'glob-patches',
     setup: (build) => {

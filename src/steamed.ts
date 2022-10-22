@@ -1,4 +1,5 @@
 export * as Plugins from './plugins';
+export * as Themes from './themes';
 export * as Webpack from './modules/webpack';
 export * as Api from './modules/api';
 export * as Util from './modules/util';

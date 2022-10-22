@@ -32,3 +32,16 @@ export interface Plugin extends PluginDef {
     patches?: Patch[];
     started: boolean;
 }
+
+export interface ThemeDef {
+    name: string;
+    css: string;
+    description: string;
+    authors: PluginAuthor[];
+    type: 'friend' | 'library';
+}
+
+export interface Theme extends ThemeDef {
+    styleIds: string[];
+    started: boolean;
+}

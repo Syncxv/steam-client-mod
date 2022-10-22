@@ -29,7 +29,7 @@ export const getOwnerInstnace = (node: any) => {
 };
 
 export const insertCss = (css: string, _document = window.document) => {
-    let id = Math.random().toString(36);
+    let id = Math.floor(Date.now() + Math.random() * 100000).toString();
     const style = createElement(`<style id="${id}"> ${css} </style>`);
     _document.head.appendChild(style);
     return id;

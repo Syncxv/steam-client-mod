@@ -1,5 +1,5 @@
 import esbuild from 'esbuild';
-import { CSSMinifyPlugin, globPatches, globPlugins } from './common.mjs';
+import { CSSMinifyPlugin, globPatches, globPlugins, globThemes } from './common.mjs';
 
 const watch = process.argv.includes('--watch');
 
@@ -23,7 +23,7 @@ Promise.all([
         entryPoints: ['src/index.ts'],
         outfile: 'dist/js/FriendClient.js',
         external: ['plugins'],
-        plugins: [globPlugins, CSSMinifyPlugin],
+        plugins: [globPlugins, globThemes, CSSMinifyPlugin],
     }),
     esbuild.build({
         ...commonOptions,
