@@ -1,5 +1,5 @@
 import { createElement } from '../modules/util';
-import * as Patches from '../plugins/iframe-plugin-patches';
+import Patches from 'patches';
 console.log('Patches :O ', Patches);
 (async () => {
     const parser = new DOMParser();
@@ -19,7 +19,7 @@ console.log('Patches :O ', Patches);
     let [_, cacheVar] = cooleo.match(/,(.{1,2})={};function/);
     cooleo = cooleo.replace(/(,(.{1,2})\.amdO=)/, `,$2.c=${cacheVar}$1`);
 
-    for (const [key, patches] of Object.entries(Patches.patches)) {
+    for (const [key, patches] of Object.entries(Patches)) {
         console.log(patches);
         if (JSON.parse(localStorage.getItem('steamed_disabled_plugins') ?? '[]').includes(key) || !patches) continue;
         for (const patch of patches) {
