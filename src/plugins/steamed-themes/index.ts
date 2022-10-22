@@ -1,3 +1,4 @@
+import Themes from 'themes';
 import { definePlugin } from 'steamed/util';
 import { Settings } from './components/Settings';
 
@@ -8,8 +9,8 @@ export default definePlugin({
     version: '1.1.1',
 
     settingsComponent: {
-        title: 'General Settings',
-        identifier: 'steamed-general-settings',
-        content: () => window.React.createElement(Settings, { themes: [] }),
+        title: 'Themes',
+        identifier: 'steamed-themes',
+        content: () => window.React.createElement(Settings, { themes: Object.values(Themes) }),
     },
 });

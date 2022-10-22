@@ -10,6 +10,7 @@ import { PluginSettings } from './modules/api/settings';
 export { PluginSettings as Settings };
 
 import { startAllPlugins } from './plugins';
+import { startAllThemes } from './themes';
 
 import 'steamed/webpack/patchWebpack';
 
@@ -19,6 +20,7 @@ async function init() {
             setTimeout(wait, 1);
         } else {
             console.log('READY');
+            startAllThemes();
             startAllPlugins();
         }
     }

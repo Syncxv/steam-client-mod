@@ -98,7 +98,7 @@ export const globPatches = {
                 if (!existsSync(`./src/${dir}`)) continue;
                 const files = await readdir(`./src/${dir}`);
                 for (const file of files) {
-                    if (file === 'index.ts' || file === 'iframe-plugin-patches.ts') {
+                    if (file === 'index.ts' || file === 'iframe-plugin-patches.ts' || file === 'steamed-themes') {
                         continue;
                     }
                     const mod = `p${i}`;

@@ -3,7 +3,7 @@ import { Theme } from '../types';
 
 export const themes = Themes;
 
-export const isThemeEnabled = (theme: Theme) => JSON.parse(localStorage.getItem('steamed_enabled_themes') ?? '[]').includes(theme.name);
+export const isThemeEnabled = (theme: Theme) => steamed.Settings.get('enabled_themes', [] as string[]).includes(theme.name);
 
 export function startAllThemes() {
     for (const theme of Object.values(Themes))
@@ -29,6 +29,10 @@ export function startTheme(theme: Theme) {
                 if (!(key.startsWith('chat_') || key.startsWith('friendslist'))) continue;
                 theme.styleIds.push(steamed.Util.insertCss(theme.css, popup.window.document));
             }
+            theme.started = true;
+            const enabled = steamed.Settings.get('enabled_themes', [] as string[]);
+            enabled.push(theme.name);
+            steamed.Settings.set('enabled_themes', enabled);
             break;
         case 'library':
             //ill do it later ong
@@ -48,6 +52,9 @@ export function stopTheme(theme: Theme) {
                     popup.window.document.getElementById(id)?.remove();
                 }
             }
+            theme.started = false;
+            const enabled = steamed.Settings.get('enabled_themes', [] as string[]).filter((t) => t !== theme.name);
+            steamed.Settings.set('enabled_themes', enabled);
             break;
         case 'library':
             //ill do it later ong
