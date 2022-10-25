@@ -22,7 +22,11 @@ export const globPlugins = {
                 if (!existsSync(`./src/${dir}`)) continue;
                 const files = await readdir(`./src/${dir}`);
                 for (const file of files) {
-                    if (file === 'index.ts') {
+                    if (
+                        file === 'index.ts' ||
+                        (build.initialOptions.outfile.endsWith('FriendClient.js') && file.startsWith('lib')) ||
+                        (build.initialOptions.outfile.endsWith('LibraryClient.js') && !file.startsWith('lib'))
+                    ) {
                         continue;
                     }
                     const mod = `p${i}`;
@@ -45,13 +49,14 @@ export const globThemes = {
     name: 'glob-themes',
     setup: (build) => {
         build.onResolve({ filter: /^themes$/ }, (args) => {
+            console.log(build, args);
             return {
                 namespace: 'import-themes',
                 path: args.path,
             };
         });
 
-        build.onLoad({ filter: /^themes$/, namespace: 'import-themes' }, async () => {
+        build.onLoad({ filter: /^themes$/, namespace: 'import-themes' }, async (e) => {
             const dir = 'themes';
             let code = '';
             let themes = '\n';
@@ -59,7 +64,11 @@ export const globThemes = {
             if (!existsSync(`./src/${dir}`)) return 'export default {}';
             const files = await readdir(`./src/${dir}`);
             for (const file of files) {
-                if (file === 'index.ts') {
+                if (
+                    file === 'index.ts' ||
+                    (build.initialOptions.outfile.endsWith('FriendClient.js') && file.startsWith('lib')) ||
+                    (build.initialOptions.outfile.endsWith('LibraryClient.js') && !file.startsWith('lib'))
+                ) {
                     continue;
                 }
                 const them = `p${i}`;
@@ -98,7 +107,11 @@ export const globPatches = {
                 if (!existsSync(`./src/${dir}`)) continue;
                 const files = await readdir(`./src/${dir}`);
                 for (const file of files) {
-                    if (file === 'index.ts' || file === 'steamed-themes') {
+                    if (
+                        file === 'index.ts' ||
+                        (build.initialOptions.outfile.endsWith('FriendClient.js') && file.startsWith('lib')) ||
+                        (build.initialOptions.outfile.endsWith('LibraryClient.js') && !file.startsWith('lib'))
+                    ) {
                         continue;
                     }
                     const mod = `p${i}`;
