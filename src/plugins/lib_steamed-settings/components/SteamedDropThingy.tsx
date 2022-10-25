@@ -1,4 +1,4 @@
-export const DropThingy: React.FC<{}> = () => {
+export const DropThingy: React.FC<{}> = ({}) => {
     const [isOpen, setOpen] = steamed.Webpack.Common.React.useState(false);
     return (
         <>
@@ -17,7 +17,21 @@ export const DropThingy: React.FC<{}> = () => {
                     </svg>
                 </div>
             </div>
-            <div className={`contents ${isOpen ? 'show' : 'hide'}`}>some content eh</div>
+            <div className={`contents ${isOpen ? 'show' : 'hide'}`}>
+                <button
+                    onClick={() =>
+                        steamed.Webpack.Common.openPopout(steamed.Webpack.Common.React.createElement('div', {}, 'hi'), window, 'hehe', {
+                            strTitle: 'hi',
+                            popupWidth: 842,
+                            popupHeight: 720,
+                        })
+                    }
+                    style={{ width: '200px' }}
+                    className={`DialogButton _DialogLayout Secondary Focusable`}
+                >
+                    Settings
+                </button>
+            </div>
         </>
     );
 };

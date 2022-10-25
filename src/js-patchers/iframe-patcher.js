@@ -15,7 +15,7 @@ console.log('Patches FRIEND :O ', Patches);
 
     //expose cached webpack modules
     let [_, cacheVar] = cooleo.match(/,(.{1,2})={};function/);
-    cooleo = cooleo.replace(/(r\.exports})((.{1,2})\..{1,2}=.{1,2})/, `$1$3.c=${cacheVar};$2`);
+    cooleo = cooleo.replace(/(,(.{1,2})\.amdO=)/, `,$2.c=${cacheVar}$1`);
 
     for (const [key, patches] of Object.entries(Patches)) {
         console.log(patches);

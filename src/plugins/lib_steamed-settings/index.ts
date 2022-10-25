@@ -12,6 +12,7 @@ export default definePlugin({
         let { React, ReactDOM } = steamed.Webpack.Common;
         let container = document.createElement('container-gang');
         document.body.appendChild(container);
+
         ReactDOM.render(React.createElement('div', {}, React.createElement(DropThingy)), document.querySelector('container-gang'));
     },
 });

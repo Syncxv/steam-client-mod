@@ -12,8 +12,7 @@ export const isPluginEnabled = (plugin: Plugin) => !JSON.parse(localStorage.getI
 export function startAllPlugins() {
     for (const plugin of Object.values(Plugins))
         if (isPluginEnabled(plugin)) {
-            if (isFriendsUI() && plugin.type === 'friend') startPlugin(plugin);
-            if (!isFriendsUI() && plugin.type === 'library') startPlugin(plugin);
+            startPlugin(plugin);
         }
 }
 

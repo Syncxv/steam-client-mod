@@ -29,7 +29,7 @@ Promise.all([
             globPlugins,
             globThemes,
             sassPlugin({
-                // type: 'css-text',
+                type: 'css-text',
                 async transform(source, resolveDir) {
                     const { css } = await postcss([autoprefixer]).process(source);
                     return css;
