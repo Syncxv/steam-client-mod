@@ -109,8 +109,10 @@ export const globPatches = {
                 for (const file of files) {
                     if (
                         file === 'index.ts' ||
-                        (build.initialOptions.outfile.endsWith('FriendClient.js') && file.startsWith('lib')) ||
-                        (build.initialOptions.outfile.endsWith('LibraryClient.js') && !file.startsWith('lib'))
+                        ((build.initialOptions.outfile.endsWith('FriendClient.js') || build.initialOptions.outfile.endsWith('iframe-patcher.js')) &&
+                            file.startsWith('lib')) ||
+                        ((build.initialOptions.outfile.endsWith('LibraryClient.js') || build.initialOptions.outfile.endsWith('library-patcher.js')) &&
+                            !file.startsWith('lib'))
                     ) {
                         continue;
                     }

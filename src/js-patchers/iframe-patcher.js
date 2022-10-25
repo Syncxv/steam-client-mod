@@ -1,7 +1,6 @@
 import { createElement } from '../modules/util';
 import Patches from 'patches';
-import { patchJs } from '../modules/util/patchJs';
-console.log('Patches :O ', Patches);
+console.log('Patches FRIEND :O ', Patches);
 (async () => {
     const parser = new DOMParser();
     //get original chat thingy
@@ -14,7 +13,17 @@ console.log('Patches :O ', Patches);
     //fetch the friends.js we got from before
     let cooleo = await (await fetch('friends_web_ui.js')).text();
 
-    cooleo = patchJs(cooleo, Patches);
+    //expose cached webpack modules
+    let [_, cacheVar] = cooleo.match(/,(.{1,2})={};function/);
+    cooleo = cooleo.replace(/(r\.exports})((.{1,2})\..{1,2}=.{1,2})/, `$1$3.c=${cacheVar};$2`);
+
+    for (const [key, patches] of Object.entries(Patches)) {
+        console.log(patches);
+        if (JSON.parse(localStorage.getItem('steamed_disabled_plugins') ?? '[]').includes(key) || !patches) continue;
+        for (const patch of patches) {
+            cooleo = cooleo.replace(patch.match, patch.replace);
+        }
+    }
     window.cooleo = cooleo;
 
     //convert js to blob for better dev expeirence ig
