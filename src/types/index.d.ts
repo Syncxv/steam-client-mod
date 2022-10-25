@@ -23,6 +23,7 @@ export interface PluginDef {
     type?: 'friend' | 'library';
     start?(): void;
     stop?(): void;
+    css?: string;
     patches?: Patch[];
     commands?: Command[];
     settingsComponent?: Section;

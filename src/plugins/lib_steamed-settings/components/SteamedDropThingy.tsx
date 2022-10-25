@@ -1,19 +1,23 @@
 export const DropThingy: React.FC<{}> = () => {
+    const [isOpen, setOpen] = steamed.Webpack.Common.React.useState(false);
     return (
-        <div className="steamedDrop">
-            <span>steamed</span>
-            <div className="cooldropdown">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="SVGIcon_Button SVGIcon_DownArrowContextMenu"
-                    data-name="Layer 1"
-                    viewBox="0 0 128 128"
-                    x="0px"
-                    y="0px"
-                >
-                    <polygon points="50 59.49 13.21 22.89 4.74 31.39 50 76.41 95.26 31.39 86.79 22.89 50 59.49"></polygon>
-                </svg>
+        <>
+            <div className={`steamedDrop ${isOpen ? 'cool' : 'not-cool'}`} onClick={() => setOpen((prev) => !prev)}>
+                <div className="cooldropdown">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff" viewBox="0 0 256 256">
+                        <rect width="256" height="256" fill="none"></rect>
+                        <polyline
+                            points="48 160 128 80 208 160"
+                            fill="none"
+                            stroke="#ffffff"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="16"
+                        ></polyline>
+                    </svg>
+                </div>
             </div>
-        </div>
+            <div className={`contents ${isOpen ? 'show' : 'hide'}`}>some content eh</div>
+        </>
     );
 };
