@@ -13,27 +13,26 @@ export const globPlugins = {
         });
 
         build.onLoad({ filter: /^plugins$/, namespace: 'import-plugins' }, async () => {
-            const pluginDirs = ['plugins', 'userplugins'];
+            const dir = 'plugins';
             let code = '';
             let plugins = '\n';
             let i = 0;
-            for (const dir of pluginDirs) {
-                console.log(dir, pluginDirs);
-                if (!existsSync(`./src/${dir}`)) continue;
-                const files = await readdir(`./src/${dir}`);
-                for (const file of files) {
-                    if (
-                        file === 'index.ts' ||
-                        (build.initialOptions.outfile.endsWith('FriendClient.js') && file.startsWith('lib')) ||
-                        (build.initialOptions.outfile.endsWith('LibraryClient.js') && !file.startsWith('lib'))
-                    ) {
-                        continue;
-                    }
-                    const mod = `p${i}`;
-                    code += `import ${mod} from "./${dir}/${file.replace(/.tsx?$/, '')}";\n`;
-                    plugins += `[${mod}.name]:${mod},\n`;
-                    i++;
+            if (!existsSync(`./src/${dir}`)) return { contents: 'export default {YA_DONE_GOOFED_THE_DIRECTORY: {}}', resolveDir: './src' };
+
+            const files = await readdir(`./src/${dir}`);
+            for (const file of files) {
+                if (
+                    file === 'index.ts' ||
+                    //if we are building friend client and the theme starts with lib then we can skip HEHEHHE HA
+                    (build.initialOptions.outfile.endsWith('FriendClient.js') && file.startsWith('lib')) ||
+                    (build.initialOptions.outfile.endsWith('LibraryClient.js') && !file.startsWith('lib'))
+                ) {
+                    continue;
                 }
+                const mod = `p${i}`;
+                code += `import ${mod} from "./${dir}/${file.replace(/.tsx?$/, '')}";\n`;
+                plugins += `[${mod}.name]:${mod},\n`;
+                i++;
             }
             code += `export default {${plugins}};`;
             console.log(code, plugins);
@@ -61,11 +60,12 @@ export const globThemes = {
             let code = '';
             let themes = '\n';
             let i = 0;
-            if (!existsSync(`./src/${dir}`)) return 'export default {}';
+            if (!existsSync(`./src/${dir}`)) return { contents: 'export default {YA_DONE_GOOFED_THE_DIRECTORY: {}}', resolveDir: './src' };
             const files = await readdir(`./src/${dir}`);
             for (const file of files) {
                 if (
                     file === 'index.ts' ||
+                    //if we are building friend client and the theme starts with lib then we can skip HEHEHHE HA
                     (build.initialOptions.outfile.endsWith('FriendClient.js') && file.startsWith('lib')) ||
                     (build.initialOptions.outfile.endsWith('LibraryClient.js') && !file.startsWith('lib'))
                 ) {
@@ -98,29 +98,27 @@ export const globPatches = {
         });
 
         build.onLoad({ filter: /^patches$/, namespace: 'import-patches' }, async () => {
-            const pluginDirs = ['plugins', 'userplugins'];
+            const dir = 'plugins';
             let code = '';
             let patches = '\n';
             let i = 0;
-            for (const dir of pluginDirs) {
-                console.log(dir, pluginDirs);
-                if (!existsSync(`./src/${dir}`)) continue;
-                const files = await readdir(`./src/${dir}`);
-                for (const file of files) {
-                    if (
-                        file === 'index.ts' ||
-                        ((build.initialOptions.outfile.endsWith('FriendClient.js') || build.initialOptions.outfile.endsWith('iframe-patcher.js')) &&
-                            file.startsWith('lib')) ||
-                        ((build.initialOptions.outfile.endsWith('LibraryClient.js') || build.initialOptions.outfile.endsWith('library-patcher.js')) &&
-                            !file.startsWith('lib'))
-                    ) {
-                        continue;
-                    }
-                    const mod = `p${i}`;
-                    code += `import ${mod} from "./${dir}/${file.replace(/.tsx?$/, '')}";\n`;
-                    patches += `[${mod}.name]:${mod}.patches,\n`;
-                    i++;
+            if (!existsSync(`./src/${dir}`)) return { contents: 'export default {YA_DONE_GOOFED_THE_DIRECTORY: {}}', resolveDir: './src' };
+            const files = await readdir(`./src/${dir}`);
+            for (const file of files) {
+                if (
+                    file === 'index.ts' ||
+                    //if we are building for friends or ifram patcher and the file starts with lib THEN we can skip this file as it will never be executed SINCE IT will only work on the friends
+                    ((build.initialOptions.outfile.endsWith('FriendClient.js') || build.initialOptions.outfile.endsWith('iframe-patcher.js')) &&
+                        file.startsWith('lib')) ||
+                    ((build.initialOptions.outfile.endsWith('LibraryClient.js') || build.initialOptions.outfile.endsWith('library-patcher.js')) &&
+                        !file.startsWith('lib'))
+                ) {
+                    continue;
                 }
+                const mod = `p${i}`;
+                code += `import ${mod} from "./${dir}/${file.replace(/.tsx?$/, '')}";\n`;
+                patches += `[${mod}.name]:${mod}.patches,\n`;
+                i++;
             }
             code += `export default {${patches}};`;
             console.log(code);
