@@ -16,7 +16,7 @@ import { _initWebpack } from './modules/webpack';
 import { WEBPACK_CHUNK } from './constants';
 import { isFriendsUI } from './modules/util/isFriendsUi';
 
-async function init() {
+export async function init() {
     if (isFriendsUI()) {
         function wait() {
             if (!window?.g_FriendsUIApp?.ready_to_render) {
@@ -36,4 +36,4 @@ async function init() {
     startAllPlugins();
 }
 
-init();
+// init();
