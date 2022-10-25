@@ -1,6 +1,7 @@
 import Plugins from 'plugins';
 import { registerCommand, unRegisterCommand } from '../modules/api/commands';
 import { registerSetting, unregisterSetting } from '../modules/api/settings/PluginSections';
+import { isFriendsUI } from '../modules/util/isFriendsUi';
 import { Plugin } from '../types';
 
 export const plugins = Plugins;
@@ -10,7 +11,8 @@ export const isPluginEnabled = (plugin: Plugin) => !JSON.parse(localStorage.getI
 export function startAllPlugins() {
     for (const plugin of Object.values(Plugins))
         if (isPluginEnabled(plugin)) {
-            startPlugin(plugin);
+            if (isFriendsUI() && plugin.type === 'friend') startPlugin(plugin);
+            if (!isFriendsUI() && plugin.type === 'library') startPlugin(plugin);
         }
 }
 

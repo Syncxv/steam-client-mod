@@ -12,19 +12,28 @@ export { PluginSettings as Settings };
 import { startAllPlugins } from './plugins';
 import { startAllThemes } from './themes';
 
-import 'steamed/webpack/patchWebpack';
+import { _initWebpack } from './modules/webpack';
+import { WEBPACK_CHUNK } from './constants';
+import { isFriendsUI } from './modules/util/isFriendsUi';
 
 async function init() {
-    function wait() {
-        if (!window?.g_FriendsUIApp?.ready_to_render) {
-            setTimeout(wait, 1);
-        } else {
-            console.log('READY');
-            startAllThemes();
-            startAllPlugins();
+    if (isFriendsUI()) {
+        function wait() {
+            if (!window?.g_FriendsUIApp?.ready_to_render) {
+                setTimeout(wait, 1);
+            } else {
+                console.log('READY');
+                _initWebpack(window[WEBPACK_CHUNK]);
+                startAllThemes();
+                startAllPlugins();
+            }
         }
+        return wait();
     }
-    wait();
+
+    _initWebpack(window[WEBPACK_CHUNK]);
+    startAllThemes();
+    startAllPlugins();
 }
 
 init();

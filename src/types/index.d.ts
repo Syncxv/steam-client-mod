@@ -9,7 +9,7 @@ export interface Command {
 
 export interface Patch {
     match: string | RegExp;
-    replace: string | ((match: string, ...groups: string[]) => string);
+    replace: (substring: string, ...args: any[]) => string;
 }
 export interface PluginAuthor {
     name: string;

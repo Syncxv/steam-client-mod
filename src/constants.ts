@@ -1,6 +1,8 @@
+import { isFriendsUI } from './modules/util/isFriendsUi';
+
 export enum AutoCompleteTypes {
     Command = 1,
     Emoji = 2,
 }
 
-export const WEBPACK_CHUNK = 'webpackChunkfriendsui';
+export const WEBPACK_CHUNK = isFriendsUI() ? 'webpackChunkfriendsui' : 'webpackChunksteamui';

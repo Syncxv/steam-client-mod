@@ -93,7 +93,7 @@ fn handle_inject(arg_config: GenericSubCommand) {
     print!("{:?}", arg_config);
     restore(&config);
     inject_friend_javascript(&config).unwrap();
-    // inject_library(&config);
+    inject_library(&config);
 }
  
 fn handle_restore(arg_config: GenericSubCommand) {

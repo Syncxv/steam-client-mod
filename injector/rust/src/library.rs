@@ -38,16 +38,22 @@ pub fn restore_library_assets(steam_lib_index_html: &String) {
 
 pub fn inject_library(config: &Config) {
     //add LibraryClient.js to steamui folder :)
-    let steamed_library_client = fs::read_to_string(&config.steamed_library_client).unwrap();
-    fs::write((&config.steam_ui).to_string() + "\\steamed_library_client.js", steamed_library_client).unwrap();
-    println!("[Library Injector] inserted steamed_library_client.js to steamui folder");
+    let lib_client = fs::read_to_string(&config.steamed_library_client).expect("CANNOT FIND STEAM LIBRARY CLIENT");
+    fs::write(Config::join(&config.steam_ui, &["lib-client.js"]), lib_client).unwrap();
+    println!("[Library Injector] inserted lib-client.js to steamui folder");
 
+
+     //add library-patcher.js to steamui folder :)
+     let lib_patcher = fs::read_to_string(Config::join(&config.steamed, &["dist", "js", "library-patcher.js"])).expect("COULD NOT FIND LIBRARY PATCHER");
+     fs::write(Config::join(&config.steam_ui, &["library-patcher.js"]), lib_patcher).unwrap();
+     println!("[Library Injector] inserted library-patcher.js to steamui folder");
 
     //insert srcipt tag into html
     let mut index_html = fs::read_to_string(&config.steam_library_index_html).unwrap();
     let index: usize = index_html.find("</head>").unwrap();
-    index_html.replace_range(index..index,"<script defer src=\"steamed_library_client.js\"></script>");
-    fs::write(&config.steam_library_index_html, index_html).unwrap();
+    index_html.replace_range(index..index,"<script defer src=\"library-patcher.js\"></script>");
+    let what = index_html.replacen(r#"<script src="/library.js"></script>"#, "", 1);
+    fs::write(&config.steam_library_index_html, what).unwrap();
     println!("[Library Injector] injected LibraryClient to html");
 
 

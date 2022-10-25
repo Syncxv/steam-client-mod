@@ -1,5 +1,6 @@
 import { createElement } from '../modules/util';
 import Patches from 'patches';
+import { patchJs } from '../modules/util/patchJs';
 console.log('Patches :O ', Patches);
 (async () => {
     const parser = new DOMParser();
@@ -13,32 +14,22 @@ console.log('Patches :O ', Patches);
     //fetch the friends.js we got from before
     let cooleo = await (await fetch('friends_web_ui.js')).text();
 
-    //do some regex magic replacement if ya want
-
-    //expose cached webpack modules
-    let [_, cacheVar] = cooleo.match(/,(.{1,2})={};function/);
-    cooleo = cooleo.replace(/(,(.{1,2})\.amdO=)/, `,$2.c=${cacheVar}$1`);
-
-    for (const [key, patches] of Object.entries(Patches)) {
-        console.log(patches);
-        if (JSON.parse(localStorage.getItem('steamed_disabled_plugins') ?? '[]').includes(key) || !patches) continue;
-        for (const patch of patches) {
-            cooleo = cooleo.replace(patch.match, patch.replace);
-        }
-    }
-
+    cooleo = patchJs(cooleo, Patches);
     window.cooleo = cooleo;
 
-    //re add the fukinn thingy
-    HTML.head.appendChild(
-        createElement(
-            `<script> ${
-                //without this webpack throws error saying public path aint supported or something idk
-                "document.currentScript.src = 'https://community.cloudflare.steamstatic.com/public/javascript/webui/friends.js?v=iXbT9rmgxoRc&l=english&_cdn=cloudflare';" +
-                cooleo
-            } </script>`
-        )
+    //convert js to blob for better dev expeirence ig
+    let jsBlob = new Blob(
+        [
+            //without this webpack throws error saying public path aint supported or something idk
+            "document.currentScript.src = 'https://community.cloudflare.steamstatic.com/public/javascript/webui/friends.js?v=iXbT9rmgxoRc&l=english&_cdn=cloudflare';" +
+                cooleo,
+        ],
+        { type: 'text/javascript' }
     );
+    let jsUrl = URL.createObjectURL(jsBlob);
+
+    //re add the fukinn thingy
+    HTML.head.appendChild(createElement(`<script src="${jsUrl}"> </script>`));
     //convert html to blob url and set strURL to it
     let blob = new Blob([HTML.documentElement.innerHTML], { type: 'text/html' });
     let url = URL.createObjectURL(blob);
