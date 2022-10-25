@@ -9,12 +9,12 @@ import { PluginSettings } from './modules/api/settings';
 
 export { PluginSettings as Settings };
 
-import './modules/webpack/patchWebpack';
 import { startAllPlugins } from './plugins';
 import { startAllThemes } from './themes';
 
 import { _initWebpack } from './modules/webpack';
 import { isFriendsUI } from './modules/util/isFriendsUi';
+import { WEBPACK_CHUNK } from './constants';
 
 export async function init() {
     if (isFriendsUI()) {
@@ -23,7 +23,7 @@ export async function init() {
                 setTimeout(wait, 1);
             } else {
                 console.log('READY');
-                // _initWebpack(window[WEBPACK_CHUNK]);
+                _initWebpack(window[WEBPACK_CHUNK]);
                 startAllThemes();
                 startAllPlugins();
             }
@@ -31,7 +31,7 @@ export async function init() {
         return wait();
     }
 
-    // _initWebpack(window[WEBPACK_CHUNK]);
+    _initWebpack(window[WEBPACK_CHUNK]);
     startAllThemes();
     startAllPlugins();
 }

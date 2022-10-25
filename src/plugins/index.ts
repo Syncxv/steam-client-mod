@@ -2,7 +2,6 @@ import Plugins from 'plugins';
 import { registerCommand, unRegisterCommand } from '../modules/api/commands';
 import { registerSetting, unregisterSetting } from '../modules/api/settings/PluginSections';
 import { insertCss } from '../modules/util';
-import { isFriendsUI } from '../modules/util/isFriendsUi';
 import { Plugin } from '../types';
 
 export const plugins = Plugins;
