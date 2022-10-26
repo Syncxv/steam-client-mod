@@ -5,6 +5,16 @@ import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
 const watch = process.argv.includes('--watch');
 
+const commonPlugins = [globPlugins, globThemes];
+
+const sass = sassPlugin({
+    type: 'css-text',
+    async transform(source, resolveDir) {
+        const { css } = await postcss([autoprefixer]).process(source);
+        return css;
+    },
+});
+
 /**
  * @type {esbuild.BuildOptions}
  */
@@ -25,66 +35,28 @@ Promise.all([
         entryPoints: ['src/index.ts'],
         outfile: 'dist/js/FriendClient.js',
         external: ['plugins'],
-        plugins: [
-            globPlugins,
-            globThemes,
-            sassPlugin({
-                type: 'css-text',
-                async transform(source, resolveDir) {
-                    const { css } = await postcss([autoprefixer]).process(source);
-                    return css;
-                },
-            }),
-        ],
+        plugins: [...commonPlugins, sass],
     }),
     esbuild.build({
         ...commonOptions,
         entryPoints: ['src/index.ts'],
         outfile: 'dist/js/LibraryClient.js',
         external: ['plugins'],
-        plugins: [
-            globPlugins,
-            globThemes,
-            sassPlugin({
-                type: 'css-text',
-                async transform(source, resolveDir) {
-                    const { css } = await postcss([autoprefixer]).process(source);
-                    return css;
-                },
-            }),
-        ],
+        plugins: [...commonPlugins, sass],
     }),
     esbuild.build({
         ...commonOptions,
         entryPoints: ['src/js-patchers/iframe-patcher.js'],
         outfile: 'dist/js/iframe-patcher.js',
         external: ['patches'],
-        plugins: [
-            globPatches,
-            sassPlugin({
-                type: 'css-text',
-                async transform(source, resolveDir) {
-                    const { css } = await postcss([autoprefixer]).process(source);
-                    return css;
-                },
-            }),
-        ],
+        plugins: [globPatches, sass],
     }),
     esbuild.build({
         ...commonOptions,
         entryPoints: ['src/js-patchers/library-patcher.js'],
         outfile: 'dist/js/library-patcher.js',
         external: ['patches'],
-        plugins: [
-            globPatches,
-            sassPlugin({
-                type: 'css-text',
-                async transform(source, resolveDir) {
-                    const { css } = await postcss([autoprefixer]).process(source);
-                    return css;
-                },
-            }),
-        ],
+        plugins: [globPatches, sass],
     }),
 ]).catch((err) => {
     console.error('Build failed');
