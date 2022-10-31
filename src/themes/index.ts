@@ -26,7 +26,7 @@ export function startTheme(theme: Theme) {
                 if (!(popup.m_strName.startsWith('chat_') || popup.m_strName.startsWith('friendslist'))) return;
                 theme.styleIds.push(insertCss(theme.css, popup.window.document));
             };
-            cb.name = theme.name;
+            cb.themeName = theme.name;
             g_PopupManager.m_rgPopupCreatedCallbacks.push(cb);
 
             for (let [key, popup] of g_PopupManager.m_mapPopups.entries()) {
@@ -50,7 +50,7 @@ export function stopTheme(theme: Theme) {
     switch (theme.type) {
         case 'friend':
             if (!isFriendsUI()) return;
-            g_PopupManager.m_rgPopupCreatedCallbacks.filter((c: Function & { name: string }) => !(c.name === theme.name));
+            g_PopupManager.m_rgPopupCreatedCallbacks.filter((c: Function & { themeName: string }) => !(c.themeName === theme.name));
             for (let [key, popup] of g_PopupManager.m_mapPopups.entries()) {
                 if (!(key.startsWith('chat_') || key.startsWith('friendslist'))) continue;
                 for (let id of theme.styleIds) {
