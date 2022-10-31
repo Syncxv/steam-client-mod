@@ -22,9 +22,7 @@ pub fn wait_for_steam(system: &mut System) -> bool {
     let mut steam_found = false;
 
     while !steam_found {
-        println!("looking for steam");
-        system.refresh_all();
-        
+        println!("looking for steam"); 
 
         if is_steam_open(system) {
             steam_found = true;
