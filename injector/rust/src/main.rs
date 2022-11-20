@@ -1,7 +1,7 @@
 use sysinfo::{System, SystemExt};
 use std::{thread, time::Duration};
 use clap::Parser;
-use std::env;
+// use std::env;
 
 mod config;
 mod args;
@@ -33,7 +33,6 @@ use library::inject_library;
 
 
 fn main() {
-    println!("{}", env::current_dir().unwrap().to_str().unwrap());
     let args  = SteamedInjectorArgs::parse();
     match args.command {
         None => {

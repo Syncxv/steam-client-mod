@@ -46,12 +46,27 @@ pub fn is_steam_open(system: &mut System) -> bool {
 }
 
 pub fn execute_steam(steam_exe_path: &String) {
-    let output = Command::new(steam_exe_path)
-        .arg("-dev")
-        .spawn()
-        .expect("welp wrong steam path probably");
-    let steam_instance = output.stdout;
-    println!("{:?}", steam_instance);
+    let steam_exe_path = steam_exe_path.clone();
+    thread::spawn(|| {
+        let mut command = Command::new(steam_exe_path);
+        if let Ok(mut child) = command.arg("-dev").spawn() {
+            println!("starting steam");
+            child.wait().expect("command wasn't running");
+            println!("steam exited ong");
+        } else {
+            println!("ls command didn't start");
+        }
+    });
+
+    thread::spawn(|| {
+        let mut i = 0;
+        while i < 50000 {
+            println!("hi {}", i);
+            i = i + 1;
+            thread::sleep(Duration::from_millis(1000))
+        };
+    });
+    
 }
 
 
