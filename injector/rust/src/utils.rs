@@ -1,10 +1,11 @@
 //https://users.rust-lang.org/t/rusts-equivalent-of-cs-system-pause/4494/4
 use std::process::Command;
-use sysinfo::{ProcessExt, System, SystemExt};
 use std::{thread, time::Duration};
+use sysinfo::{ProcessExt, System, SystemExt};
 
 use std::io;
 use std::io::prelude::*;
+
 pub fn pause() {
     let mut stdin = io::stdin();
     let mut stdout = io::stdout();
@@ -17,12 +18,11 @@ pub fn pause() {
     let _ = stdin.read(&mut [0u8]).unwrap();
 }
 
-
 pub fn wait_for_steam(system: &mut System) -> bool {
     let mut steam_found = false;
 
     while !steam_found {
-        println!("looking for steam"); 
+        println!("looking for steam");
 
         if is_steam_open(system) {
             steam_found = true;
@@ -41,7 +41,7 @@ pub fn is_steam_open(system: &mut System) -> bool {
             println!("FOUND STEAM PROCESS {}:{}", pid, process.name());
             return true;
         }
-    };
+    }
     false
 }
 
@@ -57,18 +57,7 @@ pub fn execute_steam(steam_exe_path: &String) {
             println!("ls command didn't start");
         }
     });
-
-    thread::spawn(|| {
-        let mut i = 0;
-        while i < 50000 {
-            println!("hi {}", i);
-            i = i + 1;
-            thread::sleep(Duration::from_millis(1000))
-        };
-    });
-    
 }
-
 
 // pub fn execute_app(path: &String) {
 //     let output = Command::new(path)
@@ -78,5 +67,3 @@ pub fn execute_steam(steam_exe_path: &String) {
 //     let steam_instance = output.stdout;
 //     println!("{:?}", steam_instance);
 // }
-
-
