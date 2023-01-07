@@ -8,6 +8,7 @@
         "dev": "node scripts/build.mjs && yarn inject",
         "build": "node scripts/build.mjs",
         "build-injector": "cd injector/rust && cargo build --release && copy \".\\target\\release\\injector.exe\" \"../../injector.exe\"",
+        "build-injector-v2": "cd injector/rust2 && cargo build --release && copy \".\\target\\release\\injector.exe\" \"../../injector.exe\"",
         "inject": "./injector.exe inject \"C:\\Program Files (x86)\\Steam\"",
         "restore": "./injector.exe restore \"C:\\Program Files (x86)\\Steam\"",
         "new-bak": "./injector.exe create-backups \"C:\\Program Files (x86)\\Steam\"",
