@@ -1,10 +1,12 @@
 mod args;
+mod cmd;
 mod config;
 
-use std::collections::HashMap;
+use clap::Parser;
 
 use args::{Commands, SteamInjectorCli};
-use clap::Parser;
+
+use cmd::test::handle_test;
 
 fn main() {
     let steam_config = config::get_config();
@@ -18,9 +20,4 @@ fn main() {
             Commands::Test => handle_test(steam_config),
         },
     }
-}
-
-fn handle_test(steam_config: HashMap<String, String>) {
-    let what = steam_config.get("steam_path").unwrap();
-    println!("TEST GANG and steam path is {}", what);
 }
