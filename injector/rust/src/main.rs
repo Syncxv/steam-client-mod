@@ -1,5 +1,6 @@
 use clap::Parser;
 use std::io::stdin;
+use std::rc::Rc;
 use std::{thread, time::Duration};
 use sysinfo::{System, SystemExt};
 // use std::env;
@@ -58,9 +59,9 @@ fn test(arg_config: GenericSubCommand) {
         "{}",
         Config::join(&config.steam_client_ui, &["friends_web_ui", "DUDE.js"])
     );
-    thread::spawn(|| {
-        main_thigy().expect("well server failed");
-    });
+    // thread::spawn(|| {
+    //     main_thigy().expect("well server failed");
+    // });
 }
 
 fn handle_create_backup(arg_config: GenericSubCommand) {
@@ -123,8 +124,10 @@ fn handle_launch_steam(arg_config: LaunchSubCommand) {
 
     println!("{}", &config.steam_exe_path);
 
-    thread::spawn(|| {
-        main_thigy().expect("well server failed");
+    let bruh: Config = config.clone();
+
+    thread::spawn(move || {
+        main_thigy(Box::clone(&bruh)).expect("well server failed");
     });
 
     execute_steam(&config.steam_exe_path);
