@@ -76,9 +76,6 @@ pub fn inject_friend_javascript(
         code = iframe_patcher
     );
 
-    // steamed = steamed.replace("${", "\\${");
-    // let hehe = frist + &steamed.replace("`", "\\`") + second;
-
     steam_friend_js.replace_range(index..index, &patched);
 
     fs::write(&clientui.join("friends.js"), steam_friend_js).unwrap();
