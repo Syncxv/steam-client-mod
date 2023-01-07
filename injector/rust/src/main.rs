@@ -6,7 +6,7 @@ use clap::Parser;
 
 use args::{Commands, SteamInjectorCli};
 
-use cmd::friend::handle_friend_command;
+use cmd::friend::{handle_friend_command_patch, handle_friend_command_unpatch};
 use cmd::test::handle_test;
 
 fn main() {
@@ -19,7 +19,8 @@ fn main() {
         }
         Some(x) => match x {
             Commands::Test => handle_test(steam_config),
-            Commands::Friend => handle_friend_command(steam_config),
+            Commands::PatchFriend => handle_friend_command_patch(steam_config),
+            Commands::UnpatchFriend => handle_friend_command_unpatch(steam_config),
         },
     }
 }

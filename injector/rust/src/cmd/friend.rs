@@ -3,11 +3,16 @@ use std::env;
 use std::fs;
 use std::path::Path;
 use std::path::PathBuf;
-pub fn handle_friend_command(steam_config: HashMap<String, String>) {
-    inject_friend_javascript(steam_config).unwrap();
+
+pub fn handle_friend_command_unpatch(steam_config: HashMap<String, String>) {
+    unpatch_friends(steam_config)
 }
 
-pub fn inject_friend_javascript(
+pub fn handle_friend_command_patch(steam_config: HashMap<String, String>) {
+    patch_friend_javascript(steam_config).unwrap();
+}
+
+pub fn patch_friend_javascript(
     config: HashMap<String, String>,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let curr_dir = env::current_dir().unwrap().to_str().unwrap().to_string();
@@ -30,6 +35,7 @@ pub fn inject_friend_javascript(
         .join("dist")
         .join("js")
         .join("FriendClient.js");
+
     let steamed = fs::read_to_string(&steamed_path).unwrap();
     fs::write(clientui.join("steamed.js"), steamed).unwrap();
     println!("[Friends Injector] inserted steamed to clientui folder");
@@ -56,25 +62,14 @@ pub fn inject_friend_javascript(
     println!("[Friends Injector] injected js-injector into html");
 
     //patching friends.js :)
+    let patched = get_patch();
+
     let mut steam_friend_js =
         fs::read_to_string(&clientui.join("friends.js")).expect("FAILED TO GET STEAM_FRIEND_JS");
+
     let index: usize = steam_friend_js
         .find(r#"console.log('Loading chat from url: ', strURL);"#)
         .unwrap();
-
-    let iframe_patcher = fs::read_to_string(
-        Path::new(&curr_dir)
-            .join("dist")
-            .join("js")
-            .join("iframe-patcher.js"),
-    )
-    .expect("FAILED TO GET IFRAME PATCHER");
-    let steamed_react = "window.steamed = { Webpack: { Common: { React: __webpack_module_cache__['./node_modules/react/index.js'].exports,},},};";
-    let patched = &format!(
-        "{steamed}\nreturn {code}",
-        steamed = steamed_react,
-        code = iframe_patcher
-    );
 
     steam_friend_js.replace_range(index..index, &patched);
 
@@ -83,4 +78,41 @@ pub fn inject_friend_javascript(
     println!("[Friends Injector] injected steamed to friends and chat :D");
 
     return Ok(());
+}
+
+fn unpatch_friends(config: HashMap<String, String>) {
+    let binding = config.get("steam_path").unwrap();
+    let steam_path = Path::new(&binding);
+    let clientui = steam_path.join("clientui");
+    //patching friends.js :)
+
+    let patched = get_patch();
+
+    let steam_friend_js =
+        fs::read_to_string(&clientui.join("friends.js")).expect("FAILED TO GET STEAM_FRIEND_JS");
+
+    let steam_friend_js = steam_friend_js.replace(&patched, "");
+
+    fs::write(&clientui.join("friends.js"), steam_friend_js).unwrap();
+
+    println!("[Friends Injector] un patched friends.js :D");
+}
+
+fn get_patch() -> String {
+    let curr_dir = env::current_dir().unwrap().to_str().unwrap().to_string();
+    let iframe_patcher = fs::read_to_string(
+        Path::new(&curr_dir)
+            .join("dist")
+            .join("js")
+            .join("iframe-patcher.js"),
+    )
+    .expect("FAILED TO GET IFRAME PATCHER");
+    let steamed_react = "window.steamed = { Webpack: { Common: { React: __webpack_module_cache__['./node_modules/react/index.js'].exports,},},};";
+
+    let patched = format!(
+        "{window_steamed}\nreturn {code}",
+        window_steamed = steamed_react,
+        code = iframe_patcher
+    );
+    patched
 }

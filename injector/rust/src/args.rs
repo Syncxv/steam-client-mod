@@ -12,6 +12,9 @@ pub enum Commands {
     /// does testing things
     Test,
 
-    // Injects to friends ui
-    Friend,
+    /// Patches to friends ui
+    PatchFriend,
+
+    /// UnPatches from friends
+    UnpatchFriend,
 }
