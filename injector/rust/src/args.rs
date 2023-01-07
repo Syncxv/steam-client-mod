@@ -11,4 +11,7 @@ pub struct SteamInjectorCli {
 pub enum Commands {
     /// does testing things
     Test,
+
+    // Injects to friends ui
+    Friend,
 }
