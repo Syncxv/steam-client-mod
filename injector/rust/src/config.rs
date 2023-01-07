@@ -1,63 +1,17 @@
-use crate::args::LaunchSubCommand;
+use config::Config;
+use std::collections::HashMap;
 
-use std::env;
-#[derive(Debug, Clone)]
-pub struct Config {
-    pub steam_exe_path: String,
-    pub steam_path: String,
-    pub steam_client_ui: String,
-    pub steam_friend_js: String,
-    pub steam_friend_index_html: String,
-    pub steamed: String,
-    pub steamed_friend_client: String,
-    pub steamed_library_client: String,
-    pub steam_library_index_html: String,
-    pub steam_ui: String,
-    pub timeout: u64,
-}
+pub fn get_config() -> HashMap<std::string::String, std::string::String> {
+    let settings = Config::builder()
+        // Add in `./Settings.toml`
+        .add_source(config::File::with_name("config.toml"))
+        // Add in settings from the environment (with a prefix of APP)
+        // Eg.. `APP_DEBUG=1 ./target/app` would set the `debug` key
+        .add_source(config::Environment::with_prefix("APP"))
+        .build()
+        .unwrap();
 
-impl Config {
-    pub fn new(steam_path: &String, steamed: Option<String>) -> Self {
-        let steam_exe_path = steam_path.clone() + "\\steam.exe";
-
-        //friends paths
-        let steam_client_ui = steam_path.clone() + "\\clientui";
-        let steam_friend_js = steam_client_ui.to_string() + "\\friends.js";
-        let steam_friend_index_html = steam_client_ui.to_string() + "\\index_friends.html";
-
-        //library pahts
-        let steam_ui = steam_path.clone() + "\\steamui";
-        let steam_library_index_html = steam_ui.to_string() + "\\index.html";
-
-        //steamed paths
-        let steamed = match steamed {
-            Some(x) => x,
-            None => env::current_dir().unwrap().to_str().unwrap().to_string(),
-        };
-        let steamed_friend_client = (&steamed).to_string() + "\\dist\\js\\FriendClient.js";
-        let steamed_library_client = (&steamed).to_string() + "\\dist\\js\\LibraryClient.js";
-        return Config {
-            steam_ui,
-            steam_library_index_html,
-            steamed,
-            steamed_friend_client,
-            steamed_library_client,
-            steam_exe_path: steam_exe_path.to_string(),
-            steam_client_ui,
-            steam_friend_js,
-            timeout: 5000,
-            steam_path: steam_path.clone(),
-            steam_friend_index_html,
-        };
-    }
-
-    pub fn new_launch(clap_config: LaunchSubCommand) -> Self {
-        let mut what = Config::new(&clap_config.steam_path, None);
-        what.timeout = clap_config.timeout;
-        what
-    }
-
-    pub fn join(str1: &String, str2: &[&str]) -> String {
-        return str1.clone() + "\\" + &str2.join("\\");
-    }
+    settings
+        .try_deserialize::<HashMap<String, String>>()
+        .unwrap()
 }
