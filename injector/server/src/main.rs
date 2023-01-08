@@ -1,5 +1,7 @@
 mod config;
+use std::env;
 use std::io::stdin;
+use std::process::Stdio;
 use std::time::Duration;
 use std::{path::Path, process::Command, thread};
 use sysinfo::{ProcessExt, System, SystemExt};
@@ -32,16 +34,31 @@ pub fn wait_for_steam(system: &mut System) -> bool {
 }
 
 fn main() {
-    let stem_config = config::get_config();
-    let steam_exe_path = Path::new(stem_config.get("steam_path").unwrap()).join("steam.exe");
-    let mut system = System::new_all();
     thread::spawn(move || {
-        let mut command = Command::new(steam_exe_path);
+        let stem_config = config::get_config();
+        let what = stem_config.get("steam_path").unwrap();
+        let steam_path = Path::new(&what);
+        let steam_exe_path = steam_path.join("steam.exe");
+        let curr_dir = env::current_dir().unwrap().to_str().unwrap().to_string();
+        let mut system = System::new_all();
+
+        let mut command = Command::new(&steam_exe_path);
         if let Ok(mut _child) = command.arg("-dev").spawn() {
             println!("starting steam");
             wait_for_steam(&mut system);
 
             println!("OK NOW WE CAN INJECT");
+
+            let mut command = Command::new(Path::new(&curr_dir).join("injector.exe"));
+            command.arg("patch-friend");
+            command.spawn().unwrap();
+
+            let mut command = Command::new(Path::new(&steam_path));
+            let mut child = command.stdin(Stdio::null()).spawn().unwrap();
+
+            let exit_status = child.wait().unwrap();
+
+            println!("steamwebhelper.exe has exited with status {}", exit_status);
         } else {
             println!("steam didnt start");
         }

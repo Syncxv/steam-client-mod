@@ -84,7 +84,8 @@ fn unpatch_friends(config: HashMap<String, String>) {
     let binding = config.get("steam_path").unwrap();
     let steam_path = Path::new(&binding);
     let clientui = steam_path.join("clientui");
-    //patching friends.js :)
+    let steam_friend_index_html = clientui.join("index_friends.html");
+    //unpatching friends.js :)
 
     let patched = get_patch();
 
@@ -96,6 +97,16 @@ fn unpatch_friends(config: HashMap<String, String>) {
     fs::write(&clientui.join("friends.js"), steam_friend_js).unwrap();
 
     println!("[Friends Injector] un patched friends.js :D");
+
+    let index_html =
+        fs::read_to_string(&steam_friend_index_html).expect("FAILED TO READ FRIEND INDEX HTML");
+
+    let replace_str = "\n\n\t\t<script src=\"bruh.js\"> </script>\n<meta http-equiv=\"Content-Security-Policy\" content=\"upgrade-insecure-requests\">\n";
+
+    let original = index_html.replace(replace_str, "");
+    fs::write(&steam_friend_index_html, original).expect("FAILED TO REVERT HTML");
+
+    println!("[Friends Injector] un patched friends index html :D");
 }
 
 fn get_patch() -> String {
