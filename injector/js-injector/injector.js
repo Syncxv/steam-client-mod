@@ -19,7 +19,6 @@ function iframeURLChange(iframe, callback) {
 }
 
 const main = async () => {
-    console.log(document.currentScript);
     document.currentScript.src = 'hehehe';
     const steamedDist = await (await fetch('./steamed.js')).text();
     // eval(await (await fetch('https://code.jquery.com/jquery-3.6.1.min.js')).text());

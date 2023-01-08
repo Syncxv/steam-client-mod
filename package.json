@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "watch": "tsc -w",
-        "dev": "node scripts/build.mjs && yarn inject",
+        "dev": "node scripts/build.mjs && pnpm inject",
         "build": "node scripts/build.mjs",
         "build-injector": "cd injector/rust && cargo build --release && copy \"..\\target\\release\\injector.exe\" \"../../injector.exe\"",
         "build-injector:dev": "cd injector/rust && cargo build && copy \"..\\target\\release\\injector.exe\" \"../../injector.exe\"",
@@ -15,7 +15,7 @@
         "new-bak": "./injector.exe create-backups \"C:\\Program Files (x86)\\Steam\"",
         "del-bak": "./injector.exe delete-backups \"C:\\Program Files (x86)\\Steam\"",
         "inj-test": "./injector.exe test \"C:\\Program Files (x86)\\Steam\"",
-        "launch-steam": "injector.exe launch \"C:\\Program Files (x86)\\Steam\" 10000"
+        "launch-steam": "node scripts/build.mjs && server.exe"
     },
     "repository": {
         "type": "git",

@@ -1,7 +1,8 @@
 mod config;
+mod server;
+
 use std::env;
 use std::io::stdin;
-use std::process::Stdio;
 use std::time::Duration;
 use std::{path::Path, process::Command, thread};
 use sysinfo::{ProcessExt, System, SystemExt};
@@ -53,14 +54,9 @@ fn main() {
             command.arg("patch-friend");
             command.spawn().unwrap();
 
-            let mut command = Command::new(Path::new(&steam_path));
-            let mut child = command.stdin(Stdio::null()).spawn().unwrap();
-
-            let exit_status = child.wait().unwrap();
-
-            println!("steamwebhelper.exe has exited with status {}", exit_status);
+            server::server_main().expect("server failed eh");
         } else {
-            println!("steam didnt start");
+            println!("steam didnt start")
         }
     });
     println!("Hello, world!");
