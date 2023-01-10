@@ -10,11 +10,8 @@
         "build-injector": "cd injector/rust && cargo build --release && copy \"..\\target\\release\\injector.exe\" \"../../injector.exe\"",
         "build-injector:dev": "cd injector/rust && cargo build && copy \"..\\target\\release\\injector.exe\" \"../../injector.exe\"",
         "build-server": "cd injector/server && cargo build --release && copy \"..\\target\\release\\server.exe\" \"../../server.exe\"",
-        "inject": "./injector.exe inject \"C:\\Program Files (x86)\\Steam\"",
-        "restore": "./injector.exe restore \"C:\\Program Files (x86)\\Steam\"",
-        "new-bak": "./injector.exe create-backups \"C:\\Program Files (x86)\\Steam\"",
-        "del-bak": "./injector.exe delete-backups \"C:\\Program Files (x86)\\Steam\"",
-        "inj-test": "./injector.exe test \"C:\\Program Files (x86)\\Steam\"",
+        "inject": "injector.exe patch-friend",
+        "restore": "injector.exe unpatch-friend",
         "launch-steam": "node scripts/build.mjs && server.exe"
     },
     "repository": {
