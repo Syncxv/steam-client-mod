@@ -28,6 +28,7 @@
     "dependencies": {
         "@babel/runtime": "^7.18.9",
         "debundle": "^0.5.4",
+        "postcss": "^8.4.21",
         "windows-app": "^2.0.0"
     },
     "devDependencies": {
