@@ -29,6 +29,8 @@ const main = async() => {
         goodWindow.steamedDist = steamedDist;
         goodWindow.reload = () => location.reload();
         goodWindow.eval(steamedDist);
+        fetch("http://localhost:8080/shutdown")
+
     });
 };
 
