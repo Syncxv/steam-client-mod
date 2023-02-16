@@ -3,6 +3,7 @@ mod server;
 
 use std::env;
 use std::io::stdin;
+use std::process::exit;
 use std::time::Duration;
 use std::{path::Path, process::Command, thread};
 use sysinfo::{ProcessExt, System, SystemExt};
@@ -42,6 +43,12 @@ fn main() {
         let steam_exe_path = steam_path.join("steam.exe");
         let curr_dir = env::current_dir().unwrap().to_str().unwrap().to_string();
         let mut system = System::new_all();
+
+        if is_steam_open(&mut system) {
+            println!("steam is open pls close it thanks");
+            thread::sleep(Duration::from_secs(10));
+            exit(1);
+        }
 
         let mut command = Command::new(&steam_exe_path);
         if let Ok(mut _child) = command.arg("-dev").spawn() {

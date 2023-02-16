@@ -5,4 +5,4 @@ export enum AutoCompleteTypes {
     Emoji = 2,
 }
 
-export const WEBPACK_CHUNK = isFriendsUI() ? 'webpackChunkfriendsui' : 'webpackChunksteamui';
+export const WEBPACK_CHUNK = isFriendsUI() ? 'webpackChunk_steam_friendsui' : 'webpackChunksteamui';
