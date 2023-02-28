@@ -9035,7 +9035,7 @@ export const emojiObj = {
 		category: 'f',
 		order: '2240'
 	},
-	Curaçao: {
+	'curaco flag': {
 		emoji: '🇨🇼',
 		name: 'Curaçao',
 		shortname: ':flag-cw:',
