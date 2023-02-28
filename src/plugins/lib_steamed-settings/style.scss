@@ -1,36 +1,36 @@
 .steamedDrop {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 0.25rem;
-    background-color: rgb(35, 35, 35);
-    border-top-left-radius: 20px;
-    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
-    cursor: pointer;
-    .cooldropdown {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
-    }
-    &.cool {
-        transform: translateY(-5rem);
-        .cooldropdown {
-            transform: rotate(180deg);
-        }
-    }
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	padding: 0.25rem;
+	background-color: rgb(35, 35, 35);
+	border-top-left-radius: 20px;
+	transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+	cursor: pointer;
+	.cooldropdown {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+	}
+	&.cool {
+		transform: translateY(-5rem);
+		.cooldropdown {
+			transform: rotate(180deg);
+		}
+	}
 }
 .contents {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    height: 5rem;
-    background-color: rgb(35, 35, 35);
-    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
-    transform: translateY(5rem);
-    &.show {
-        transform: translateY(0px);
-    }
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+	height: 5rem;
+	background-color: rgb(35, 35, 35);
+	transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+	transform: translateY(5rem);
+	&.show {
+		transform: translateY(0px);
+	}
 }

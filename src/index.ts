@@ -1,4 +1,4 @@
-import * as steamed from './steamed';
-window.steamed = steamed;
+import * as steamed from './steamed'
+window.steamed = steamed
 
-steamed.init();
+steamed.init()

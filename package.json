@@ -12,7 +12,8 @@
         "build-server": "cd injector/server && cargo build --release && copy \"..\\target\\release\\server.exe\" \"../../server.exe\"",
         "inject": "injector.exe patch-friend",
         "restore": "injector.exe unpatch-friend",
-        "launch-steam": "node scripts/build.mjs && server.exe"
+        "launch-steam": "node scripts/build.mjs && server.exe",
+        "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,html}\""
     },
     "repository": {
         "type": "git",
@@ -45,6 +46,7 @@
         "discord-types": "^1.3.26",
         "esbuild": "^0.15.11",
         "esbuild-sass-plugin": "^2.4.0",
+        "prettier": "^2.8.4",
         "react-dom": "^18.2.0",
         "swc-loader": "^0.2.3",
         "ts-loader": "^9.3.1",

@@ -1,3 +1,3 @@
 module.exports = {
-    util: require('./util'),
-};
+	util: require('./util')
+}
