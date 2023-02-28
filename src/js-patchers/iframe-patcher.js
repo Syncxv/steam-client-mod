@@ -21,16 +21,16 @@ console.log('Patches FRIEND :O ', Patches)
 	let [_, cacheVar] = cooleo.match(/,(.{1,2})={};function/)
 	cooleo = cooleo.replace(/(,(.{1,2})\.amdO=)/, `,$2.c=${cacheVar}$1`)
 
-	for (const [key, patches] of Object.entries(Patches)) {
+	for (const [pluginName, patches] of Object.entries(Patches)) {
 		console.log(patches)
 		if (
-			JSON.parse(localStorage.getItem('steamed_disabled_plugins') ?? '[]').includes(key) ||
+			JSON.parse(localStorage.getItem('steamed_disabled_plugins') ?? '[]').includes(pluginName) ||
 			!patches
 		)
 			continue
 		for (const patch of patches) {
-			if (patch.predicate == null || patch.predicate)
-				cooleo = cooleo.replace(patch.match, processPatch(patch.replace))
+			if ((patch.predicate == null || patch.predicate) && patch.match && patch.replace)
+				cooleo = cooleo.replace(patch.match, processPatch(patch.replace, pluginName))
 		}
 	}
 	window.cooleo = cooleo

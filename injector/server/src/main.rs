@@ -55,7 +55,9 @@ fn main() {
             println!("starting steam\nunpatching just in case\n");
             let mut command = Command::new(Path::new(&curr_dir).join("injector.exe"));
             command.arg("unpatch-friend");
-            command.spawn().unwrap();
+            let mut child = command.spawn().unwrap();
+            child.wait().unwrap();
+
             wait_for_steam(&mut system);
 
             println!("OK NOW WE CAN INJECT");

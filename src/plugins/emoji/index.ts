@@ -21,7 +21,7 @@ export default definePlugin({
 
 		{
 			match: /(OnEmoticonSuggestionSelected\(.{1,4}\){)/,
-			replace: '$1$self.onEmoticonSuggestionSelected(this, e);'
+			replace: '$1if($self.onEmoticonSuggestionSelected(this, e)) return;'
 		},
 		{
 			match: /(OnEmoticonSelected\(.{1,6}\){)/,
@@ -33,11 +33,13 @@ export default definePlugin({
 		}
 	],
 
-	onEmoticonSuggestionSelected(_this: any, emoji: any) {
+	onEmoticonSuggestionSelected(_this: any, emoji: string) {
 		if (emoji && window.emojiObj[emoji]) {
 			_this.FocusTextInput()
-			return _this.ReplaceSuggestedText(':', window.emojiObj[emoji].emoji, undefined, true)
+			_this.ReplaceSuggestedText(':', window.emojiObj[emoji].emoji, undefined, true)
+			return true
 		}
+		return false
 	},
 
 	async start() {
