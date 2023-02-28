@@ -22,11 +22,15 @@ export default definePlugin({
 		{
 			match: /(OnEmoticonSuggestionSelected\(.{1,4}\){)/,
 			replace:
-				'$1if(arguments[1] && emojiObj[arguments[1]]) { return t || this.FocusTextInput(), this.ReplaceSuggestedText(":", emojiObj[arguments[1]].emoji) };'
+				'$1if(arguments[1] && emojiObj[arguments[1]]) { return t || this.FocusTextInput(), this.ReplaceSuggestedText(":", emojiObj[arguments[1]].emoji, undefined, true) };'
 		},
 		{
 			match: /(OnEmoticonSelected\(.{1,6}\){)/,
 			replace: '$1if(emojiObj[e]) {  return this.InsertAtCursor(emojiObj[e].emoji) };'
+		},
+		{
+			match: /(ReplaceSuggestedText\(.{1,20}\){.{1,350})&&(\(.{1,10}\))/,
+			replace: '$1&&!arguments[3]&&$2'
 		}
 	],
 
