@@ -5,7 +5,7 @@
         "jsxFragmentFactory": "window.steamed.Webpack.Common.React.Fragment",
         "target": "es6",
         "module": "commonjs",
-        "lib": ["dom", "es6", "es2017", "esnext.asynciterable"],
+        "lib": ["dom", "es6", "es2021", "esnext.asynciterable"],
         "skipLibCheck": true,
         "sourceMap": true,
         "outDir": "./dist",

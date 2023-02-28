@@ -3,6 +3,7 @@
 
 import { createElement } from '../modules/util'
 import Patches from 'patches'
+import { processPatch } from 'steamed/util/patches';
 console.log('Patches FRIEND :O ', Patches)
 ;(async () => {
 	const parser = new DOMParser()
@@ -29,7 +30,7 @@ console.log('Patches FRIEND :O ', Patches)
 			continue
 		for (const patch of patches) {
 			if (patch.predicate == null || patch.predicate)
-				cooleo = cooleo.replace(patch.match, patch.replace)
+				cooleo = cooleo.replace(patch.match, processPatch(patch.replace))
 		}
 	}
 	window.cooleo = cooleo
