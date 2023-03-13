@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "watch": "tsc -w",
-        "dev": "node scripts/build.mjs && pnpm inject",
+        "dev": "node scripts/build.mjs && pnpm restore && pnpm inject",
         "build": "node scripts/build.mjs",
         "build-injector": "cd injector/rust && cargo build --release && copy \"..\\target\\release\\injector.exe\" \"../../injector.exe\"",
         "build-injector:dev": "cd injector/rust && cargo build && copy \"..\\target\\release\\injector.exe\" \"../../injector.exe\"",
@@ -40,6 +40,7 @@
         "@babel/preset-typescript": "^7.18.6",
         "@swc/core": "^1.3.4",
         "@types/node": "^18.7.14",
+        "@types/react": "^18.0.28",
         "@types/react-dom": "^18.0.7",
         "autoprefixer": "^10.4.12",
         "babel-loader": "^8.2.5",

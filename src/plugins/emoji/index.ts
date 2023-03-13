@@ -16,16 +16,18 @@ export default definePlugin({
 				/(GetEmoticonURL\(.{1,4}\);return.{1,4}\.createElement.{1,150})(.{1,2}\(\)\.createElement\("img".{1,250}\),)/,
 			// match: /(GetEmoticonURL\(.{1,4}\);return.{1,4}\.createElement.{1,150})(.{1,2}\(\)\.createElement\("img",.{1,50}className:(\(.{1,50}\))).{1,250}\)\),/,
 			replace:
-				'$1emojiObj[e] != null ?  steamed.Webpack.Common.React.createElement("div", {className:"cool"}, emojiObj[e].emoji) : $2'
+				'$1emojiObj[arguments[0]] != null ?  steamed.Webpack.Common.React.createElement("div", {className:"cool"}, emojiObj[arguments[0]].emoji) : $2'
 		},
 
 		{
 			match: /(OnEmoticonSuggestionSelected\(.{1,4}\){)/,
-			replace: '$1if($self.onEmoticonSuggestionSelected(this, e)) return;'
+			replace: '$1if($self.onEmoticonSuggestionSelected(this, arguments[1])) return;'
 		},
+		// emoji picker (not autocomplete)
 		{
 			match: /(OnEmoticonSelected\(.{1,6}\){)/,
-			replace: '$1if(emojiObj[e]) {  return this.InsertAtCursor(emojiObj[e].emoji) };'
+			replace:
+				'$1if(emojiObj[arguments[0]]) {  return this.InsertAtCursor(emojiObj[arguments[0]].emoji) };'
 		},
 		{
 			match: /(ReplaceSuggestedText\(.{1,20}\){.{1,350})&&(\(.{1,10}\))/,
