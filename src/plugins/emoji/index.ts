@@ -16,7 +16,7 @@ export default definePlugin({
 				/(GetEmoticonURL\(.{1,4}\);return.{1,4}\.createElement.{1,150})(.{1,2}\(\)\.createElement\("img".{1,250}\),)/,
 			// match: /(GetEmoticonURL\(.{1,4}\);return.{1,4}\.createElement.{1,150})(.{1,2}\(\)\.createElement\("img",.{1,50}className:(\(.{1,50}\))).{1,250}\)\),/,
 			replace:
-				'$1emojiObj[arguments[0]] != null ?  steamed.Webpack.Common.React.createElement("div", {className:"cool"}, emojiObj[arguments[0]].emoji) : $2'
+				'$1emojiObj[this.props.emoticon] != null ?  steamed.Webpack.Common.React.createElement("div", {className:"cool"}, emojiObj[this.props.emoticon].emoji) : $2'
 		},
 
 		{
