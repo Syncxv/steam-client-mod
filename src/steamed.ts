@@ -15,21 +15,20 @@ import { startAllThemes } from './themes'
 import { _initWebpack } from './webpack'
 import { isFriendsUI } from './util/isFriendsUi'
 import { WEBPACK_CHUNK } from './constants'
+import { waitFor } from './util/waitFor'
 
 export async function init() {
 	if (isFriendsUI()) {
-		function wait() {
-			if (!window?.g_FriendsUIApp?.ready_to_render) {
-				setTimeout(wait, 1)
-			} else {
+		return waitFor(
+			() => window?.g_FriendsUIApp?.ready_to_render,
+			() => {
 				console.log('READY')
 				// g_PopupManager.m_rgShutdownCallbacks.push(() => fetch('http://localhost:8080/shutdown'))
 				_initWebpack(window[WEBPACK_CHUNK])
 				startAllThemes()
 				startAllPlugins()
 			}
-		}
-		return wait()
+		)
 	}
 
 	_initWebpack(window[WEBPACK_CHUNK])

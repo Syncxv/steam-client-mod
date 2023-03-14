@@ -1,11 +1,7 @@
-import { sleep } from './sleep'
-
-export const waitFor = async (querySelector: string, _document = window.document) => {
-	let elem
-
-	while (!(elem = _document.querySelector(querySelector))) {
-		await sleep(1)
+export const waitFor = (condition: () => boolean, cb: () => void) => {
+	if (condition()) {
+		cb()
+	} else {
+		setTimeout(() => waitFor(condition, cb), 1)
 	}
-
-	return elem
 }

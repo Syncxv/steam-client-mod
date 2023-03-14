@@ -1,5 +1,6 @@
 import { definePlugin } from 'src/util'
 import { emojiObj } from './emojiObjs'
+import { waitFor } from '../../util/waitFor'
 
 export default definePlugin({
 	name: 'EmojiStuff',
@@ -46,25 +47,24 @@ export default definePlugin({
 
 	async start() {
 		window.emojiObj = emojiObj
-		function wait(): any {
-			if (
-				!g_FriendsUIApp.ChatStore.EmoticonStore.BInitialized() ||
-				!g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons.length
-			) {
-				return setTimeout(wait, 1)
+		waitFor(
+			() =>
+				g_FriendsUIApp.ChatStore.EmoticonStore.BInitialized() &&
+				g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons.length,
+
+			() => {
+				console.log('READY?', g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons)
+				g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons =
+					g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons.concat(
+						Object.values(emojiObj).map((e) => ({
+							name: e.name,
+							last_used: 1663606897,
+							use_count: 1,
+							is_steamed: true
+						}))
+					)
 			}
-			console.log('READY?', g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons)
-			g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons =
-				g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons.concat(
-					Object.values(emojiObj).map((e) => ({
-						name: e.name,
-						last_used: 1663606897,
-						use_count: 1,
-						is_steamed: true
-					}))
-				)
-		}
-		wait()
+		)
 	},
 
 	stop() {
