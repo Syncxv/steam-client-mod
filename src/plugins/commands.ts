@@ -1,4 +1,4 @@
-import { definePlugin } from 'steamed/util'
+import { definePlugin } from 'src/util'
 
 export default definePlugin({
 	name: 'CommandsExecutor',

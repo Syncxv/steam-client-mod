@@ -1,4 +1,4 @@
-import { isFriendsUI } from './modules/util/isFriendsUi'
+import { isFriendsUI } from './util/isFriendsUi'
 
 export enum AutoCompleteTypes {
 	Command = 1,

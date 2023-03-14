@@ -1,4 +1,4 @@
-import { defineTheme } from '../../modules/util/defineTheme'
+import { defineTheme } from '../../util/defineTheme'
 import css from './theme.css'
 
 export default defineTheme({

@@ -11032,5 +11032,10 @@ export const emojiObj = {
 		html: '9&#8419;',
 		category: 's',
 		order: '2117'
+	},
+	sus: {
+		emoji: 'https://cdn.discordapp.com/emojis/1011000732402589886.webp?size=48&quality=lossless',
+		name: 'sus',
+		shortname: ':sus:'
 	}
 }

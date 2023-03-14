@@ -1,4 +1,4 @@
-import type { WebpackInstance } from '../../types'
+import type { WebpackInstance } from '../types'
 import { initComponents } from '../components'
 import { initCommon } from './common'
 // import { proxyLazy } from "../utils/proxyLazy";

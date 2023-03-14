@@ -1,4 +1,4 @@
-import { definePlugin } from 'steamed/util'
+import { definePlugin } from 'src/util'
 import { emojiObj } from './emojiObjs'
 
 export default definePlugin({

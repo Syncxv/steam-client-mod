@@ -1,4 +1,4 @@
-import { SwitchItem } from '../../../modules/components'
+import { SwitchItem } from '../../../components'
 import { Theme } from '../../../types'
 
 export const Settings: React.FC<{ themes: Theme[] }> = ({ themes }) => {
