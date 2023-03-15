@@ -51,7 +51,7 @@ fn main() {
         }
 
         let mut command = Command::new(&steam_exe_path);
-        if let Ok(mut _child) = command.arg("-dev").spawn() {
+        if let Ok(mut _child) = command.arg("-dev").arg("-noverifyfiles").spawn() {
             println!("starting steam\nunpatching just in case\n");
             let mut command = Command::new(Path::new(&curr_dir).join("injector.exe"));
             command.arg("unpatch-friend");
