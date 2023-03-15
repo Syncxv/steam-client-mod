@@ -4,7 +4,7 @@ console.log('Patches LIB :O ', Patches)
 const main = async () => {
 	let libCooleo = await (await fetch('./library.js')).text()
 
-	let [_, cacheVar] = libCooleo.match(/,(.{1,2})={};function/)
+	const [_, cacheVar] = libCooleo.match(/,(.{1,2})={};function/)
 	libCooleo = libCooleo.replace(/(r\.exports})((.{1,2})\..{1,2}=.{1,2})/, `$1$3.c=${cacheVar};$2`)
 
 	for (const [key, patches] of Object.entries(Patches)) {
@@ -21,14 +21,14 @@ const main = async () => {
 
 	window.libCooleo = libCooleo
 
-	let jsBlob = new Blob([libCooleo], { type: 'text/javascript' })
-	let jsUrl = URL.createObjectURL(jsBlob)
+	const jsBlob = new Blob([libCooleo], { type: 'text/javascript' })
+	const jsUrl = URL.createObjectURL(jsBlob)
 
-	let script = document.createElement('script')
+	const script = document.createElement('script')
 	script.src = jsUrl
 
 	document.head.appendChild(script)
-	let lib = await (await fetch('./lib-client.js')).text()
+	const lib = await (await fetch('./lib-client.js')).text()
 	eval(lib)
 }
 

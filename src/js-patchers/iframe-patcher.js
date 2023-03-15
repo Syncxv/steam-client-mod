@@ -18,7 +18,7 @@ console.log('Patches FRIEND :O ', Patches)
 	let cooleo = await (await fetch('friends_web_ui.js')).text()
 
 	//expose cached webpack modules
-	let [_, cacheVar] = cooleo.match(/,(.{1,2})={};function/)
+	const [_, cacheVar] = cooleo.match(/,(.{1,2})={};function/)
 	cooleo = cooleo.replace(/(,(.{1,2})\.amdO=)/, `,$2.c=${cacheVar}$1`)
 
 	for (const [pluginName, patches] of Object.entries(Patches)) {
@@ -36,7 +36,7 @@ console.log('Patches FRIEND :O ', Patches)
 	window.cooleo = cooleo
 
 	//convert js to blob for better dev expeirence ig
-	let jsBlob = new Blob(
+	const jsBlob = new Blob(
 		[
 			//without this webpack throws error saying public path aint supported or something idk
 			"document.currentScript.src = 'https://community.cloudflare.steamstatic.com/public/javascript/webui/friends.js?v=iXbT9rmgxoRc&l=english&_cdn=cloudflare';" +
@@ -44,13 +44,13 @@ console.log('Patches FRIEND :O ', Patches)
 		],
 		{ type: 'text/javascript' }
 	)
-	let jsUrl = URL.createObjectURL(jsBlob)
+	const jsUrl = URL.createObjectURL(jsBlob)
 
 	//re add the fukinn thingy
 	HTML.head.appendChild(createElement(`<script src="${jsUrl}"> </script>`))
 	//convert html to blob url and set strURL to it
-	let blob = new Blob([HTML.documentElement.innerHTML], { type: 'text/html' })
-	let url = URL.createObjectURL(blob)
+	const blob = new Blob([HTML.documentElement.innerHTML], { type: 'text/html' })
+	const url = URL.createObjectURL(blob)
 	strURL = url
 	g_strFrameURL = url
 
@@ -59,7 +59,7 @@ console.log('Patches FRIEND :O ', Patches)
 	if (g_hLoadIframe !== undefined) clearTimeout(g_hLoadIframe)
 	g_hLoadIframe = setTimeout(LoadFrameTimeout, 15000)
 
-	let iframe = document.getElementById(g_strFrame)
+	const iframe = document.getElementById(g_strFrame)
 	iframe.src = strURL
 
 	//gg ez we injected
