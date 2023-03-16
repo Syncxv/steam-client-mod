@@ -25,7 +25,7 @@ export default definePlugin({
 			}
 		}
 		bruh.id = this.id
-		g_PopupManager.m_rgPopupCreatedCallbacks.push(bruh)
+		g_PopupManager.m_rgPopupCreatedCallbacks.push(bruh as unknown as () => void)
 		// this.bruhs = [...g_PopupManager.GetPopups()].map((m) => insertCss(css, m.window.document));
 	},
 
