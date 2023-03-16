@@ -1,6 +1,8 @@
 import type { WebpackInstance } from '@types'
 import { initComponents } from '@components'
-import { initCommon } from '@webpack/common'
+// import { initCommon } from '@webpack/common'
+import { proxyLazy } from '@utils/proxyLazy'
+import { initCommon } from './common'
 // import { proxyLazy } from "../utils/proxyLazy";
 export type CallbackFn = (mod: any) => void
 
@@ -131,19 +133,25 @@ export function mapMangledModule<S extends string>(
 	return exports
 }
 
-/**
- * Same as {@link mapMangledModule} but lazy
- */
-//  export function mapMangledModuleLazy<S extends string>(code: string, mappers: Record<S, FilterFn>): Record<S, any> {
-//      return proxyLazy(() => mapMangledModule(code, mappers));
-//  }
-
 export function findByProps(...props: string[]) {
 	return find(filters.byProps(props))
 }
 
+/**
+ * find but lazy
+ */
+export function findLazy(filter: FilterFn, getDefault = true) {
+	return proxyLazy(() => find(filter, getDefault))
+}
+
 export function findAllByProps(...props: string[]) {
 	return findAll(filters.byProps(props))
+}
+/**
+ * findByProps but lazy
+ */
+export function findByPropsLazy(...props: string[]) {
+	return findLazy(filters.byProps([...props]))
 }
 
 export function findByDisplayName(deezNuts: string) {

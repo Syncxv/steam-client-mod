@@ -1,4 +1,4 @@
-import { Section } from '../api/settings/PluginSections'
+import { Section } from '@api/settings/PluginSections'
 
 export type { defualt as WebpackInstance } from './WebpackInstance'
 export interface Command {

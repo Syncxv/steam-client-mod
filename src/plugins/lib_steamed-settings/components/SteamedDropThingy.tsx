@@ -1,5 +1,7 @@
+import { openPopout, React, useState } from '@webpack/common'
+
 export const DropThingy: React.FC<{}> = ({}) => {
-	const [isOpen, setOpen] = steamed.Webpack.Common.React.useState(false)
+	const [isOpen, setOpen] = useState(false)
 	return (
 		<>
 			<div
@@ -29,16 +31,11 @@ export const DropThingy: React.FC<{}> = ({}) => {
 			<div className={`contents ${isOpen ? 'show' : 'hide'}`}>
 				<button
 					onClick={() =>
-						steamed.Webpack.Common.openPopout(
-							steamed.Webpack.Common.React.createElement('div', {}, 'hi'),
-							window,
-							'hehe',
-							{
-								strTitle: 'hi',
-								popupWidth: 842,
-								popupHeight: 720
-							}
-						)
+						openPopout(React.createElement('div', {}, 'hi'), {
+							strTitle: 'hi',
+							popupWidth: 842,
+							popupHeight: 720
+						})
 					}
 					style={{ width: '200px' }}
 					className={`DialogButton _DialogLayout Secondary Focusable`}
