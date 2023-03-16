@@ -1,8 +1,8 @@
 import Themes from 'themes'
-import { Theme } from '../types'
+import { Theme } from '@types'
 import { Settings } from '../steamed'
-import { insertCss } from '../utils'
-import { isFriendsUI } from '../utils/isFriendsUi'
+import { insertCss } from '@utils'
+import { isFriendsUI } from '@utils/isFriendsUi'
 export const themes = Themes
 
 export const isThemeEnabled = (theme: Theme) =>
