@@ -1,3 +1,4 @@
+import { TPopup } from '@src/types/global'
 import { insertCss, definePlugin } from '@utils'
 import { Devs } from '@utils/constants'
 import { getRandomId } from '@utils/getRandomId'
@@ -19,14 +20,14 @@ export default definePlugin({
 	start() {
 		console.log(g_PopupManager)
 
-		const bruh = (popup: any) => {
+		const bruh = (popup: TPopup) => {
 			if (popup.m_strName.startsWith('chat_')) {
 				console.log('cool', popup)
 				insertCss(css, popup.window.document)
 			}
 		}
 		bruh.id = this.id
-		g_PopupManager.m_rgPopupCreatedCallbacks.push(bruh as unknown as () => void)
+		g_PopupManager.m_rgPopupCreatedCallbacks.push(bruh)
 		// this.bruhs = [...g_PopupManager.GetPopups()].map((m) => insertCss(css, m.window.document));
 	},
 

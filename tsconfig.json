@@ -27,23 +27,23 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "resolveJsonModule": true,
-        "baseUrl": ".",
+        "baseUrl": "./src",
         "noEmit": false,
         "paths": {
-            "steamed/*": ["src/modules/*"],
-            "@api/*": ["./src/api/*"],
-            "@api": ["./src/api"],
-            "@components/*": ["./src/components/*"],
-            "@components": ["./src/components"],
-            "@utils/*": ["./src/utils/*"],
-            "@utils": ["./src/utils"],
-            "@webpack/common": ["./src/webpack/common"],
-            "@webpack": ["./src/webpack"],
-            "@types/*": ["./src/types/*"],
-            "@types": ["./src/types"],
+            "steamed/*": ["./modules/*"],
+            "@api/*": ["./api/*"],
+            "@api": ["./api"],
+            "@components/*": ["./components/*"],
+            "@components": ["./components"],
+            "@utils/*": ["./utils/*"],
+            "@utils": ["./utils"],
+            "@webpack/common": ["./webpack/common"],
+            "@webpack": ["./webpack"],
+            "@src/types/*": ["./types/*"],
+            "@src/types": ["./types"],
         }
     },
     "exclude": ["node_modules"],
-    // "include": ["./src/**/*.tsx", "./src/**/*.ts", "./src/**/*.js", "./src/**/*.jsx"]
-    "include": ["./src/**/*"]
+    // "include": ["./**/*.tsx", "./**/*.ts", "./**/*.js", "./**/*.jsx"]
+    "include": ["./**/*"]
 }

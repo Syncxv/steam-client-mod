@@ -1,5 +1,7 @@
 import { find } from '@webpack'
 
+export * from './Input'
+
 export let SwitchItem: any
 
 export const initComponents = () => {
