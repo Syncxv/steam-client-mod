@@ -1,4 +1,5 @@
 import { insertCss, definePlugin } from '@utils'
+import { Devs } from '@utils/constants'
 import { getRandomId } from '@utils/getRandomId'
 
 let css = `.chatEntry.Panel.Focusable::before {
@@ -12,7 +13,7 @@ let css = `.chatEntry.Panel.Focusable::before {
 export default definePlugin({
 	name: 'Chat WaterMark',
 	description: 'adds a watermark above the chat textarea',
-	authors: [{ name: 'Aria' }],
+	authors: [Devs.Aria],
 	version: '1.1.1',
 	id: getRandomId(),
 	start() {

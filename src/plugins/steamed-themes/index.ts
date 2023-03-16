@@ -1,11 +1,12 @@
 import { definePlugin } from '@utils'
 import { Settings } from './components/Settings'
 import { React } from '@webpack/common'
+import { Devs } from '@utils/constants'
 
 export default definePlugin({
 	name: 'Themes',
 	description: 'Idk Man Themes eh',
-	authors: [{ name: 'Aria', discordId: '0' }],
+	authors: [Devs.Aria],
 	version: '1.1.1',
 
 	settingsComponent: {

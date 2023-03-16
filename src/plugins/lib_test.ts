@@ -1,9 +1,10 @@
 import { definePlugin } from '@utils'
+import { Devs } from '@utils/constants'
 
 export default definePlugin({
 	name: 'LIBRARY TESTT',
 	description: 'hi',
-	authors: [{ name: 'Aria', discordId: '0' }],
+	authors: [Devs.Aria],
 	version: '1.1.1',
 	type: 'library',
 	patches: [

@@ -1,4 +1,5 @@
 import { definePlugin } from '@utils'
+import { Devs } from '@utils/constants'
 import { Settings } from './components/SettingsView'
 
 console.log(Settings)
@@ -6,7 +7,7 @@ console.log(Settings)
 export default definePlugin({
 	name: 'Settings Patcher',
 	description: 'this plugin patches the settings sidebar thingy and adds our own stuff to it',
-	authors: [{ name: 'Aria', discordId: '0' }],
+	authors: [Devs.Aria],
 	version: '1.1.1',
 	patches: [
 		{

@@ -1,10 +1,11 @@
 import { definePlugin } from '@utils'
+import { Devs } from '@utils/constants'
 import { DropThingy } from './components/SteamedDropThingy'
 import css from './style.scss'
 export default definePlugin({
 	name: 'LibrarySettings',
 	description: 'hi',
-	authors: [{ name: 'Aria', discordId: '0' }],
+	authors: [Devs.Aria],
 	version: '1.1.1',
 	type: 'library',
 	css,

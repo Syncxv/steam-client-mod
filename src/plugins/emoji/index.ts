@@ -1,11 +1,12 @@
 import { definePlugin } from '@utils'
 import { emojiObj } from './emojiObjs'
 import { waitFor } from '@utils/waitFor'
+import { Devs } from '@utils/constants'
 
 export default definePlugin({
 	name: 'EmojiStuff',
 	description: 'this plugin adds unicode emoji gg ez',
-	authors: [{ name: 'Aria', discordId: '0' }],
+	authors: [Devs.Aria],
 	version: '1.1.1',
 	patches: [
 		{

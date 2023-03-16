@@ -6,3 +6,10 @@ export enum AutoCompleteTypes {
 }
 
 export const WEBPACK_CHUNK = isFriendsUI() ? 'webpackChunk_steam_friendsui' : 'webpackChunksteamui'
+
+export const Devs = Object.freeze({
+	Aria: {
+		name: 'Syncxv',
+		id: 549244932213309442
+	}
+})
