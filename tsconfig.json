@@ -28,7 +28,12 @@
         "baseUrl": ".",
         "noEmit": false,
         "paths": {
-            "steamed/*": ["src/modules/*"]
+            "steamed/*": ["src/modules/*"],
+            "@api/*": ["./src/api/*"],
+            "@components/*": ["./src/components/*"],
+            "@utils/*": ["./src/utils/*"],
+            "@utils": ["./src/utils"],
+            "@webpack/common": ["./src/webpack/common"],
         }
     },
     "exclude": ["node_modules"],

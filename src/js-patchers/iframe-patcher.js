@@ -1,9 +1,9 @@
 //THIS "code" gets injected into a load friend chat function. strURL is an arg from that function no cap
 //AND anything with g_ is a global variable inside friends.js in /clientui
 
-import { createElement } from '../util'
+import { createElement } from '../utils'
 import Patches from 'patches'
-import { processPatch } from 'src/util/patches';
+import { processPatch } from 'src/utils/patches';
 console.log('Patches FRIEND :O ', Patches)
 ;(async () => {
 	const parser = new DOMParser()

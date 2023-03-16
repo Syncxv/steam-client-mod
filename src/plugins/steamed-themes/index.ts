@@ -1,5 +1,6 @@
-import { definePlugin } from 'src/util'
+import { definePlugin } from '@utils'
 import { Settings } from './components/Settings'
+import { React } from '@webpack/common'
 
 export default definePlugin({
 	name: 'Themes',
@@ -10,7 +11,6 @@ export default definePlugin({
 	settingsComponent: {
 		title: 'Themes',
 		identifier: 'steamed-themes',
-		content: () =>
-			window.React.createElement(Settings, { themes: Object.values(steamed.Themes.themes) })
+		content: () => React.createElement(Settings, { themes: Object.values(steamed.Themes.themes) })
 	}
 })

@@ -1,6 +1,6 @@
-import { definePlugin } from 'src/util'
+import { definePlugin } from 'src/utils'
 import { emojiObj } from './emojiObjs'
-import { waitFor } from '../../util/waitFor'
+import { waitFor } from '../../utils/waitFor'
 
 export default definePlugin({
 	name: 'EmojiStuff',

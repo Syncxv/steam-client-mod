@@ -1,5 +1,5 @@
-import { insertCss, definePlugin } from 'src/util'
-import { getRandomId } from '../util/getRandomId'
+import { insertCss, definePlugin } from 'src/utils'
+import { getRandomId } from '../utils/getRandomId'
 
 let css = `.chatEntry.Panel.Focusable::before {
     content: "steamed IS INJECTED :D";

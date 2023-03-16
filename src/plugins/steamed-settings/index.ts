@@ -1,4 +1,4 @@
-import { definePlugin } from 'src/util'
+import { definePlugin } from 'src/utils'
 import { Settings } from './components/SettingsView'
 
 console.log(Settings)

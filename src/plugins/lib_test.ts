@@ -1,4 +1,4 @@
-import { definePlugin } from 'src/util'
+import { definePlugin } from 'src/utils'
 
 export default definePlugin({
 	name: 'LIBRARY TESTT',

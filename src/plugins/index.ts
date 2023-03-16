@@ -1,7 +1,7 @@
 import Plugins from 'plugins'
 import { registerCommand, unRegisterCommand } from '../api/commands'
 import { registerSetting, unregisterSetting } from '../api/settings/PluginSections'
-import { insertCss } from '../util'
+import { insertCss } from '../utils'
 import { Plugin } from '../types'
 
 export const plugins = Plugins
