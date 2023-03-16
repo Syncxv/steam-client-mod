@@ -3,7 +3,7 @@
 
 import { createElement } from '../utils'
 import Patches from 'patches'
-import { processPatch } from 'src/utils/patches';
+import { processPatch } from '@utils/patches';
 console.log('Patches FRIEND :O ', Patches)
 ;(async () => {
 	const parser = new DOMParser()

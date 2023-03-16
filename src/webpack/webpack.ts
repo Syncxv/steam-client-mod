@@ -1,6 +1,6 @@
-import type { WebpackInstance } from '../types'
-import { initComponents } from '../components'
-import { initCommon } from './common'
+import type { WebpackInstance } from '@types'
+import { initComponents } from '@components'
+import { initCommon } from '@webpack/common'
 // import { proxyLazy } from "../utils/proxyLazy";
 export type CallbackFn = (mod: any) => void
 

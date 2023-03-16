@@ -32,10 +32,15 @@
         "paths": {
             "steamed/*": ["src/modules/*"],
             "@api/*": ["./src/api/*"],
+            "@api": ["./src/api"],
             "@components/*": ["./src/components/*"],
+            "@components": ["./src/components"],
             "@utils/*": ["./src/utils/*"],
             "@utils": ["./src/utils"],
             "@webpack/common": ["./src/webpack/common"],
+            "@webpack": ["./src/webpack"],
+            "@types/*": ["./src/types/*"],
+            "@types": ["./src/types"],
         }
     },
     "exclude": ["node_modules"],

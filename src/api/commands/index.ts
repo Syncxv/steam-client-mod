@@ -1,4 +1,4 @@
-import { Command } from '../../../types'
+import { Command } from '@types'
 
 export let commands: { [key: string]: Command } = {}
 
@@ -36,7 +36,7 @@ export const processCommand = (thisObj: any) => {
 	try {
 		//ill figure out async later
 		result = command.execute(cmdArgs, this)
-	} catch (e) {
+	} catch (e: any) {
 		result = {
 			send: false,
 			result: `An error occurred while executing the command: ${e.message}.\nCheck the console for more details.`

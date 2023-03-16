@@ -1,21 +1,21 @@
 export * as Plugins from './plugins'
 export * as Themes from './themes'
-export * as Webpack from './webpack'
-export * as Api from './api'
-export * as Util from './utils'
-export * as Components from './components'
+export * as Webpack from '@webpack'
+export * as Api from '@api'
+export * as Util from '@utils'
+export * as Components from '@components'
 
-import { PluginSettings } from './api/settings'
+import { PluginSettings } from '@api/settings'
 
 export { PluginSettings as Settings }
 
 import { startAllPlugins } from './plugins'
 import { startAllThemes } from './themes'
 
-import { _initWebpack } from './webpack'
-import { isFriendsUI } from './utils/isFriendsUi'
-import { WEBPACK_CHUNK } from './constants'
-import { waitFor } from './utils/waitFor'
+import { _initWebpack } from '@webpack'
+import { isFriendsUI } from '@utils/isFriendsUi'
+import { WEBPACK_CHUNK } from '@utils/constants'
+import { waitFor } from '@utils/waitFor'
 
 export async function init() {
 	if (isFriendsUI()) {

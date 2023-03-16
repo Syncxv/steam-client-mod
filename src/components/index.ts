@@ -1,4 +1,4 @@
-import { find } from '../webpack'
+import { find } from '@webpack'
 
 export let SwitchItem: any
 

@@ -1,4 +1,4 @@
-import { definePlugin } from 'src/utils'
+import { definePlugin } from '@utils'
 import { DropThingy } from './components/SteamedDropThingy'
 import css from './style.scss'
 export default definePlugin({
