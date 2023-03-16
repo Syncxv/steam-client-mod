@@ -8,6 +8,8 @@
         "lib": ["dom", "es6", "es2021", "esnext.asynciterable"],
         "skipLibCheck": true,
         "sourceMap": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
         "outDir": "./dist",
         "moduleResolution": "node",
         "removeComments": true,
