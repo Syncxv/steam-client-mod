@@ -1,4 +1,5 @@
-import { Theme } from '@types'
+import { Input } from '@components'
+import { Theme } from '@src/types'
 import { useState } from '@webpack/common'
 
 export const Settings: React.FC<{ themes: Theme[] }> = ({ themes }) => {
@@ -14,7 +15,13 @@ export const Settings: React.FC<{ themes: Theme[] }> = ({ themes }) => {
 				New Theme
 			</button>
 
-			{isOpen && <h1>hi</h1>}
+			{isOpen && (
+				<div className="NewThemeCard">
+					<Input label="Theme Name" value="" onChange={(e) => console.log(e)} />
+					<Input label="Theme Author" value="" onChange={(e) => console.log(e)} />
+					<Input label="Theme Description" value="" onChange={(e) => console.log(e)} />
+				</div>
+			)}
 		</div>
 	)
 }
