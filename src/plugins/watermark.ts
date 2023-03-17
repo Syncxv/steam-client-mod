@@ -1,5 +1,6 @@
 import { TPopup } from '@src/types/global'
 import { insertCss, definePlugin } from '@utils'
+import { addPopupCreatedCallback } from '@utils/addPopupCreatedCallback'
 import { Devs } from '@utils/constants'
 import { getRandomId } from '@utils/getRandomId'
 
@@ -17,23 +18,21 @@ export default definePlugin({
 	authors: [Devs.Aria],
 	version: '1.1.1',
 	id: getRandomId(),
+
+	removeCallback: null as Function | null,
 	start() {
 		console.log(g_PopupManager)
 
-		const bruh = (popup: TPopup) => {
+		this.removeCallback = addPopupCreatedCallback((popup) => {
 			if (popup.m_strName.startsWith('chat_')) {
 				console.log('cool', popup)
 				insertCss(css, popup.window.document)
 			}
-		}
-		bruh.id = this.id
-		g_PopupManager.m_rgPopupCreatedCallbacks.push(bruh)
+		})
 		// this.bruhs = [...g_PopupManager.GetPopups()].map((m) => insertCss(css, m.window.document));
 	},
 
 	stop() {
-		g_PopupManager.m_rgPopupCreatedCallbacks = g_PopupManager.m_rgPopupCreatedCallbacks.filter(
-			(c: any) => c.id !== this.id
-		)
+		this.removeCallback && this.removeCallback()
 	}
 })

@@ -23,15 +23,17 @@ export type RawSpotifyModule = (what: any, exports: any, n: WebpackRequire) => a
 
 let bruh: WebpackArray = []
 let require: WebpackRequire
-
+export interface PopupCallback extends Function {
+	id?: string
+}
 interface T_gPopupManager {
 	m_DynamicCSSObserver: MutationObserver
 	m_bSaveRequired: boolean
 	m_bShuttingDown: boolean
 	m_mapPopups: Map<string, TPopup>
 	m_mapRestoreDetails: Map<string, any>
-	m_rgPopupCreatedCallbacks: ((popup: TPopup) => void)[]
-	m_rgShutdownCallbacks: ((popup: TPopup) => void)[]
+	m_rgPopupCreatedCallbacks: PopupCallback[]
+	m_rgShutdownCallbacks: PopupCallback[]
 	m_unCurrentAccountID: number
 
 	AddPopupCreatedCallback: Function
