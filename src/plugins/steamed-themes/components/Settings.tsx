@@ -4,9 +4,11 @@ import { DialogButton } from '../../../components/DialogButton'
 import * as DataStore from '@api/DataStore'
 import { PluginAuthor, Theme } from '@src/types'
 import { defineTheme } from '@utils/defineTheme'
+import { isUrl } from '@utils'
 
 export const Settings: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false)
+	const [errors, setErrors] = useState<string | null>(null)
 	const [theme, setTheme] = useState({
 		name: '',
 		authors: [] as PluginAuthor[],
@@ -56,7 +58,10 @@ export const Settings: React.FC = () => {
 						style={{ width: '100%' }}
 						label="Theme Link"
 						value={theme.link}
-						onChange={(e) => setTheme((prev) => ({ ...prev, link: e }))}
+						onChange={(e) => {
+							setTheme((prev) => ({ ...prev, link: e }))
+							setErrors(null)
+						}}
 					/>
 
 					<DropDown
@@ -74,16 +79,20 @@ export const Settings: React.FC = () => {
 
 					<DialogButton
 						disabled={
+							!!errors ||
 							!!steamed.Themes.themes[theme.name] ||
 							!(theme.name && theme.authors.length && theme.description && theme.link)
 						}
 						variant="Primary"
+						style={{ [errors ? 'background' : '']: '#e23232', [errors ? 'color' : '']: 'white' }}
 						onClick={async () => {
 							console.log(theme)
-							if (steamed.Themes.themes[theme.name]) {
-								console.log('Theme already exists')
-								return
-							}
+							if (errors) return
+							if (steamed.Themes.themes[theme.name]) return setErrors('Theme already exists')
+
+							const cssData = await getCss(theme.link)
+							if (cssData.error) return setErrors(cssData.error)
+
 							const themes = (await DataStore.get('Steamed_themes')) ?? []
 							await DataStore.set('Steamed_themes', [...themes, theme])
 
@@ -92,7 +101,7 @@ export const Settings: React.FC = () => {
 							setIsOpen(false)
 						}}
 					>
-						Create Theme
+						{errors ? errors : 'Create Theme'}
 					</DialogButton>
 				</Container>
 			)}
@@ -114,4 +123,19 @@ const Theme: React.FC<{ theme: Theme }> = ({ theme }) => {
 			checked={theme.started}
 		/>
 	)
+}
+
+async function getCss(url: string) {
+	if (!isUrl(url)) return { error: 'Invalid Link' }
+	try {
+		const res = await fetch(url)
+		if (res.status > 300) throw `${res.status} ${res.statusText}`
+		const contentType = res.headers.get('Content-Type')
+		if (!contentType?.startsWith('text/css') && !contentType?.startsWith('text/plain'))
+			throw 'Not a CSS file. Remember to use the raw link!'
+
+		return { data: await res.text() }
+	} catch (e) {
+		return { error: typeof e === 'string' ? e : 'Invalid Link' }
+	}
 }
