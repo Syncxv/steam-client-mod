@@ -5,8 +5,10 @@ import * as DataStore from '@api/DataStore'
 import { PluginAuthor, Theme } from '@src/types'
 import { defineTheme } from '@utils/defineTheme'
 import { isUrl } from '@utils'
+import { useForceUpdater } from '@utils/misc'
 
 export const Settings: React.FC = () => {
+	const forceUpdate = useForceUpdater()
 	const [isOpen, setIsOpen] = useState(false)
 	const [errors, setErrors] = useState<string | null>(null)
 	const [theme, setTheme] = useState({
@@ -19,12 +21,9 @@ export const Settings: React.FC = () => {
 
 	return (
 		<div>
-			<button
-				className="DialogButton _DialogLayout Secondary Focusable"
-				onClick={() => setIsOpen((prev) => !prev)}
-			>
+			<DialogButton variant="GreenPlay" onClick={() => setIsOpen((prev) => !prev)}>
 				{isOpen ? 'Close' : 'New Theme'}
-			</button>
+			</DialogButton>
 
 			{isOpen && (
 				<Container className="NewThemeCard">
@@ -99,15 +98,18 @@ export const Settings: React.FC = () => {
 							steamed.Themes.themes[theme.name] = defineTheme(theme)
 
 							setIsOpen(false)
+							forceUpdate()
 						}}
 					>
 						{errors ? errors : 'Create Theme'}
 					</DialogButton>
 				</Container>
 			)}
-			{Object.values(steamed.Themes.themes).map((theme) => (
-				<Theme theme={theme} />
-			))}
+			<div style={{ marginTop: '1rem' }}>
+				{Object.values(steamed.Themes.themes).map((theme) => (
+					<Theme theme={theme} />
+				))}
+			</div>
 		</div>
 	)
 }
@@ -129,10 +131,10 @@ async function getCss(url: string) {
 	if (!isUrl(url)) return { error: 'Invalid Link' }
 	try {
 		const res = await fetch(url)
-		if (res.status > 300) throw `${res.status} ${res.statusText}`
+		if (res.status > 300) return { error: `${res.status} ${res.statusText}` }
 		const contentType = res.headers.get('Content-Type')
 		if (!contentType?.startsWith('text/css') && !contentType?.startsWith('text/plain'))
-			throw 'Not a CSS file. Remember to use the raw link!'
+			return { error: 'Not a CSS file. Remember to use the raw link!' }
 
 		return { data: await res.text() }
 	} catch (e) {

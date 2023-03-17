@@ -30,7 +30,6 @@
         "baseUrl": "./src",
         "noEmit": false,
         "paths": {
-            "steamed/*": ["./modules/*"],
             "@api/*": ["./api/*"],
             "@api": ["./api"],
             "@components/*": ["./components/*"],

@@ -37,9 +37,12 @@ export async function startTheme(theme: Theme) {
 			if (!isFriendsUI()) return
 			const removeCallback = addPopupCreatedCallback(async (popup) => {
 				'THEMES_FRIENDS_GANG'
-				if (!(popup.m_strName.startsWith('chat_') || popup.m_strName.startsWith('friendslist')))
-					return
-				await addStyles(theme, popup.window.document)
+				if (
+					popup.m_strName.startsWith('chat_') ||
+					popup.m_strName.startsWith('friendslist') ||
+					popup.m_strName === 'Friends List Settings'
+				)
+					await addStyles(theme, popup.window.document)
 			})
 
 			theme.removeCallbacks.push(removeCallback)
