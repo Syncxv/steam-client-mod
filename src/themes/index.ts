@@ -28,25 +28,32 @@ export async function startAllThemes() {
 		}
 }
 
-export function startTheme(theme: Theme) {
+export async function startTheme(theme: Theme) {
 	if (theme.started) return console.error('ALREAYD STARTED')
 
 	switch (theme.type) {
 		case 'friend':
 			//ill figure it out latear ong
 			if (!isFriendsUI()) return
-			const removeCallback = addPopupCreatedCallback((popup) => {
+			const removeCallback = addPopupCreatedCallback(async (popup) => {
 				'THEMES_FRIENDS_GANG'
 				if (!(popup.m_strName.startsWith('chat_') || popup.m_strName.startsWith('friendslist')))
 					return
-				addStyles(theme, popup.window.document)
+				await addStyles(theme, popup.window.document)
 			})
 
 			theme.removeCallbacks.push(removeCallback)
 
 			for (let [key, popup] of g_PopupManager.m_mapPopups.entries()) {
-				if (!(key.startsWith('chat_') || key.startsWith('friendslist'))) continue
-				addStyles(theme, popup.window.document)
+				if (
+					!(
+						key.startsWith('chat_') ||
+						key.startsWith('friendslist') ||
+						key === 'Friends List Settings'
+					)
+				)
+					continue
+				await addStyles(theme, popup.window.document)
 			}
 			theme.started = true
 			const enabled = Settings.get('enabled_themes', [] as string[])
@@ -69,7 +76,14 @@ export function stopTheme(theme: Theme) {
 				removeCallback()
 			}
 			for (let [key, popup] of g_PopupManager.m_mapPopups.entries()) {
-				if (!(key.startsWith('chat_') || key.startsWith('friendslist'))) continue
+				if (
+					!(
+						key.startsWith('chat_') ||
+						key.startsWith('friendslist') ||
+						key == 'Friends List Settings'
+					)
+				)
+					continue
 				for (let id of theme.styleIds) {
 					popup.window.document.getElementById(id)?.remove()
 				}
@@ -86,7 +100,16 @@ export function stopTheme(theme: Theme) {
 	}
 }
 
-function addStyles(theme: Theme, document: Document) {
-	if (theme.css) theme.styleIds.push(insertCss(theme.css, document))
-	if (theme.link) theme.styleIds.push(insertCss(`@import url("${theme.link.trim()}");`, document))
+async function addStyles(theme: Theme, document: Document) {
+	if (theme.css) {
+		theme.styleIds.push(insertCss(theme.css, document))
+		return
+	}
+	if (theme.link) {
+		const css = await (await fetch(theme.link)).text()
+		if (css) {
+			theme.css = css
+			theme.styleIds.push(insertCss(css, document))
+		}
+	}
 }

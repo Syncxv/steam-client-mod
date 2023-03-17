@@ -23,7 +23,7 @@ export const Settings: React.FC = () => {
 				className="DialogButton _DialogLayout Secondary Focusable"
 				onClick={() => setIsOpen((prev) => !prev)}
 			>
-				New Theme
+				{isOpen ? 'Close' : 'New Theme'}
 			</button>
 
 			{isOpen && (
@@ -35,18 +35,18 @@ export const Settings: React.FC = () => {
 						onChange={(e) => setTheme((prev) => ({ ...prev, name: e }))}
 						error={steamed.Themes.themes[theme.name] ? 'Theme already exists' : undefined}
 					/>
-					<Input
+					{/* <Input
 						style={{ width: '100%' }}
 						label="Theme Authors"
 						value={theme.authors.map((m) => m.name).join(',')}
-						placeholder="Author1,Author2,Author3"
+						placeholder="Author1,Author2 (optional)"
 						onChange={(e) =>
 							setTheme((prev) => ({
 								...prev,
 								authors: (e as string).split(',').map((a) => ({ name: a }))
 							}))
 						}
-					/>
+					/> */}
 					<Input
 						style={{ width: '100%' }}
 						label="Theme Description"
@@ -81,7 +81,7 @@ export const Settings: React.FC = () => {
 						disabled={
 							!!errors ||
 							!!steamed.Themes.themes[theme.name] ||
-							!(theme.name && theme.authors.length && theme.description && theme.link)
+							!(theme.name && theme.description && theme.link)
 						}
 						variant="Primary"
 						style={{ [errors ? 'background' : '']: '#e23232', [errors ? 'color' : '']: 'white' }}

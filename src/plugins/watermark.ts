@@ -1,7 +1,4 @@
-import { TPopup } from '@src/types/global'
-import { insertCss, definePlugin } from '@utils'
-import { addPopupCreatedCallback } from '@utils/addPopupCreatedCallback'
-import { Devs } from '@utils/constants'
+import { insertCss, definePlugin, addPopupCreatedCallback, Devs } from '@utils'
 import { getRandomId } from '@utils/getRandomId'
 
 let css = `.chatEntry.Panel.Focusable::before {
