@@ -1,5 +1,5 @@
 import { insertCss, definePlugin, addPopupCreatedCallback, Devs } from '@utils'
-import { getRandomId } from '@utils/getRandomId'
+import { generateUuid } from '@utils'
 
 let css = `.chatEntry.Panel.Focusable::before {
     content: "steamed IS INJECTED :D";
@@ -14,7 +14,7 @@ export default definePlugin({
 	description: 'adds a watermark above the chat textarea',
 	authors: [Devs.Aria],
 	version: '1.1.1',
-	id: getRandomId(),
+	id: generateUuid(),
 
 	removeCallback: null as Function | null,
 	start() {
