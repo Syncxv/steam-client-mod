@@ -1,13 +1,20 @@
 import { useCallback, useState } from '@webpack/common'
 
-interface InputProps {
+type InputProps = React.HTMLAttributes<HTMLInputElement> & {
 	label?: string
 	placeholder?: string
 	value: string
 	onChange: (value: string) => void
 }
 
-export const Input: React.FC<InputProps> = ({ label, value, placeholder, onChange }) => {
+export const Input: React.FC<InputProps> = ({
+	label,
+	value,
+	placeholder,
+	className,
+	onChange,
+	...props
+}) => {
 	const [isFocused, setIsFocused] = useState(false)
 
 	const handleFocus = useCallback(() => {
@@ -26,20 +33,20 @@ export const Input: React.FC<InputProps> = ({ label, value, placeholder, onChang
 	)
 
 	return (
-		<div
-			style={{ width: 'fit-content', height: 'fit-content' }}
-			className={`input ${isFocused ? 'input--focused' : ''}`}
-		>
+		<div className={`input ${isFocused ? 'input--focused' : ''}`}>
 			{label && <label htmlFor={`input-${label}`}>{label}</label>}
 			<input
 				id={`input-${label}`}
-				className="DialogInput DialogInputPlaceholder DialogTextInputBase Focusable"
+				className={`DialogInput DialogInputPlaceholder DialogTextInputBase Focusable ${
+					className ?? ''
+				}`}
 				type="text"
 				placeholder={placeholder}
 				value={value}
 				onChange={handleChange}
 				onFocus={handleFocus}
 				onBlur={handleBlur}
+				{...props}
 			/>
 		</div>
 	)

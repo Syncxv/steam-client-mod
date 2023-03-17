@@ -1,6 +1,8 @@
 import { find } from '@webpack'
 
 export * from './Input'
+export * from './Container'
+export * from './DialogButton'
 
 export let SwitchItem: any
 
