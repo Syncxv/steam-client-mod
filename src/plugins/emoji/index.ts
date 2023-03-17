@@ -86,7 +86,9 @@ export default definePlugin({
 					bru.use_count = res.use_count
 				}
 
-				g_FriendsUIApp.ChatStore.EmoticonStore.UpdateEmoticonList()
+				g_FriendsUIApp.ChatStore.EmoticonStore.OnEmoticonListReceived(
+					g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons
+				)
 			})
 
 			return true
