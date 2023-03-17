@@ -27,6 +27,10 @@ const commonOptions = {
     logLevel: 'info',
     bundle: true,
     watch,
+    // Define the banner that wraps the code with an IIFE
+    banner: { js: '(function() {' },
+    // Define the footer that closes the IIFE
+    footer: { js: '})();' }
 };
 
 Promise.all([

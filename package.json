@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "watch": "tsc -w",
-        "dev": "node scripts/build.mjs && pnpm restore && pnpm inject",
+        "dev": "pnpm restore && node scripts/build.mjs && pnpm inject",
         "build": "node scripts/build.mjs",
         "build-injector": "cd injector/rust && cargo build --release && copy \"..\\target\\release\\injector.exe\" \"../../injector.exe\"",
         "build-injector:dev": "cd injector/rust && cargo build && copy \"..\\target\\release\\injector.exe\" \"../../injector.exe\"",
