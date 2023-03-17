@@ -1,10 +1,21 @@
 import { definePlugin } from '@utils'
-import { emojiObj } from './emojiObjs'
 import { waitFor } from '@utils/waitFor'
 import { Devs } from '@utils/constants'
-import { React } from 'webpack/common'
-import { isUrl } from '../../utils/isUrl'
+import { React } from '@webpack/common'
 
+import * as DataStore from '@api/DataStore'
+
+import { isUrl } from '../../utils/isUrl'
+import { emojiObj } from './emojiObjs'
+
+const emojiKey = (name: string) => `EmojiStuff_emoji_${name}`
+
+export interface TEmoji {
+	name: string
+	last_used: number
+	use_count: number
+	is_steamed: boolean
+}
 export default definePlugin({
 	name: 'EmojiStuff',
 	description: 'this plugin adds unicode emoji gg ez',
@@ -51,9 +62,33 @@ export default definePlugin({
 	},
 
 	onEmoticonSuggestionSelected(_this: any, emoji: string) {
-		if (emoji && window.emojiObj[emoji]) {
+		if (emoji && emojiObj[emoji]) {
+			const obj: { emoji: string; name: string } = emojiObj[emoji]
 			_this.FocusTextInput()
-			_this.ReplaceSuggestedText(':', window.emojiObj[emoji].emoji, undefined, true)
+			_this.ReplaceSuggestedText(':', obj.emoji, undefined, true)
+			DataStore.get(emojiKey(obj.name)).then((data: TEmoji) => {
+				const res =
+					data != null
+						? { ...data, last_used: Date.now(), use_count: data.use_count + 1 }
+						: {
+								name: obj.name,
+								last_used: Date.now(),
+								use_count: 1,
+								is_steamed: true
+						  }
+				DataStore.set(emojiKey(obj.name), res)
+
+				const bru = g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons.find(
+					(e: TEmoji) => e.name === obj.name
+				)
+				if (bru) {
+					bru.last_used = res.last_used
+					bru.use_count = res.use_count
+				}
+
+				g_FriendsUIApp.ChatStore.EmoticonStore.UpdateEmoticonList()
+			})
+
 			return true
 		}
 		return false
@@ -66,17 +101,23 @@ export default definePlugin({
 				g_FriendsUIApp.ChatStore.EmoticonStore.BInitialized() &&
 				g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons.length,
 
-			() => {
+			async () => {
 				console.log('READY?', g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons)
-				g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons =
-					g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons.concat(
-						Object.values(emojiObj).map((e) => ({
-							name: e.name,
-							last_used: 1663606897,
-							use_count: 1,
-							is_steamed: true
-						}))
+
+				const res = await Promise.all(
+					Object.values(emojiObj).map(
+						async (e) =>
+							(await DataStore.get(emojiKey(e.name))) ?? {
+								name: e.name,
+								last_used: 1663606897,
+								use_count: 1,
+								is_steamed: true
+							}
 					)
+				)
+
+				g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons =
+					g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons.concat(res)
 			}
 		)
 	},
