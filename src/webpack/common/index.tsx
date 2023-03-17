@@ -2,6 +2,8 @@ import { findByProps, findLazy } from '@webpack'
 import { initReact } from './react'
 
 export * from './react'
+export * from './components'
+
 export let i18n: any
 
 export const MessageClass = findLazy((m) =>

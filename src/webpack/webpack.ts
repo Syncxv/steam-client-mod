@@ -1,4 +1,4 @@
-import type { WebpackInstance } from '@types'
+import type { WebpackInstance } from '@src/types'
 import { initComponents } from '@components'
 // import { initCommon } from '@webpack/common'
 import { proxyLazy } from '@utils/proxyLazy'
@@ -156,6 +156,20 @@ export function findByPropsLazy(...props: string[]) {
 
 export function findByDisplayName(deezNuts: string) {
 	return find(filters.byDisplayName(deezNuts))
+}
+
+/**
+ * Find a function by its code
+ */
+export function findByCode(...code: string[]) {
+	return find(filters.byCode(...code))
+}
+
+/**
+ * findByCode but lazy
+ */
+export function findByCodeLazy(...code: string[]) {
+	return findLazy(filters.byCode(...code))
 }
 
 export function waitFor(filter: string | string[] | FilterFn, callback: CallbackFn) {
