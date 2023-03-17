@@ -3,7 +3,8 @@ use std::env;
 use std::fs;
 use std::path::Path;
 use std::path::PathBuf;
-
+use std::time::Duration;
+use std::time::SystemTime;
 pub fn handle_friend_command_unpatch(steam_config: HashMap<String, String>) {
     unpatch_friends(steam_config)
 }
@@ -20,15 +21,34 @@ pub fn patch_friend_javascript(
     let steam_path = Path::new(&binding);
     let clientui = steam_path.join("clientui");
     let steam_friend_index_html = clientui.join("index_friends.html");
+    let friends_web_ui = &clientui.join("friends_web_ui.js");
 
-    //get friends.js from steam chat
-    let bruh = reqwest::blocking::get(
-        "https://community.cloudflare.steamstatic.com/public/javascript/webui/friends.js",
-    )?
-    .text()?;
+    if Path::new(friends_web_ui).exists() {
+        let lel = fs::metadata(friends_web_ui).unwrap().modified().unwrap();
+        let sys_time = SystemTime::now();
 
-    fs::write(&clientui.join("friends_web_ui.js"), bruh).unwrap();
-    println!("[Friends Injector] inserted friends_web_ui.js to clientui folder");
+        let difference = sys_time
+            .duration_since(lel)
+            .expect("Clock may have gone backwards");
+        // let difference = lel
+        //     .duration_since(sys_time)
+        //     .expect("Clock may have gone backwards");
+        println!("{difference:?}");
+        //if the file is older than 1 day then update it
+        if difference > Duration::from_secs(86_400) {
+            println!("[Friends Injector] Updating friends_web_ui.js");
+            //get friends.js from steam chat
+            let bruh = reqwest::blocking::get(
+                "https://community.cloudflare.steamstatic.com/public/javascript/webui/friends.js",
+            )?
+            .text()?;
+
+            fs::write(&clientui.join("friends_web_ui.js"), bruh).unwrap();
+            println!("[Friends Injector] inserted friends_web_ui.js to clientui folder");
+        } else {
+            println!("[Friends Injector] friends_web_ui.js is up to date");
+        }
+    }
 
     //add steamed :)
     let steamed_path = Path::new(&curr_dir)
