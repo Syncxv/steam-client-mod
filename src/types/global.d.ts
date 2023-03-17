@@ -25,6 +25,7 @@ let bruh: WebpackArray = []
 let require: WebpackRequire
 export interface PopupCallback extends Function {
 	id?: string
+	[key: string]: any
 }
 interface T_gPopupManager {
 	m_DynamicCSSObserver: MutationObserver

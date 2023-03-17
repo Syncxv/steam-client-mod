@@ -1,11 +1,19 @@
 .NewThemeCard {
-    padding: 1em;
-    margin-bottom: 1em;
-    margin-top: 1em;
+    padding: 1em !important;
+    margin-bottom: 1em !important;
+    margin-top: 1em !important;
 
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: center;
     width: 100%;
     gap: 1em;
+}
+
+
+html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
 }

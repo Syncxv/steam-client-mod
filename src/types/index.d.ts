@@ -37,13 +37,23 @@ export interface Plugin extends PluginDef {
 
 export interface ThemeDef {
 	name: string
-	css: string
+	css?: string
+	link?: string
 	description: string
 	authors: PluginAuthor[]
 	type: 'friend' | 'library'
 }
 
 export interface Theme extends ThemeDef {
+	removeCallbacks: (() => void)[]
 	styleIds: string[]
 	started: boolean
+}
+
+export interface InlineThemeDef {
+	name: string
+	link: string
+	description: string
+	authors: PluginAuthor[]
+	type: 'friend' | 'library'
 }

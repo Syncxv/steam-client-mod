@@ -5,6 +5,7 @@ type InputProps = React.HTMLAttributes<HTMLInputElement> & {
 	placeholder?: string
 	value: string
 	onChange: (value: string) => void
+	error?: string
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -12,6 +13,7 @@ export const Input: React.FC<InputProps> = ({
 	value,
 	placeholder,
 	className,
+	error,
 	onChange,
 	...props
 }) => {
@@ -48,6 +50,11 @@ export const Input: React.FC<InputProps> = ({
 				onBlur={handleBlur}
 				{...props}
 			/>
+			{error && (
+				<span style={{ color: 'red' }} className="input__error">
+					{error}
+				</span>
+			)}
 		</div>
 	)
 }
