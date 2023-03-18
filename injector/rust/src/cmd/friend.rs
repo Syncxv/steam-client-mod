@@ -9,12 +9,13 @@ pub fn handle_friend_command_unpatch(steam_config: HashMap<String, String>) {
     unpatch_friends(steam_config)
 }
 
-pub fn handle_friend_command_patch(steam_config: HashMap<String, String>) {
-    patch_friend_javascript(steam_config).unwrap();
+pub fn handle_friend_command_patch(steam_config: HashMap<String, String>, update: bool) {
+    patch_friend_javascript(steam_config, update).unwrap();
 }
 
 pub fn patch_friend_javascript(
     config: HashMap<String, String>,
+    update: bool,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let curr_dir = env::current_dir().unwrap().to_str().unwrap().to_string();
     let binding = config.get("steam_path").unwrap();
@@ -23,31 +24,18 @@ pub fn patch_friend_javascript(
     let steam_friend_index_html = clientui.join("index_friends.html");
     let friends_web_ui = &clientui.join("friends_web_ui.js");
 
-    if Path::new(friends_web_ui).exists() {
-        let lel = fs::metadata(friends_web_ui).unwrap().modified().unwrap();
-        let sys_time = SystemTime::now();
+    if update || should_update_friends_web_ui(friends_web_ui) {
+        println!("[Friends Injector] Updating friends_web_ui.js");
+        //get friends.js from steam chat
+        let bruh = reqwest::blocking::get(
+            "https://community.cloudflare.steamstatic.com/public/javascript/webui/friends.js",
+        )?
+        .text()?;
 
-        let difference = sys_time
-            .duration_since(lel)
-            .expect("Clock may have gone backwards");
-        // let difference = lel
-        //     .duration_since(sys_time)
-        //     .expect("Clock may have gone backwards");
-        println!("{difference:?}");
-        //if the file is older than 1 day then update it
-        if difference > Duration::from_secs(86_400) {
-            println!("[Friends Injector] Updating friends_web_ui.js");
-            //get friends.js from steam chat
-            let bruh = reqwest::blocking::get(
-                "https://community.cloudflare.steamstatic.com/public/javascript/webui/friends.js",
-            )?
-            .text()?;
-
-            fs::write(&clientui.join("friends_web_ui.js"), bruh).unwrap();
-            println!("[Friends Injector] inserted friends_web_ui.js to clientui folder");
-        } else {
-            println!("[Friends Injector] friends_web_ui.js is up to date");
-        }
+        fs::write(friends_web_ui, bruh).unwrap();
+        println!("[Friends Injector] inserted friends_web_ui.js to clientui folder");
+    } else {
+        println!("[Friends Injector] friends_web_ui.js is up to date");
     }
 
     //add steamed :)
@@ -146,4 +134,26 @@ fn get_patch() -> String {
         code = iframe_patcher
     );
     patched
+}
+
+fn should_update_friends_web_ui(path: &PathBuf) -> bool {
+    if !Path::new(path).exists() {
+        return true;
+    }
+    let lel = fs::metadata(path).unwrap().modified().unwrap();
+    let sys_time = SystemTime::now();
+
+    let difference = sys_time
+        .duration_since(lel)
+        .expect("Clock may have gone backwards");
+    // let difference = lel
+    //     .duration_since(sys_time)
+    //     .expect("Clock may have gone backwards");
+    println!("{difference:?}");
+    //if the file is older than 1 day then update it
+    if difference > Duration::from_secs(86_400) {
+        return true;
+    } else {
+        return false;
+    }
 }

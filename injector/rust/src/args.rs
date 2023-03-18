@@ -13,7 +13,11 @@ pub enum Commands {
     Test,
 
     /// Patches to friends ui
-    PatchFriend,
+    #[clap(name = "patch-friend")]
+    PatchFriend {
+        #[clap(long)]
+        update: bool,
+    },
 
     /// UnPatches from friends
     UnpatchFriend,

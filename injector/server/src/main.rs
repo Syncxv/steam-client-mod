@@ -64,6 +64,7 @@ fn main() {
 
             let mut command = Command::new(Path::new(&curr_dir).join("injector.exe"));
             command.arg("patch-friend");
+            command.arg("--update");
             command.spawn().unwrap();
 
             server::server_main().expect("server failed eh");

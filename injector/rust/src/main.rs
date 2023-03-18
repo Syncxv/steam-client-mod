@@ -20,7 +20,7 @@ fn main() {
         }
         Some(x) => match x {
             Commands::Test => handle_test(steam_config),
-            Commands::PatchFriend => handle_friend_command_patch(steam_config),
+            Commands::PatchFriend { update } => handle_friend_command_patch(steam_config, update),
             Commands::UnpatchFriend => handle_friend_command_unpatch(steam_config),
         },
     }
