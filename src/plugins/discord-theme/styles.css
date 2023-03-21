@@ -1,9 +1,21 @@
+.ChatTabs.titleBarContainer.HasWindowControls.OneTab.Panel.Focusable {
+    width: 25%;
+}
 
 .chatTabSelector {
     align-self: flex-end;
     background: transparent;
     box-shadow: none;
 }
+
+.chatTabSelector::before {
+    content: "Direct Messages";
+    position: fixed;
+    left: 0;
+    font-size: 0.8rem;
+    margin: .5rem 1rem;
+}
+
 .chatTabSetContainer {
     display: flex;
     flex-direction: column-reverse;
@@ -15,13 +27,6 @@
     flex-direction: column;
 }
 
-.chatTabSelector::before {
-    content: "Direct Messages";
-    position: fixed;
-    left: 0;
-    font-size: 0.8rem;
-    margin: .5rem 1rem;
-}
 
 .popup_chat_frame .title-area {
     position: fixed !important;    
@@ -36,7 +41,6 @@
 .multiChatDialog {
     flex-direction: row;
 }
-
 
 .chattabs_ChatTab_2Vrcp.no-drag.Panel.Focusable {
     width: 100%;
