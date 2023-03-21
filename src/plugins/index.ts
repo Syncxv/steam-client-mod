@@ -30,6 +30,8 @@ export function startPlugin(p: Plugin) {
 			console.error(`Failed to start ${p.name}\n`, e)
 			return false
 		}
+	} else {
+		p.started = true
 	}
 
 	if (p.commands?.length) {
