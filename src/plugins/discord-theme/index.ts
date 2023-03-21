@@ -12,11 +12,14 @@ export default definePlugin({
 	ids: [] as string[],
 
 	start() {
-		this.removeCallback = addPopupCreatedCallback((popup) => {
-			if (popup.m_strName.startsWith('chat_')) {
-				this.ids.push(insertCss(css, popup.window.document))
-			}
-		})
+		this.removeCallback = addPopupCreatedCallback(
+			(popup) => {
+				if (popup.m_strName.startsWith('chat_')) {
+					this.ids.push(insertCss(css, popup.window.document))
+				}
+			},
+			{ runOnOpenedPopups: true }
+		)
 	},
 
 	stop() {
