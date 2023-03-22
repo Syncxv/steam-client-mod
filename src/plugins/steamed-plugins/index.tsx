@@ -7,6 +7,7 @@ export default definePlugin({
 	description: 'Idk Man Themes eh',
 	authors: [Devs.Aria],
 	version: '1.1.1',
+	type: 'all',
 	settingsComponent: {
 		title: 'Plugins',
 		identifier: 'steamed-plugins',

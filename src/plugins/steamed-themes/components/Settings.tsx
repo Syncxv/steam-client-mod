@@ -20,7 +20,7 @@ export const Settings: React.FC = () => {
 	})
 
 	return (
-		<div>
+		<>
 			<DialogButton variant="GreenPlay" onClick={() => setIsOpen((prev) => !prev)}>
 				{isOpen ? 'Close' : 'New Theme'}
 			</DialogButton>
@@ -110,7 +110,7 @@ export const Settings: React.FC = () => {
 					<Theme theme={theme} />
 				))}
 			</div>
-		</div>
+		</>
 	)
 }
 

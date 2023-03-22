@@ -1,16 +1,15 @@
-import { definePlugin, insertCss } from '@utils'
 import { Settings } from './components/Settings'
 import { React } from '@webpack/common'
-import { Devs } from '@utils/constants'
+import { definePlugin, insertCss, Devs, addPopupCreatedCallback } from '@utils'
 
 import css from './styles.scss'
-import { addPopupCreatedCallback } from '@utils/addPopupCreatedCallback'
 
 export default definePlugin({
 	name: 'Themes',
 	description: 'Idk Man Themes eh',
 	authors: [Devs.Aria],
 	version: '1.1.1',
+	type: 'all',
 	settingsComponent: {
 		title: 'Themes',
 		identifier: 'steamed-themes',

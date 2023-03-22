@@ -6,6 +6,7 @@ export default definePlugin({
 	description: 'cool stuff',
 	authors: [Devs.Aria],
 	version: '1.1.1',
+	type: 'friend',
 
 	removeCallback: null as Function | null,
 
