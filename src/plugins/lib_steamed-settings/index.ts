@@ -13,6 +13,7 @@ export default definePlugin({
 	start() {
 		addPopupCreatedCallback(
 			(popup) => {
+				if (!popup.m_strName.includes('SteamLibraryWindow')) return
 				let container = popup.window.document.createElement('container-gang')
 				popup.window.document.body.appendChild(container)
 
