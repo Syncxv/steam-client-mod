@@ -30,7 +30,7 @@ const main = async () => {
 
 	document.head.appendChild(script)
 	const lib = await (await fetch('./lib-client.js')).text()
-	eval(lib)
+	window.eval(lib)
 }
 
 main()

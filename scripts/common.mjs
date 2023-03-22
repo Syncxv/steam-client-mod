@@ -35,7 +35,7 @@ export const globPlugins = {
                 i++;
             }
             code += `export default {${plugins}};`;
-            console.log(code, plugins);
+            
             return {
                 contents: code,
                 resolveDir: './src',
@@ -48,7 +48,7 @@ export const globThemes = {
     name: 'glob-themes',
     setup: (build) => {
         build.onResolve({ filter: /^themes$/ }, (args) => {
-            console.log(build, args);
+            
             return {
                 namespace: 'import-themes',
                 path: args.path,
@@ -77,7 +77,6 @@ export const globThemes = {
                 i++;
             }
             code += `export default {${themes}};`;
-            console.log('THEMES: ', code, themes);
             return {
                 contents: code,
                 resolveDir: './src',
@@ -121,7 +120,7 @@ export const globPatches = {
                 i++;
             }
             code += `export default {${patches}};`;
-            console.log(code);
+            
             return {
                 contents: code,
                 resolveDir: './src',
