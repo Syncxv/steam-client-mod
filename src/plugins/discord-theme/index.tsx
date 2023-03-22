@@ -16,6 +16,11 @@ export default definePlugin({
 			match: /(this\.props\.tabSet\.tabCount>0&&.{1,600})(.{1,2}\.map\(\(.{1,600}\)\))\)\)/,
 			replace:
 				"$1[React.createElement('div', {className: 'container'}, ...$2), $self.renderProfile()]))"
+		},
+
+		{
+			match: /(let .{1,3}=)(.{1,500}ShowCurrentUserProfile\()/,
+			replace: '$1$self.ProfileThing = $2'
 		}
 	],
 
@@ -24,8 +29,9 @@ export default definePlugin({
 	ids: [] as string[],
 
 	renderProfile() {
+		if (!this.ProfileThing) return null
 		return (
-			<ProfileThing
+			<this.ProfileThing
 				bCompactView={false}
 				bDNDSet={false}
 				bHasGamePrivacy={false}
@@ -33,7 +39,7 @@ export default definePlugin({
 				bIsSelf={true}
 				bParenthesizeNicknames={false}
 				className="labelHolder"
-				persona={g_FriendsUIApp?.FriendStore?.self?.persona}
+				currentUser={g_FriendsUIApp?.FriendStore?.self}
 				eFriendRelationship={0}
 				onContextMenu={(e) => console.log(e)}
 			/>
