@@ -21,6 +21,7 @@ export default definePlugin({
 	description: 'this plugin adds unicode emoji gg ez',
 	authors: [Devs.Aria],
 	version: '1.1.1',
+	type: 'friend',
 	patches: [
 		{
 			match: /(static GetEmoticonURL\(.{1,4}\){)/,

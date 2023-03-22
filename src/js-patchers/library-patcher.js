@@ -2,6 +2,7 @@ import Patches from 'patches'
 console.log('Patches LIB :O ', Patches)
 
 const main = async () => {
+	// this is steams library.js file not ours. we patching this one
 	let libCooleo = await (await fetch('./library.js')).text()
 
 	const [_, cacheVar] = libCooleo.match(/,(.{1,2})={};function/)

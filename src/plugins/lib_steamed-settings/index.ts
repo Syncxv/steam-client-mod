@@ -1,5 +1,6 @@
-import { definePlugin } from '@utils'
+import { addPopupCreatedCallback, definePlugin } from '@utils'
 import { Devs } from '@utils/constants'
+import { React, ReactDOM } from '@webpack/common'
 import { DropThingy } from './components/SteamedDropThingy'
 import css from './style.scss'
 export default definePlugin({
@@ -10,13 +11,17 @@ export default definePlugin({
 	type: 'library',
 	css,
 	start() {
-		let { React, ReactDOM } = steamed.Webpack.Common
-		let container = document.createElement('container-gang')
-		document.body.appendChild(container)
+		addPopupCreatedCallback(
+			(popup) => {
+				let container = popup.window.document.createElement('container-gang')
+				popup.window.document.body.appendChild(container)
 
-		ReactDOM.render(
-			React.createElement('div', {}, React.createElement(DropThingy)),
-			document.querySelector('container-gang')
+				ReactDOM.render(
+					React.createElement('div', {}, React.createElement(DropThingy)),
+					popup.window.document.querySelector('container-gang')
+				)
+			},
+			{ runOnOpenedPopups: true }
 		)
 	}
 })

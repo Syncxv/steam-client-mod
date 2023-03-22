@@ -9,6 +9,7 @@ export default definePlugin({
 	description: 'this plugin patches the settings sidebar thingy and adds our own stuff to it',
 	authors: [Devs.Aria],
 	version: '1.1.1',
+	type: 'friend',
 	patches: [
 		{
 			match: /(FriendsUI ready to render after)/,

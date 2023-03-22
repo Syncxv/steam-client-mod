@@ -15,7 +15,7 @@ import { startAllThemes } from './themes'
 import { _initWebpack } from '@webpack'
 import { isFriendsUI } from '@utils/isFriendsUi'
 import { WEBPACK_CHUNK } from '@utils/constants'
-import { waitFor } from '@utils/waitFor'
+import { waitFor, addPopupCreatedCallback } from '@utils'
 
 export async function init() {
 	if (isFriendsUI()) {
@@ -31,9 +31,24 @@ export async function init() {
 		)
 	}
 
-	_initWebpack(window[WEBPACK_CHUNK])
-	startAllThemes()
-	startAllPlugins()
+	waitFor(
+		() => window?.libraryEventStore?.m_bEventsLoaded,
+		() => {
+			_initWebpack(window[WEBPACK_CHUNK])
+			startAllThemes()
+			startAllPlugins()
+
+			addPopupCreatedCallback(
+				(popup) => {
+					Object.defineProperty(popup.window, 'steamed', {
+						get: () => window.steamed,
+						configurable: true
+					})
+				},
+				{ runOnOpenedPopups: true }
+			)
+		}
+	)
 }
 
 // init();

@@ -21,4 +21,13 @@ pub enum Commands {
 
     /// UnPatches from friends
     UnpatchFriend,
+
+    /// Patches to library ui
+    /// [WIP]
+    #[clap(name = "patch-library")]
+    PatchLibrary,
+
+    /// UnPatches from library
+    /// [WIP]
+    UnpatchLibrary,
 }
