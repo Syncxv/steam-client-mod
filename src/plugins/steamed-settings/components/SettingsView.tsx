@@ -1,4 +1,4 @@
-import { SwitchItem } from '@components'
+import { SwitchItem } from '@webpack/common'
 
 export const Settings: React.FC<{ settings: any }> = ({}) => (
 	<form className="DialogBody">

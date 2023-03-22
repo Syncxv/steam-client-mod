@@ -1,4 +1,4 @@
-import { SwitchItem } from '@components'
+import { SwitchItem } from '@webpack/common'
 import { Plugin } from '@src/types'
 
 export const Settings: React.FC = () => {

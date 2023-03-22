@@ -1,9 +1,6 @@
 import type { WebpackInstance } from '@src/types'
-import { initComponents } from '@components'
-// import { initCommon } from '@webpack/common'
 import { proxyLazy } from '@utils/proxyLazy'
-import { initCommon } from './common'
-// import { proxyLazy } from "../utils/proxyLazy";
+import { initCommon, initComponents } from './common'
 export type CallbackFn = (mod: any) => void
 
 export let wreq: WebpackInstance

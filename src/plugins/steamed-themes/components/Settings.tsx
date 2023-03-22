@@ -1,5 +1,5 @@
-import { Container, Input, SwitchItem } from '@components'
-import { DropDown, useState } from '@webpack/common'
+import { Container, Input } from '@components'
+import { DropDown, useState, SwitchItem } from '@webpack/common'
 import { DialogButton } from '../../../components/DialogButton'
 import * as DataStore from '@api/DataStore'
 import { PluginAuthor, Theme } from '@src/types'
