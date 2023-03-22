@@ -15,9 +15,9 @@ import { startAllThemes } from './themes'
 import { _initWebpack } from '@webpack'
 import { isFriendsUI } from '@utils/isFriendsUi'
 import { WEBPACK_CHUNK } from '@utils/constants'
-import { waitFor, addPopupCreatedCallback } from '@utils'
+import { waitFor } from '@utils'
 
-export async function init() {
+export async function init(addPopupCreatedCallback: () => void) {
 	if (isFriendsUI()) {
 		return waitFor(
 			() => window?.g_FriendsUIApp?.ready_to_render,
@@ -27,6 +27,8 @@ export async function init() {
 				_initWebpack(window[WEBPACK_CHUNK])
 				startAllThemes()
 				startAllPlugins()
+
+				addPopupCreatedCallback()
 			}
 		)
 	}
@@ -38,15 +40,7 @@ export async function init() {
 			startAllThemes()
 			startAllPlugins()
 
-			addPopupCreatedCallback(
-				(popup) => {
-					Object.defineProperty(popup.window, 'steamed', {
-						get: () => window.steamed,
-						configurable: true
-					})
-				},
-				{ runOnOpenedPopups: true }
-			)
+			addPopupCreatedCallback()
 		}
 	)
 }
