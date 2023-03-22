@@ -104,13 +104,21 @@ html {
   *, *:before, *:after {
     box-sizing: inherit;
 }
+
+.friendSettingsButton {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
 .insetshadow_FriendListInsetShadowBottom_2OoTJ {
     display: none;
 }
 // textarea 
-button.chatentry_chatSubmitButton_RVIs8.chatentry_disabled_jaQN2.Focusable {
-    display: none;
+.chatWindow .chatEntry {
+    
+    background-color: transparent !important;
 }
+
 .chatEntry {
     --input-size: 44px;
     --padding: 14px;
@@ -119,7 +127,19 @@ button.chatentry_chatSubmitButton_RVIs8.chatentry_disabled_jaQN2.Focusable {
     padding: 0;
     background: transparent;
     box-shadow: none;
-    background-color: transparent;
+
+    button[type="submit"] {
+        display: none;
+    }
+
+    .chatentry_chatTextarea_113iu {
+        height: 100%;
+        padding-left: calc(var(--padding) + 24px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.06rem;
+    }
 
     .chatentry_chatEntryControls_3Ule3 {
         border-radius: 6px;
@@ -144,6 +164,7 @@ button.chatentry_chatSubmitButton_RVIs8.chatentry_disabled_jaQN2.Focusable {
         top: 50%;
         transform: translateY(-50%);
         width: calc(100% - var(--padding) - 22px);
+        pointer-events: none;
         .chatentry_chatEntryActionsGroup_2WfNo {
             padding: 0;
             box-shadow: none;
@@ -152,7 +173,6 @@ button.chatentry_chatSubmitButton_RVIs8.chatentry_disabled_jaQN2.Focusable {
             display: flex;
             flex-direction: row-reverse;
             width: 100%;
-            pointer-events: none;
 
             .chatentry_chatSubmitButton_RVIs8.chatentry_EmoticonPickerButton_Aupsw.Focusable {
                 max-width: 24px;
@@ -192,6 +212,7 @@ button.chatentry_chatSubmitButton_RVIs8.chatentry_disabled_jaQN2.Focusable {
             outline: 0px;
             min-width: 24px;
             min-height: 24px;
+            pointer-events: all;
             .buttonsContainer {
                 max-width: 24px;
                 max-height: 24px;

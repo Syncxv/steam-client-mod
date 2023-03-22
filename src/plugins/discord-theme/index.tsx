@@ -46,7 +46,7 @@ export default definePlugin({
 				/>
 				<div
 					onClick={() => openSettings({ m_unPID: 0, m_nBrowserID: -1, m_eUIMode: 0 }, window)}
-					className="friendListButton friendSettingsButton no-drag"
+					className="friendSettingsButton no-drag"
 				>
 					<svg
 						version="1.1"
