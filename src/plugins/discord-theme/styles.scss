@@ -1,0 +1,232 @@
+:root {
+    --discord-background-300: rgb(49, 51, 56);
+
+    --discord-background-400: rgb(43, 45, 49);
+    
+    --discord-background-700: rgb(30, 31, 34);
+
+    --discord-textarea: rgb(56, 58, 64);
+
+}
+
+
+.chatBody {
+    background-color: var(--discord-background-300);
+}
+.ChatTabs.titleBarContainer.HasWindowControls.OneTab.Panel.Focusable {
+    width: 17%;
+    min-width: 15rem;
+}
+
+.chatTabSelector {
+    align-self: flex-end;
+    background: transparent;
+    box-shadow: none;
+}
+
+.chatTabSelector::before {
+    content: "Direct Messages";
+    position: fixed;
+    left: 0;
+    font-size: 0.8rem;
+    margin: .5rem 1rem;
+}
+
+.chatTabSetContainer {
+    display: flex;
+    flex-direction: column-reverse;
+    height: 100%;
+    background-color: var(--discord-background-400);
+}
+
+.chattabs_ChatTabTransitionGroup_1GEzX {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.popup_chat_frame .title-area {
+    position: fixed !important;    
+    right: 0 !important;
+    height: fit-content;
+}
+
+.title-area-icon {
+    margin-top: 0% !important;
+}
+
+.multiChatDialog {
+    flex-direction: row;
+}
+
+.chattabs_ChatTab_2Vrcp.no-drag.Panel.Focusable {
+    width: 100%;
+    padding-right: 10px;
+}
+
+.chattabs_ChatTabTransitionGroup_1GEzX {
+    width: 100%;
+    margin: 0;
+    border: 0px none;
+}
+
+.HorizontalMiniSliderScroll.chatTabList {
+    height: 100%;
+}
+
+.chattabs_ChatTabTransitionGroup_1GEzX {
+    gap: 10px;
+    height: 100%;
+}
+
+.chatTabDraggableSpace.ChromeClearance {
+    position: fixed;
+}
+
+.HorizontalMiniSlider {
+    height: 100% !important;
+}
+
+
+.chatTabList > div {
+    justify-content: space-between;
+}
+
+.profile-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
+}
+.insetshadow_FriendListInsetShadowBottom_2OoTJ {
+    display: none;
+}
+// textarea 
+button.chatentry_chatSubmitButton_RVIs8.chatentry_disabled_jaQN2.Focusable {
+    display: none;
+}
+.chatEntry {
+    --input-size: 44px;
+    --padding: 14px;
+    height: calc(var(--input-size) + var(--padding));
+    position: relative;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    background-color: transparent;
+
+    .chatentry_chatEntryControls_3Ule3 {
+        border-radius: 6px;
+        height: var(--input-size);
+        width: calc(100% - var(--padding));
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--discord-textarea);
+        border: 0px #fff;
+        box-shadow: 0 0 0 black;
+        left: 0;
+        /* right: 0; */
+        margin-left: 6px;
+        margin-right: 6px;
+    }
+
+    .chatentry_chatEntryActionsContainer_W0Ohk.compactableHeight {
+        position: absolute;
+        /* right: 3%; */
+        margin: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: calc(100% - var(--padding) - 22px);
+        .chatentry_chatEntryActionsGroup_2WfNo {
+            padding: 0;
+            box-shadow: none;
+            background: transparent;
+            margin: 0;
+            display: flex;
+            flex-direction: row-reverse;
+            width: 100%;
+            pointer-events: none;
+
+            .chatentry_chatSubmitButton_RVIs8.chatentry_EmoticonPickerButton_Aupsw.Focusable {
+                max-width: 24px;
+                max-height: 24px;
+                background: transparent;
+                margin-left: auto;
+                border: 0px;
+                pointer-events: all;
+            }
+
+            button.chatentry_chatSubmitButton_RVIs8.chatentry_EmbedButton_3zOBe.Focusable {
+                max-width: calc(var(--input-size) - 10px);
+                max-height: calc(var(--input-size) - 10px);
+                /* max-width: 24px; */
+                /* width: 5px; */
+                /* max-height: 24px; */
+                background: transparent;
+                /* position: absolute; */
+                /* right: calc(1-*var(--input-size)); */
+                border: 0px;
+                padding-right: 12px;
+                pointer-events: all;
+            }
+        }
+
+        .ChatMessageEntryVoice {
+            max-width: 24px;
+            max-height: 24px;
+            width: 24px;
+            height: 24px;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            box-shadow: none;
+            background: transparent;
+            border: 0px;
+            outline: 0px;
+            min-width: 24px;
+            min-height: 24px;
+            .buttonsContainer {
+                max-width: 24px;
+                max-height: 24px;
+                min-width: 24px;
+                width: 24px;
+                height: 24px;
+                /* padding: 0; */
+                /* overflow: hidden; */
+                /* box-shadow: none; */
+                /* background: transparent; */
+                /* border: 0px; */
+                /* outline: 0px; */
+                & > button {
+                    max-width: 24px;
+                    max-height: 24px;
+                    height: 24px;
+                    width: 24px;
+                    background: transparent;
+                    /* transform: translateY(-12px); */
+                    border: 0px;
+                    min-width: 24px;
+                    min-height: 24px;
+
+                    .VoiceToggleIconCtn {
+                        position: unset;
+
+                        & > svg {
+                            height: 24px !important;
+                            width: 24px !important;
+                            margin: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}

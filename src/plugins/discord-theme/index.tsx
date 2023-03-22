@@ -1,6 +1,6 @@
 import { addPopupCreatedCallback, Devs, definePlugin, insertCss } from '@utils'
 import { findByCodeLazy } from '@webpack'
-import css from './styles.css'
+import css from './styles.scss'
 const openSettings = findByCodeLazy('FriendSettings_Title')
 
 export default definePlugin({
