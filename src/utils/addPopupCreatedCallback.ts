@@ -1,8 +1,8 @@
-import { TPopup } from '@src/types/global'
+import { PopupCallback, TPopup } from '@src/types/global'
 import { generateUuid } from './generateUuid'
 
 export const addPopupCreatedCallback = (
-	callback: (popup: TPopup) => void,
+	callback: PopupCallback,
 	opt: { runOnOpenedPopups: boolean } = { runOnOpenedPopups: false }
 ): (() => void) => {
 	const newCallback = (popup: TPopup) => {
