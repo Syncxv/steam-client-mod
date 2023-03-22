@@ -32,6 +32,7 @@ export interface PluginDef {
 
 export interface Plugin extends PluginDef {
 	patches?: Patch[]
+	styleIds: string[]
 	started: boolean
 }
 

@@ -58,6 +58,11 @@ fn main() {
             let mut child = command.spawn().unwrap();
             child.wait().unwrap();
 
+            let mut command = Command::new(Path::new(&curr_dir).join("injector.exe"));
+            command.arg("unpatch-library");
+            let mut child = command.spawn().unwrap();
+            child.wait().unwrap();
+
             wait_for_steam(&mut system);
 
             println!("OK NOW WE CAN INJECT");
@@ -65,6 +70,10 @@ fn main() {
             let mut command = Command::new(Path::new(&curr_dir).join("injector.exe"));
             command.arg("patch-friend");
             command.arg("--update");
+            command.spawn().unwrap();
+
+            let mut command = Command::new(Path::new(&curr_dir).join("injector.exe"));
+            command.arg("patch-library");
             command.spawn().unwrap();
 
             server::server_main().expect("server failed eh");

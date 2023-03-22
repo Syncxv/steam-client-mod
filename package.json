@@ -6,13 +6,15 @@
     "scripts": {
         "watch": "tsc -w",
         "dev": "pnpm restore && node scripts/build.mjs && pnpm inject",
+        "dev:lib": "pnpm restore:lib && node scripts/build.mjs && pnpm inject:lib",
         "build": "node scripts/build.mjs",
         "build-injector": "cd injector/rust && cargo build --release && copy \"..\\target\\release\\injector.exe\" \"../../injector.exe\"",
         "build-injector:dev": "cd injector/rust && cargo build && copy \"..\\target\\release\\injector.exe\" \"../../injector.exe\"",
         "build-server": "cd injector/server && cargo build --release && copy \"..\\target\\release\\server.exe\" \"../../server.exe\"",
-        "inject-library": "injector.exe patch-library",
+        "inject:lib": "injector.exe patch-library",
         "inject": "injector.exe patch-friend",
         "restore": "injector.exe unpatch-friend",
+        "restore:lib": "injector.exe unpatch-library",
         "launch-steam": "node scripts/build.mjs && server.exe",
         "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,html}\""
     },

@@ -1,7 +1,7 @@
 import Plugins from 'plugins'
 import { registerCommand, unRegisterCommand } from '@api/commands'
 import { registerSetting, unregisterSetting } from '@api/settings/PluginSections'
-import { insertCss } from '@utils'
+import { addPopupCreatedCallback, insertCss } from '@utils'
 import { Plugin } from '@src/types'
 
 export const plugins = Plugins
@@ -57,8 +57,12 @@ export function startPlugin(p: Plugin) {
 	}
 
 	if (p.css) {
-		//bruh
-		insertCss(p.css)
+		addPopupCreatedCallback(
+			(popup) => {
+				p.styleIds.push(insertCss(p.css!, popup.window.document))
+			},
+			{ runOnOpenedPopups: true }
+		)
 	}
 
 	return true
@@ -99,6 +103,12 @@ export function stopPlugin(p: Plugin) {
 		} catch (e) {
 			console.error(`Failed to Unregister settings for ${p.name}\n`, e)
 			return false
+		}
+	}
+
+	for (let popup of g_PopupManager.m_mapPopups.values()) {
+		for (let id of p.styleIds) {
+			popup.window.document.getElementById(id)?.remove()
 		}
 	}
 
