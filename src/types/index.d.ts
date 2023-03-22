@@ -1,5 +1,7 @@
 import { Section } from '@api/settings/PluginSections'
 
+export type AppType = 'friend' | 'library' | 'all'
+
 export type { defualt as WebpackInstance } from './WebpackInstance'
 export interface Command {
 	name: string
@@ -21,7 +23,7 @@ export interface PluginDef {
 	name: string
 	description: string
 	authors: PluginAuthor[]
-	type?: 'friend' | 'library'
+	type?: AppType
 	start?(): void
 	stop?(): void
 	css?: string
@@ -42,7 +44,7 @@ export interface ThemeDef {
 	link?: string
 	description: string
 	authors: PluginAuthor[]
-	type: 'friend' | 'library'
+	type: AppType
 }
 
 export interface Theme extends ThemeDef {
@@ -56,5 +58,5 @@ export interface InlineThemeDef {
 	link: string
 	description: string
 	authors: PluginAuthor[]
-	type: 'friend' | 'library'
+	type: AppType
 }
