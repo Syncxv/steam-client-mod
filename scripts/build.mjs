@@ -28,9 +28,9 @@ const commonOptions = {
     bundle: true,
     watch,
     // Define the banner that wraps the code with an IIFE
-    banner: { js: '(function() {' },
+    banner: { js: 'try {(function() {' },
     // Define the footer that closes the IIFE
-    footer: { js: '})();' }
+    footer: { js: '})();} catch(e) {console.error(e)}' }
 };
 
 Promise.all([
@@ -54,6 +54,7 @@ Promise.all([
         outfile: 'dist/js/iframe-patcher.js',
         external: ['patches'],
         plugins: [globPatches, sass],
+        sourcemap: false
     }),
     esbuild.build({
         ...commonOptions,
@@ -61,6 +62,7 @@ Promise.all([
         outfile: 'dist/js/library-patcher.js',
         external: ['patches'],
         plugins: [globPatches, sass],
+        sourcemap: false
     }),
 ]).catch((err) => {
     console.error('Build failed');

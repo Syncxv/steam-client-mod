@@ -70,6 +70,12 @@
     height: 100% !important;
 }
 
+
+.chatTabList > div {
+    justify-content: space-between;
+}
+
+
 html {
     box-sizing: border-box;
   }

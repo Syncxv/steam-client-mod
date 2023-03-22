@@ -126,10 +126,10 @@ fn get_patch() -> String {
             .join("iframe-patcher.js"),
     )
     .expect("FAILED TO GET IFRAME PATCHER");
-    let steamed_react = "window.steamed = { Webpack: { Common: { React: __webpack_module_cache__['./node_modules/react/index.js'].exports,},},};";
+    let steamed_react = "window.steamed = { Webpack: { Common: { React: __webpack_module_cache__['./node_modules/react/index.js'].exports,},},};\nwindow.React = steamed.Webpack.Common.React;";
 
     let patched = format!(
-        "{window_steamed}\nreturn {code}",
+        "{window_steamed}\n{code}return;",
         window_steamed = steamed_react,
         code = iframe_patcher
     );
