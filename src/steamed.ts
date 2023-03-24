@@ -18,24 +18,8 @@ import { startAllPlugins } from "./plugins";
 import { startAllThemes } from "./themes";
 
 export async function init(addPopupCreatedCallback: () => void) {
-	if (isFriendsUI()) {
-		waitFor(
-			() => window?.g_FriendsUIApp?.ready_to_render,
-			() => {
-				console.log("READY");
-				// g_PopupManager.m_rgShutdownCallbacks.push(() => fetch('http://localhost:8080/shutdown'))
-				_initWebpack(window[WEBPACK_CHUNK]);
-				startAllThemes();
-				startAllPlugins();
-
-				addPopupCreatedCallback();
-			}
-		);
-		return;
-	}
-
 	waitFor(
-		() => window?.libraryEventStore?.m_bEventsLoaded,
+		() => isFriendsUI() ? window?.g_FriendsUIApp?.ready_to_render : window?.libraryEventStore?.m_bEventsLoaded,
 		() => {
 			_initWebpack(window[WEBPACK_CHUNK]);
 			startAllThemes();
@@ -44,7 +28,6 @@ export async function init(addPopupCreatedCallback: () => void) {
 			addPopupCreatedCallback();
 		}
 	);
-	return;
 }
 
 // init();
