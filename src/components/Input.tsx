@@ -9,52 +9,52 @@ type InputProps = React.HTMLAttributes<HTMLInputElement> & {
 }
 
 export const Input: React.FC<InputProps> = ({
-    label,
-    value,
-    placeholder,
-    className,
-    error,
-    onChange,
-    ...props
+	label,
+	value,
+	placeholder,
+	className,
+	error,
+	onChange,
+	...props
 }) => {
-    const [isFocused, setIsFocused] = useState(false);
+	const [isFocused, setIsFocused] = useState(false);
 
-    const handleFocus = useCallback(() => {
-        setIsFocused(true);
-    }, []);
+	const handleFocus = useCallback(() => {
+		setIsFocused(true);
+	}, []);
 
-    const handleBlur = useCallback(() => {
-        setIsFocused(false);
-    }, []);
+	const handleBlur = useCallback(() => {
+		setIsFocused(false);
+	}, []);
 
-    const handleChange = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            onChange(event.target.value);
-        },
-        [onChange]
-    );
+	const handleChange = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>) => {
+			onChange(event.target.value);
+		},
+		[onChange]
+	);
 
-    return (
-        <div className={`input ${isFocused ? 'input--focused' : ''}`}>
-            {label && <label htmlFor={`input-${label}`}>{label}</label>}
-            <input
-                id={`input-${label}`}
-                className={`DialogInput DialogInputPlaceholder DialogTextInputBase Focusable ${
-                    className ?? ''
-                }`}
-                type="text"
-                placeholder={placeholder}
-                value={value}
-                onChange={handleChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                {...props}
-            />
-            {error && (
-                <span style={{ color: 'red' }} className="input__error">
-                    {error}
-                </span>
-            )}
-        </div>
-    );
+	return (
+		<div className={`input ${isFocused ? 'input--focused' : ''}`}>
+			{label && <label htmlFor={`input-${label}`}>{label}</label>}
+			<input
+				id={`input-${label}`}
+				className={`DialogInput DialogInputPlaceholder DialogTextInputBase Focusable ${
+					className ?? ''
+				}`}
+				type="text"
+				placeholder={placeholder}
+				value={value}
+				onChange={handleChange}
+				onFocus={handleFocus}
+				onBlur={handleBlur}
+				{...props}
+			/>
+			{error && (
+				<span style={{ color: 'red' }} className="input__error">
+					{error}
+				</span>
+			)}
+		</div>
+	);
 };

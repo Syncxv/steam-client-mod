@@ -1,94 +1,100 @@
-import type { WebpackInstance } from '@src/types';
-import { proxyLazy } from '@utils/proxyLazy';
+import type { WebpackInstance } from "@src/types";
+import { proxyLazy } from "@utils/proxyLazy";
 
-import { initCommon, initComponents } from './common';
-export type CallbackFn = (mod: any) => void
+import { initCommon, initComponents } from "./common";
+export type CallbackFn = (mod: any) => void;
 
 export let wreq: WebpackInstance;
-export let cache: WebpackInstance['c'];
+export let cache: WebpackInstance["c"];
 
-export type FilterFn = (mod: any) => boolean
+export type FilterFn = (mod: any) => boolean;
 
 export const filters = {
-    byProps: (props: string[]): FilterFn =>
-        props.length === 1 ? m => m[props[0]] !== void 0 : m => props.every(p => m[p] !== void 0),
-    byDisplayName:
+	byProps: (props: string[]): FilterFn =>
+		props.length === 1
+			? m => m[props[0]] !== void 0
+			: m => props.every(p => m[p] !== void 0),
+	byDisplayName:
 		(deezNuts: string): FilterFn =>
-		    m =>
-		        m.default?.displayName === deezNuts,
-    byCode:
+			m =>
+				m.default?.displayName === deezNuts,
+	byCode:
 		(...code: string[]): FilterFn =>
-		    m => {
-		        if (typeof m !== 'function') return false;
-		        const s = Function.prototype.toString.call(m);
-		        for (const c of code) {
-		            if (!s.includes(c)) return false;
-		        }
-		        return true;
-		    }
+			m => {
+				if (typeof m !== "function") return false;
+				const s = Function.prototype.toString.call(m);
+				for (const c of code) {
+					if (!s.includes(c)) return false;
+				}
+				return true;
+			},
 };
 
 export function _initWebpack(instance: typeof window.webpackChunkdiscord_app) {
-    if (cache !== void 0) throw 'no.';
+	if (cache !== void 0) throw "no.";
 
-    wreq = instance.push([[Symbol()], {}, (r: WebpackInstance) => r]);
-    cache = wreq.c;
-    instance.pop();
+	wreq = instance.push([[Symbol()], {}, (r: WebpackInstance) => r]);
+	cache = wreq.c;
+	instance.pop();
 
-    initCommon();
-    initComponents();
+	initCommon();
+	initComponents();
 }
 
 export function find(filter: FilterFn, getDefault = true) {
-    if (typeof filter !== 'function')
-        throw new Error('Invalid filter. Expected a function got ' + typeof filter);
+	if (typeof filter !== "function")
+		throw new Error(
+			"Invalid filter. Expected a function got " + typeof filter
+		);
 
-    for (const key in cache) {
-        const mod = cache[key];
-        if (!mod?.exports) continue;
+	for (const key in cache) {
+		const mod = cache[key];
+		if (!mod?.exports) continue;
 
-        if (filter(mod.exports)) return mod.exports;
+		if (filter(mod.exports)) return mod.exports;
 
-        if (typeof mod.exports !== 'object') continue;
+		if (typeof mod.exports !== "object") continue;
 
-        if (mod.exports.default && filter(mod.exports.default))
-            return getDefault ? mod.exports.default : mod.exports;
+		if (mod.exports.default && filter(mod.exports.default))
+			return getDefault ? mod.exports.default : mod.exports;
 
-        // is 3 is the longest obfuscated export?
-        // the length check makes search about 20% faster
-        for (const nestedMod in mod.exports)
-            if (nestedMod.length <= 3) {
-                const nested = mod.exports[nestedMod];
-                if (nested && filter(nested)) return nested;
-            }
-    }
+		// is 3 is the longest obfuscated export?
+		// the length check makes search about 20% faster
+		for (const nestedMod in mod.exports)
+			if (nestedMod.length <= 3) {
+				const nested = mod.exports[nestedMod];
+				if (nested && filter(nested)) return nested;
+			}
+	}
 
-    return null;
+	return null;
 }
 
 export function findAll(filter: FilterFn, getDefault = true) {
-    if (typeof filter !== 'function')
-        throw new Error('Invalid filter. Expected a function got ' + typeof filter);
+	if (typeof filter !== "function")
+		throw new Error(
+			"Invalid filter. Expected a function got " + typeof filter
+		);
 
-    const ret = [] as any[];
-    for (const key in cache) {
-        const mod = cache[key];
-        if (!mod?.exports) continue;
+	const ret = [] as any[];
+	for (const key in cache) {
+		const mod = cache[key];
+		if (!mod?.exports) continue;
 
-        if (filter(mod.exports)) ret.push(mod.exports);
-        else if (typeof mod.exports !== 'object') continue;
+		if (filter(mod.exports)) ret.push(mod.exports);
+		else if (typeof mod.exports !== "object") continue;
 
-        if (mod.exports.default && filter(mod.exports.default))
-            ret.push(getDefault ? mod.exports.default : mod.exports);
-        else
-            for (const nestedMod in mod.exports)
-                if (nestedMod.length <= 3) {
-                    const nested = mod.exports[nestedMod];
-                    if (nested && filter(nested)) ret.push(nested);
-                }
-    }
+		if (mod.exports.default && filter(mod.exports.default))
+			ret.push(getDefault ? mod.exports.default : mod.exports);
+		else
+			for (const nestedMod in mod.exports)
+				if (nestedMod.length <= 3) {
+					const nested = mod.exports[nestedMod];
+					if (nested && filter(nested)) ret.push(nested);
+				}
+	}
 
-    return ret;
+	return ret;
 }
 
 /**
@@ -104,81 +110,87 @@ export function findAll(filter: FilterFn, getDefault = true) {
  *          })
  */
 export function mapMangledModule<S extends string>(
-    code: string,
-    mappers: Record<S, FilterFn>
+	code: string,
+	mappers: Record<S, FilterFn>
 ): Record<S, any> {
-    const exports = {} as Record<S, any>;
+	const exports = {} as Record<S, any>;
 
-    // search every factory function
-    for (const id in wreq.m) {
-        const src = (wreq.m[id] as any).toString() as string;
-        if (src.includes(code)) {
-            const mod = wreq(id as any as number);
-            outer: for (const key in mod) {
-                const member = mod[key];
-                for (const newName in mappers) {
-                    // if the current mapper matches this module
-                    if (mappers[newName](member)) {
-                        exports[newName] = member;
-                        continue outer;
-                    }
-                }
-            }
-            break;
-        }
-    }
+	// search every factory function
+	for (const id in wreq.m) {
+		const src = (wreq.m[id] as any).toString() as string;
+		if (src.includes(code)) {
+			const mod = wreq(id as any as number);
+			outer: for (const key in mod) {
+				const member = mod[key];
+				for (const newName in mappers) {
+					// if the current mapper matches this module
+					if (mappers[newName](member)) {
+						exports[newName] = member;
+						continue outer;
+					}
+				}
+			}
+			break;
+		}
+	}
 
-    return exports;
+	return exports;
 }
 
 export function findByProps(...props: string[]) {
-    return find(filters.byProps(props));
+	return find(filters.byProps(props));
 }
 
 /**
  * find but lazy
  */
 export function findLazy(filter: FilterFn, getDefault = true) {
-    return proxyLazy(() => find(filter, getDefault));
+	return proxyLazy(() => find(filter, getDefault));
 }
 
 export function findAllByProps(...props: string[]) {
-    return findAll(filters.byProps(props));
+	return findAll(filters.byProps(props));
 }
 /**
  * findByProps but lazy
  */
 export function findByPropsLazy(...props: string[]) {
-    return findLazy(filters.byProps([...props]));
+	return findLazy(filters.byProps([...props]));
 }
 
 export function findByDisplayName(deezNuts: string) {
-    return find(filters.byDisplayName(deezNuts));
+	return find(filters.byDisplayName(deezNuts));
 }
 
 /**
  * Find a function by its code
  */
 export function findByCode(...code: string[]) {
-    return find(filters.byCode(...code));
+	return find(filters.byCode(...code));
 }
 
 /**
  * findByCode but lazy
  */
 export function findByCodeLazy(...code: string[]) {
-    return findLazy(filters.byCode(...code));
+	return findLazy(filters.byCode(...code));
 }
 
-export function waitFor(filter: string | string[] | FilterFn, callback: CallbackFn) {
-    if (typeof filter === 'string') filter = filters.byProps([filter]);
-    else if (Array.isArray(filter)) filter = filters.byProps(filter);
-    else if (typeof filter !== 'function')
-        throw new Error('filter must be a string, string[] or function, got ' + typeof filter);
+export function waitFor(
+	filter: string | string[] | FilterFn,
+	callback: CallbackFn
+) {
+	if (typeof filter === "string") filter = filters.byProps([filter]);
+	else if (Array.isArray(filter)) filter = filters.byProps(filter);
+	else if (typeof filter !== "function")
+		throw new Error(
+			"filter must be a string, string[] or function, got " +
+			typeof filter
+		);
 
-    const existing = find(filter!);
-    if (existing) return void callback(existing);
-    return null;
+	const existing = find(filter!);
+	if (existing) return void callback(existing);
+	return null;
 }
 /**
  * Search modules by keyword. This searches the factory methods,
@@ -187,19 +199,20 @@ export function waitFor(filter: string | string[] | FilterFn, callback: Callback
  * @returns Mapping of found modules
  */
 export function search(...filters: Array<string | RegExp>) {
-    const results = {} as Record<number, Function>;
-    const factories = wreq.m;
-    outer: for (const id in factories) {
-        const factory = factories[id].original ?? factories[id];
-        const str: string = factory.toString();
-        for (const filter of filters) {
-            if (typeof filter === 'string' && !str.includes(filter)) continue outer;
-            if (filter instanceof RegExp && !filter.test(str)) continue outer;
-        }
-        results[id as any] = factory;
-    }
+	const results = {} as Record<number, Function>;
+	const factories = wreq.m;
+	outer: for (const id in factories) {
+		const factory = factories[id].original ?? factories[id];
+		const str: string = factory.toString();
+		for (const filter of filters) {
+			if (typeof filter === "string" && !str.includes(filter))
+				continue outer;
+			if (filter instanceof RegExp && !filter.test(str)) continue outer;
+		}
+		results[id as any] = factory;
+	}
 
-    return results;
+	return results;
 }
 
 /**
@@ -211,16 +224,16 @@ export function search(...filters: Array<string | RegExp>) {
  * @param id The id of the module to extract
  */
 export function extract(id: number) {
-    const mod = wreq.m[id] as Function;
-    if (!mod) return null;
+	const mod = wreq.m[id] as Function;
+	if (!mod) return null;
 
-    const code = `
+	const code = `
  // [EXTRACTED] WebpackModule${id}
  // WARNING: This module was extracted to be more easily readable.
  //          This module is NOT ACTUALLY USED! This means putting breakpoints will have NO EFFECT!!
  ${mod.toString()}
  //# sourceURL=ExtractedWebpackModule${id}
  `;
-    const extracted = (0, eval)(code);
-    return extracted as Function;
+	const extracted = (0, eval)(code);
+	return extracted as Function;
 }

@@ -1,5 +1,5 @@
 import { PluginDef } from '../types';
 
 export function definePlugin<P extends PluginDef>(p: P & Record<string, any>) {
-    return { ...p, started: false, styleIds: [] };
+	return { ...p, started: false, styleIds: [] };
 }
