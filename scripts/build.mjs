@@ -27,47 +27,52 @@ const commonOptions = {
     sourcemap: 'inline',
     logLevel: 'info',
     bundle: true,
-    watch,
+    // watch,
     // Define the banner that wraps the code with an IIFE
     banner: { js: 'try {(function() {' },
     // Define the footer that closes the IIFE
     footer: { js: '})();} catch(e) {console.error(e)}' }
 };
 
-Promise.all([
-    esbuild.build({
-        ...commonOptions,
-        entryPoints: ['src/index.ts'],
-        outfile: 'dist/js/FriendClient.js',
-        external: ['plugins'],
-        plugins: [...commonPlugins, sass],
-    }),
-    esbuild.build({
-        ...commonOptions,
-        entryPoints: ['src/index.ts'],
-        outfile: 'dist/js/LibraryClient.js',
-        external: ['plugins'],
-        plugins: [...commonPlugins, sass],
-    }),
-    esbuild.build({
-        ...commonOptions,
-        entryPoints: ['src/js-patchers/iframe-patcher.js'],
-        outfile: 'dist/js/iframe-patcher.js',
-        external: ['patches'],
-        plugins: [globPatches, sass],
-        sourcemap: false
-    }),
-    esbuild.build({
-        ...commonOptions,
-        entryPoints: ['src/js-patchers/library-patcher.js'],
-        outfile: 'dist/js/library-patcher.js',
-        external: ['patches'],
-        plugins: [globPatches, sass],
-        sourcemap: false
-    }),
-]).catch(err => {
+try {
+    const res = Promise.all([
+        esbuild.build({
+            ...commonOptions,
+            entryPoints: ['src/index.ts'],
+            outfile: 'dist/js/FriendClient.js',
+            external: ['plugins'],
+            plugins: [...commonPlugins, sass],
+        }),
+        esbuild.build({
+            ...commonOptions,
+            entryPoints: ['src/index.ts'],
+            outfile: 'dist/js/LibraryClient.js',
+            external: ['plugins'],
+            plugins: [...commonPlugins, sass],
+        }),
+        esbuild.build({
+            ...commonOptions,
+            entryPoints: ['src/js-patchers/iframe-patcher.js'],
+            outfile: 'dist/js/iframe-patcher.js',
+            external: ['patches'],
+            plugins: [globPatches, sass],
+            sourcemap: false
+        }),
+        esbuild.build({
+            ...commonOptions,
+            entryPoints: ['src/js-patchers/library-patcher.js'],
+            outfile: 'dist/js/library-patcher.js',
+            external: ['patches'],
+            plugins: [globPatches, sass],
+            sourcemap: false
+        }),
+    ]);
+} catch (err) {
     console.error('Build failed');
     console.error(err.message);
     // make ci fail
     if (!watch) process.exitCode = 1;
-});
+}
+
+
+if (watch) res.forEach(b => b.watch());

@@ -145,7 +145,7 @@ const shouldIncludeFile = async (build, dir, file) => {
         // same thing here but building for library
 		((build.initialOptions.outfile.endsWith('LibraryClient.js') ||
 			build.initialOptions.outfile.endsWith('library-patcher.js')) &&
-			type == 'friend')
+			type === 'friend')
     ) {
         return false;
     }
