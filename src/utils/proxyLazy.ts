@@ -72,7 +72,7 @@ handler.getOwnPropertyDescriptor = (target, p) => {
  * @example const mod = proxyLazy(() => findByProps("blah")); console.log(mod.blah);
  */
 export function proxyLazy<T>(factory: () => T): T {
-	const proxyDummy: { (): void; [CACHED_KEY]?: T; [GET_KEY](): T } = Object.assign(function () {}, {
+	const proxyDummy: { (): void;[CACHED_KEY]?: T;[GET_KEY](): T } = Object.assign(function () { }, {
 		[CACHED_KEY]: void 0,
 		[GET_KEY]: () => (proxyDummy[CACHED_KEY] ??= factory())
 	});

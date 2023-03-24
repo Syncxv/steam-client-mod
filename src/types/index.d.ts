@@ -14,15 +14,15 @@ export interface Patch {
 	replace: string | ((substring: string, ...args: any[]) => string)
 	predicate?: () => boolean
 }
-export interface PluginAuthor {
+export interface Author {
 	name: string
 	discordId?: string
 }
 
-export interface PluginDef {
+export interface ItemDef {
 	name: string
 	description: string
-	authors: PluginAuthor[]
+	authors: Author[]
 	type?: AppType
 	start?(): void
 	stop?(): void
@@ -32,31 +32,21 @@ export interface PluginDef {
 	settingsComponent?: Section
 }
 
-export interface Plugin extends PluginDef {
+export interface Plugin extends ItemDef {
 	patches?: Patch[]
 	styleIds: string[]
 	started: boolean
 }
 
-export interface ThemeDef {
-	name: string
-	css?: string
+export interface ThemeDef extends ItemDef {
 	link?: string
-	description: string
-	authors: PluginAuthor[]
-	type: AppType
+}
+export interface InlineThemeDef extends ItemDef {
+	link: string
 }
 
 export interface Theme extends ThemeDef {
 	removeCallbacks: (() => void)[]
 	styleIds: string[]
 	started: boolean
-}
-
-export interface InlineThemeDef {
-	name: string
-	link: string
-	description: string
-	authors: PluginAuthor[]
-	type: AppType
 }

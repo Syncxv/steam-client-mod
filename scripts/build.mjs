@@ -23,7 +23,7 @@ const commonOptions = {
 	format: 'iife',
 	platform: 'browser',
 	target: ['chrome85'],
-	minify: true,
+	minify: false,
 	sourcemap: 'inline',
 	logLevel: 'info',
 	bundle: true,

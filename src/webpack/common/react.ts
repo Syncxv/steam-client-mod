@@ -12,6 +12,6 @@ export let ReactDOM: typeof import("react-dom") &
 
 export const initReact = () => {
 	React = findByProps("useState");
-	({ useEffect, useState, useMemo, useRef } = React);
+	({ useEffect, useState, useMemo, useRef, useCallback } = React);
 	ReactDOM = findByProps("createPortal", "render");
 };

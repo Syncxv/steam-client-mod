@@ -1,10 +1,10 @@
 import * as DataStore from '@api/DataStore';
 import { Container, Input } from '@components';
-import { PluginAuthor, Theme } from '@src/types';
+import { Author } from '@src/types';
 import { isUrl } from '@utils';
 import { defineTheme } from '@utils/defineTheme';
 import { useForceUpdater } from '@utils/misc';
-import { DropDown, useCallback, useState } from '@webpack/common';
+import { DropDown, SwitchItem, useCallback, useState } from '@webpack/common';
 
 import { DialogButton } from '../../../components/DialogButton';
 
@@ -14,7 +14,7 @@ export const Settings: React.FC = () => {
 	const [errors, setErrors] = useState<string | null>(null);
 	const [theme, setTheme] = useState({
 		name: '',
-		authors: [] as PluginAuthor[],
+		authors: [] as Author[],
 		description: '',
 		link: '',
 		type: 'friend' as 'friend' | 'library'
@@ -118,7 +118,15 @@ export const Settings: React.FC = () => {
 			)}
 			<div style={{ marginTop: '1rem' }}>
 				{Object.values(steamed.Themes.themes).map(theme => (
-					<Theme theme={theme} />
+					<SwitchItem
+						style={{ margin: '0' }}
+						label={theme.name}
+						description={theme.description}
+						onChange={(enable: boolean) =>
+							enable ? steamed.Themes.startTheme(theme) : steamed.Themes.stopTheme(theme)
+						}
+						checked={theme.started}
+					/>
 				))}
 			</div>
 		</>
