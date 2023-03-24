@@ -1,8 +1,8 @@
-import { Section } from '@api/settings/PluginSections'
+import { Section } from '@api/settings/PluginSections';
 
 export type AppType = 'friend' | 'library' | 'all'
 
-export type { defualt as WebpackInstance } from './WebpackInstance'
+export type { defualt as WebpackInstance } from './WebpackInstance';
 export interface Command {
 	name: string
 	description: string

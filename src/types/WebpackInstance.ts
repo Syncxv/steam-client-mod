@@ -1,4 +1,4 @@
-//https://github.com/Swishilicous/discord-types/blob/main/other/WebpackInstance.d.ts
+// https://github.com/Swishilicous/discord-types/blob/main/other/WebpackInstance.d.ts
 export type whatMiniCssJ = { miniCss: Function; j: Function }
 export default interface __webpack_require__ {
 	(id: number): any

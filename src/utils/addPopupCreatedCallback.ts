@@ -1,30 +1,31 @@
-import { PopupCallback, TPopup } from '@src/types/global'
-import { generateUuid } from './generateUuid'
+import { PopupCallback, TPopup } from '@src/types/global';
+
+import { generateUuid } from './generateUuid';
 
 export const addPopupCreatedCallback = (
-	callback: PopupCallback,
-	opt: { runOnOpenedPopups: boolean } = { runOnOpenedPopups: false }
+    callback: PopupCallback,
+    opt: { runOnOpenedPopups: boolean } = { runOnOpenedPopups: false }
 ): (() => void) => {
-	const newCallback = (popup: TPopup) => {
-		try {
-			callback(popup)
-		} catch (e) {
-			console.error('Error in popup created callback', e)
-		}
-	}
-	newCallback.id = generateUuid('pop-up-callback')
+    const newCallback = (popup: TPopup) => {
+        try {
+            callback(popup);
+        } catch (e) {
+            console.error('Error in popup created callback', e);
+        }
+    };
+    newCallback.id = generateUuid('pop-up-callback');
 
-	g_PopupManager.m_rgPopupCreatedCallbacks.push(newCallback)
+    g_PopupManager.m_rgPopupCreatedCallbacks.push(newCallback);
 
-	if (opt.runOnOpenedPopups) {
-		for (let popup of g_PopupManager.m_mapPopups.values()) {
-			newCallback(popup)
-		}
-	}
+    if (opt.runOnOpenedPopups) {
+        for (const popup of g_PopupManager.m_mapPopups.values()) {
+            newCallback(popup);
+        }
+    }
 
-	return () => {
-		g_PopupManager.m_rgPopupCreatedCallbacks = g_PopupManager.m_rgPopupCreatedCallbacks.filter(
-			(cb) => cb.id !== newCallback.id
-		)
-	}
-}
+    return () => {
+        g_PopupManager.m_rgPopupCreatedCallbacks = g_PopupManager.m_rgPopupCreatedCallbacks.filter(
+            cb => cb.id !== newCallback.id
+        );
+    };
+};

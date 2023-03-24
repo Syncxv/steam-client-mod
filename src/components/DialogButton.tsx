@@ -5,12 +5,12 @@ type DialogButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 }
 
 const DialogVriants = {
-	Variant: {
-		Primary: 'Primary',
-		Secondary: 'Secondary',
-		GreenPlay: 'GreenPlay'
-	} as const
-} as const
+    Variant: {
+        Primary: 'Primary',
+        Secondary: 'Secondary',
+        GreenPlay: 'GreenPlay'
+    } as const
+} as const;
 
 type DialogButtonType = React.FC<
 	DialogButtonProps &
@@ -20,17 +20,17 @@ type DialogButtonType = React.FC<
 >
 
 export const DialogButton: DialogButtonType = ({
-	children,
-	className,
-	variant = DialogVriants.Variant.Secondary,
-	...props
+    children,
+    className,
+    variant = DialogVriants.Variant.Secondary,
+    ...props
 }) => {
-	return (
-		<button
-			className={`DialogButton _DialogLayout Focusable ${variant} ${className ?? ''}`}
-			{...props}
-		>
-			{children}
-		</button>
-	)
-}
+    return (
+        <button
+            className={`DialogButton _DialogLayout Focusable ${variant} ${className ?? ''}`}
+            {...props}
+        >
+            {children}
+        </button>
+    );
+};

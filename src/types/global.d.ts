@@ -1,7 +1,7 @@
 declare global {
-	export var steamed: typeof import('../steamed')
-	export var g_PopupManager: T_gPopupManager
-	export var g_FriendsUIApp: any
+	export var steamed: typeof import('../steamed');
+	export var g_PopupManager: T_gPopupManager;
+	export var g_FriendsUIApp: any;
 	interface Window {
 		webpackChunkfriendsui: {
 			push(chunk: any): any
@@ -21,8 +21,8 @@ export interface WebpackRequire extends Function {
 
 export type RawSpotifyModule = (what: any, exports: any, n: WebpackRequire) => any
 
-let bruh: WebpackArray = []
-let require: WebpackRequire
+const bruh: WebpackArray = [];
+let require: WebpackRequire;
 export interface PopupCallback extends Function {
 	id?: string
 	[key: string]: any

@@ -1,5 +1,5 @@
-import { ThemeDef } from '../types'
+import { ThemeDef } from '../types';
 
 export function defineTheme<P extends ThemeDef>(t: P & Record<string, any>) {
-	return { ...t, removeCallbacks: [], styleIds: [], started: false }
+    return { ...t, removeCallbacks: [], styleIds: [], started: false };
 }

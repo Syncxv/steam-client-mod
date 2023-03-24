@@ -1,8 +1,9 @@
+import autoprefixer from 'autoprefixer';
 import esbuild from 'esbuild';
-import { globPatches, globPlugins, globThemes } from './common.mjs';
 import { sassPlugin } from 'esbuild-sass-plugin';
 import postcss from 'postcss';
-import autoprefixer from 'autoprefixer';
+
+import { globPatches, globPlugins, globThemes } from './common.mjs';
 const watch = process.argv.includes('--watch');
 
 const commonPlugins = [globPlugins, globThemes];
@@ -64,7 +65,7 @@ Promise.all([
         plugins: [globPatches, sass],
         sourcemap: false
     }),
-]).catch((err) => {
+]).catch(err => {
     console.error('Build failed');
     console.error(err.message);
     // make ci fail
