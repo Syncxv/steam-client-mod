@@ -66,7 +66,7 @@ export default definePlugin({
 			const obj: { emoji: string; name: string; } = emojiObj[emoji];
 			_this.FocusTextInput();
 			_this.ReplaceSuggestedText(':', obj.emoji, undefined, true);
-			DataStore.get(emojiKey(obj.name)).then((data: TEmoji) => {
+			DataStore.get(emojiKey(obj.name)).then(async (data: TEmoji) => {
 				const res =
 					data != null
 						? { ...data, last_used: Date.now(), use_count: data.use_count + 1 }
@@ -76,7 +76,7 @@ export default definePlugin({
 							use_count: 1,
 							is_steamed: true
 						};
-				DataStore.set(emojiKey(obj.name), res);
+				await DataStore.set(emojiKey(obj.name), res);
 
 				const bru = g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons.find(
 					(e: TEmoji) => e.name === obj.name

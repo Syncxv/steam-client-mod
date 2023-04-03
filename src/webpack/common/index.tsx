@@ -1,4 +1,4 @@
-import { filters, findByProps, findLazy } from '@webpack';
+import { filters, find, findByProps } from '@webpack';
 
 import { initReact } from './react';
 
@@ -7,16 +7,9 @@ export * from './react';
 
 export let i18n: any;
 
-export const MessageClass = findLazy(m =>
-	m?.prototype?.constructor.toString().includes('eErrorSendingObservable')
-);
+export let MessageClass: any;
 
-export const _openPopout = findLazy(
-	m =>
-		filters.byProps(['ShowElementAsModal'])(m) ||
-		(typeof m === 'function' && m.toString().match(/\(.{1,2}\.bHideMainWindowForPopouts/))
-);
-
+export let _openPopout: any;
 export const openPopout = (
 	component: React.ReactNode,
 	opts: { strTitle: string; popupWidth: number; popupHeight: number } = {
@@ -36,4 +29,9 @@ export const initCommon = () => {
 	if (!i18n.LocalizeString) {
 		i18n.LocalizeString = i18n.Localize;
 	}
+
+	MessageClass = find(m => m?.prototype?.constructor.toString().includes('eErrorSendingObservable'));
+	_openPopout = find(m =>
+		filters.byProps(['ShowElementAsModal'])(m) ||
+		(typeof m === 'function' && m.toString().match(/\(.{1,2}\.bHideMainWindowForPopouts/)));
 };
