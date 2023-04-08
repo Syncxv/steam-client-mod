@@ -35,7 +35,6 @@ export const registerSetting = (section: Section) => {
 		throw new Error(`Settings tab ${section.identifier} is already registered!`);
 	}
 	section.content = React.createElement(section.content);
-	console.log(section);
 	sections[section.identifier] = section;
 };
 
