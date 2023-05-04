@@ -2,7 +2,7 @@ lockfileVersion: '6.0'
 
 patchedDependencies:
   eslint@8.28.0:
-    hash: 7wc6icvgtg3uswirb5tpsbjnbe
+    hash: kktd6o66eezcf34ceawi5zs3eu
     path: patches/eslint@8.28.0.patch
 
 dependencies:
@@ -76,7 +76,7 @@ devDependencies:
     version: 2.8.0(esbuild@0.17.12)
   eslint:
     specifier: 8.28.0
-    version: 8.28.0(patch_hash=7wc6icvgtg3uswirb5tpsbjnbe)
+    version: 8.28.0(patch_hash=kktd6o66eezcf34ceawi5zs3eu)
   eslint-config-prettier:
     specifier: ^8.8.0
     version: 8.8.0(eslint@8.28.0)
@@ -1588,7 +1588,7 @@ packages:
       eslint:
         optional: true
     dependencies:
-      eslint: 8.28.0(patch_hash=7wc6icvgtg3uswirb5tpsbjnbe)
+      eslint: 8.28.0(patch_hash=kktd6o66eezcf34ceawi5zs3eu)
       eslint-visitor-keys: 3.3.0
     dev: true
 
@@ -1879,7 +1879,7 @@ packages:
       '@typescript-eslint/type-utils': 5.56.0(eslint@8.28.0)(typescript@4.9.5)
       '@typescript-eslint/utils': 5.56.0(eslint@8.28.0)(typescript@4.9.5)
       debug: 4.3.4
-      eslint: 8.28.0(patch_hash=7wc6icvgtg3uswirb5tpsbjnbe)
+      eslint: 8.28.0(patch_hash=kktd6o66eezcf34ceawi5zs3eu)
       grapheme-splitter: 1.0.4
       ignore: 5.2.4
       natural-compare-lite: 1.4.0
@@ -1906,7 +1906,7 @@ packages:
       '@typescript-eslint/types': 5.56.0
       '@typescript-eslint/typescript-estree': 5.56.0(typescript@4.9.5)
       debug: 4.3.4
-      eslint: 8.28.0(patch_hash=7wc6icvgtg3uswirb5tpsbjnbe)
+      eslint: 8.28.0(patch_hash=kktd6o66eezcf34ceawi5zs3eu)
       typescript: 4.9.5
     transitivePeerDependencies:
       - supports-color
@@ -1935,7 +1935,7 @@ packages:
       '@typescript-eslint/typescript-estree': 5.56.0(typescript@4.9.5)
       '@typescript-eslint/utils': 5.56.0(eslint@8.28.0)(typescript@4.9.5)
       debug: 4.3.4
-      eslint: 8.28.0(patch_hash=7wc6icvgtg3uswirb5tpsbjnbe)
+      eslint: 8.28.0(patch_hash=kktd6o66eezcf34ceawi5zs3eu)
       tsutils: 3.21.0(typescript@4.9.5)
       typescript: 4.9.5
     transitivePeerDependencies:
@@ -1983,7 +1983,7 @@ packages:
       '@typescript-eslint/scope-manager': 5.56.0
       '@typescript-eslint/types': 5.56.0
       '@typescript-eslint/typescript-estree': 5.56.0(typescript@4.9.5)
-      eslint: 8.28.0(patch_hash=7wc6icvgtg3uswirb5tpsbjnbe)
+      eslint: 8.28.0(patch_hash=kktd6o66eezcf34ceawi5zs3eu)
       eslint-scope: 5.1.1
       semver: 7.3.8
     transitivePeerDependencies:
@@ -2656,7 +2656,7 @@ packages:
       eslint:
         optional: true
     dependencies:
-      eslint: 8.28.0(patch_hash=7wc6icvgtg3uswirb5tpsbjnbe)
+      eslint: 8.28.0(patch_hash=kktd6o66eezcf34ceawi5zs3eu)
     dev: true
 
   /eslint-plugin-header@3.1.1(eslint@8.28.0):
@@ -2667,7 +2667,7 @@ packages:
       eslint:
         optional: true
     dependencies:
-      eslint: 8.28.0(patch_hash=7wc6icvgtg3uswirb5tpsbjnbe)
+      eslint: 8.28.0(patch_hash=kktd6o66eezcf34ceawi5zs3eu)
     dev: true
 
   /eslint-plugin-prettier@4.2.1(eslint-config-prettier@8.8.0)(eslint@8.28.0)(prettier@2.8.6):
@@ -2683,7 +2683,7 @@ packages:
       eslint-config-prettier:
         optional: true
     dependencies:
-      eslint: 8.28.0(patch_hash=7wc6icvgtg3uswirb5tpsbjnbe)
+      eslint: 8.28.0(patch_hash=kktd6o66eezcf34ceawi5zs3eu)
       eslint-config-prettier: 8.8.0(eslint@8.28.0)
       prettier: 2.8.6
       prettier-linter-helpers: 1.0.0
@@ -2697,7 +2697,7 @@ packages:
       eslint:
         optional: true
     dependencies:
-      eslint: 8.28.0(patch_hash=7wc6icvgtg3uswirb5tpsbjnbe)
+      eslint: 8.28.0(patch_hash=kktd6o66eezcf34ceawi5zs3eu)
     dev: true
 
   /eslint-plugin-unused-imports@2.0.0(@typescript-eslint/eslint-plugin@5.56.0)(eslint@8.28.0):
@@ -2713,7 +2713,7 @@ packages:
         optional: true
     dependencies:
       '@typescript-eslint/eslint-plugin': 5.56.0(@typescript-eslint/parser@5.56.0)(eslint@8.28.0)(typescript@4.9.5)
-      eslint: 8.28.0(patch_hash=7wc6icvgtg3uswirb5tpsbjnbe)
+      eslint: 8.28.0(patch_hash=kktd6o66eezcf34ceawi5zs3eu)
       eslint-rule-composer: 0.3.0
     dev: true
 
@@ -2747,7 +2747,7 @@ packages:
       eslint:
         optional: true
     dependencies:
-      eslint: 8.28.0(patch_hash=7wc6icvgtg3uswirb5tpsbjnbe)
+      eslint: 8.28.0(patch_hash=kktd6o66eezcf34ceawi5zs3eu)
       eslint-visitor-keys: 2.1.0
     dev: true
 
@@ -2761,7 +2761,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /eslint@8.28.0(patch_hash=7wc6icvgtg3uswirb5tpsbjnbe):
+  /eslint@8.28.0(patch_hash=kktd6o66eezcf34ceawi5zs3eu):
     resolution: {integrity: sha512-S27Di+EVyMxcHiwDrFzk8dJYAaD+/5SoWKxL1ri/71CRHsnJnRDPNt2Kzj24+MT9FDupf4aqqyqPrvI8MvQ4VQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     hasBin: true

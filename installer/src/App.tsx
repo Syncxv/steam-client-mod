@@ -16,12 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { Home } from './components/Home';
 
 function App() {
 	return (
-		<div>
-			<h1>hey</h1>
-		</div>
+		<Home />
 	);
 }
 
