@@ -64,7 +64,14 @@ pub fn patch_friend_javascript(
         .map(|i| i + "</script>".len())
         .expect("FAILED GET SCRIPT TAG INDEX");
 
-    index_html.replace_range(index..index,"\n\n\t\t<script src=\"bruh.js\"> </script>\n<meta http-equiv=\"Content-Security-Policy\" content=\"upgrade-insecure-requests\">\n");
+    let stuff = r#"
+
+		<script src="bruh.js"> </script>
+		<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+	"#;
+
+    index_html.replace_range(index..index, stuff);
     fs::write(&steam_friend_index_html, index_html).expect("FAILED TO WRITE TO FRIEND INDEX HTML");
 
     println!("[Friends Injector] injected js-injector into html");

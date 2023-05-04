@@ -58,7 +58,7 @@ pub fn unpatch_library(config: HashMap<String, String>) {
     // fs::remove_file(steamui.join("lib-client.js")).unwrap();
     // fs::remove_file(steamui.join("library-bruh.js")).unwrap();
     println!("[Library Injector] removed lib-client.js and library-bruh.js from steamui folder");
-    let mut index_html =
+    let index_html =
         fs::read_to_string(steamui.join("index.html")).expect("CANNOT FIND STEAM LIBRARY HTML");
     let mut index_html = index_html.replace(r#"<script src="library-bruh.js"></script>"#, "");
     index_html = index_html.replace(
