@@ -1,8 +1,4 @@
-use std::env;
-use std::{
-    path::Path,
-    process::{exit, Command},
-};
+use std::process::exit;
 
 use actix_web::{get, App, HttpResponse, HttpServer, Responder};
 
@@ -13,7 +9,10 @@ async fn hello() -> impl Responder {
     // let mut command = Command::new(Path::new(&curr_dir).join("injector.exe"));
     // command.arg("unpatch-friend");
     // command.spawn().unwrap();
-    exit(0);
+    std::thread::spawn(|| {
+        std::thread::sleep(std::time::Duration::from_millis(100));
+        exit(0);
+    });
     HttpResponse::Ok().body("hey")
 }
 
