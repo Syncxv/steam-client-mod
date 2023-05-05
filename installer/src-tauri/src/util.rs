@@ -46,27 +46,29 @@ pub fn get_config_json() -> String {
         }
     }
 
-    let config_path = current_dir.join("config.toml");
+    let config_path_buf = current_dir.join("config.toml");
+    let config_path = config_path_buf.to_str().expect("Invaid Path");
 
-    let settings = Config::builder()
+    let settings_res = Config::builder()
         // Add in `./Settings.toml`
-        .add_source(config::File::with_name(config_path.to_str().unwrap()))
+        .add_source(config::File::with_name(&config_path))
         // Add in settings from the environment (with a prefix of APP)
         // Eg.. `APP_DEBUG=1 ./target/app` would set the `debug` key
         .add_source(config::Environment::with_prefix("APP"))
         .build();
 
-    match settings {
-        Ok(settin) => {
-            let conf = settin.try_deserialize::<HashMap<String, String>>().unwrap();
+    match settings_res {
+        Ok(setting) => {
+            let conf = setting
+                .try_deserialize::<HashMap<String, String>>()
+                .unwrap();
 
             serde_json::to_string(&conf).unwrap()
         }
         Err(e) => {
             eprintln!(
                 "Failed to read config with path: {} Using Default config. Error: {}",
-                config_path.to_str().unwrap(),
-                e
+                config_path, e
             );
             serde_json::to_string(&get_default_config()).unwrap()
         }

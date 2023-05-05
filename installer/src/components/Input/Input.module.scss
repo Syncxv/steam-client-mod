@@ -20,11 +20,14 @@
 	.inputContainer {
 		$border-radius: 3px;
 		display: flex;
+		align-items: center;
+		justify-content: center;
 		width: 100%;
 
 		.browse {
 			padding: 0.25em 0.5em;
 			border: none;
+			height: 2.5rem;
 			cursor: pointer;
 			border-top-right-radius: $border-radius;
 			border-bottom-right-radius: $border-radius;
