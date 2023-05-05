@@ -23,6 +23,7 @@ interface InputProps {
 	title: string;
 	description?: string;
 	id?: string;
+	webkitdirectory?: boolean;
 }
 
 
@@ -34,7 +35,7 @@ export const Input: Component<InputProps & JSX.IntrinsicElements['input']> = pro
 				{title}
 			</label>
 			{description && <p>{description}</p>}
-			<input {...rest} title={title} type="text" id={id ?? title} />
+			<input {...rest} title={title} id={id ?? title} />
 		</div>
 	);
 };

@@ -16,12 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { invoke } from "@tauri-apps/api";
 import { Component } from "solid-js";
 
 import { Input } from "../Input";
 import Styles from './Home.module.scss';
 
 export const Home: Component = () => {
+	use;
 	return (
 		<div class={Styles.container}>
 			<h1>Steamed</h1>
@@ -31,6 +33,14 @@ export const Home: Component = () => {
 				description="eg. C:/Program Files (x86)/Steam"
 				placeholder="hi there"
 			/>
+
+			<button onClick={async () => {
+				const hehe = await invoke("check_pnpm");
+				console.log(hehe);
+			}}
+			>
+				check dependencies
+			</button>
 		</div>
 	);
 };
