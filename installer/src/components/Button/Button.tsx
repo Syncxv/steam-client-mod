@@ -16,4 +16,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-export { Input, InputFilePicker } from './Input';
+import { Component, JSX, splitProps } from "solid-js";
+
+import Styles from './Button.module.scss';
+
+interface ButtonProps {
+	children: JSX.Element
+}
+
+export const Button: Component<ButtonProps & JSX.IntrinsicElements['button']> = props => {
+	const [{ children }, rest] = splitProps(props, ["children"]);
+	return (
+		<button
+			{...rest}
+			class={`${Styles.btn} ${rest.class ?? ""}`}
+			type={rest.type ?? "button"}
+		>
+			{children}
+		</button>
+	);
+};

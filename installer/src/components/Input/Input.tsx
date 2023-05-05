@@ -16,26 +16,59 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { Component, JSX, splitProps } from "solid-js";
+import { dialog } from "@tauri-apps/api";
+import { Component, createSignal, JSX, splitProps } from "solid-js";
 
+import { Button } from "../Button";
 import Styles from './Input.module.scss';
 interface InputProps {
 	title: string;
+	type?: string
 	description?: string;
-	id?: string;
 	webkitdirectory?: boolean;
 }
 
 
+
+export const InputFilePicker: Component<InputProps & JSX.IntrinsicElements['input']> = props => {
+	const [{ title, id, description, type }, rest] = splitProps(props, ["title", "id", "description", "type"]);
+	const [value, setValue] = createSignal(props.value ?? "");
+
+	const openDialog = async () => {
+		const path = await dialog.open({
+			directory: true
+		});
+
+		setValue(path ?? "");
+	};
+
+	const inputId = (id ?? title) + Math.random() * 1000000;
+	return (
+		<div class={Styles.container}>
+			<label for={inputId}>
+				{title}
+			</label>
+			{description && <p>{description}</p>}
+			<div class={Styles.inputContainer}>
+				<input {...rest} value={value()} type="text" title={title} id={inputId} />
+				<Button onclick={openDialog} class={Styles.browse} type="button">Browse</Button>
+			</div>
+		</div>
+	);
+};
+
 export const Input: Component<InputProps & JSX.IntrinsicElements['input']> = props => {
-	const [{ title, id, description }, rest] = splitProps(props, ["title", "id", "description"]);
+	const [{ title, id, description, type }, rest] = splitProps(props, ["title", "id", "description", "type"]);
+
 	return (
 		<div class={Styles.container}>
 			<label for={id ?? title}>
 				{title}
 			</label>
 			{description && <p>{description}</p>}
-			<input {...rest} title={title} id={id ?? title} />
+			<div class={Styles.inputContainer}>
+				<input {...rest} type={type} title={title} id={id ?? title} />
+			</div>
 		</div>
 	);
 };

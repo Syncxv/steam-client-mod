@@ -19,31 +19,40 @@
 import { invoke } from "@tauri-apps/api";
 import { Component, createResource, createSignal, Show } from "solid-js";
 
-import { Input } from "../Input";
+import { Button } from "../Button";
+import { InputFilePicker } from "../Input/Input";
 import Styles from './Home.module.scss';
+
+interface Config {
+	steam_path: string;
+}
 
 export const Home: Component = () => {
 	const [configStr, _] = createSignal("");
-	const [data] = createResource<string, string>(configStr, async () => await invoke<string>("get_config"));
+	const [data] = createResource<Config, string>(configStr, async () => JSON.parse(await invoke<string>("get_config")));
 	return (
 		<Show when={!data.loading} fallback={<>Loading...</>}>
-			{data()}
 			<div class={Styles.container}>
 				<h1>Steamed</h1>
-				<Input
+				<InputFilePicker
 					id="steam-path"
 					title="Steam path"
-					description="eg. C:/Program Files (x86)/Steam"
-					placeholder="hi there"
+					// description="eg. C:/Program Files (x86)/Steam"
+					placeholder="example: C:/Program Files (x86)/Steam"
+					type="file"
+					value={data()!.steam_path}
 				/>
 
-				<button onClick={async () => {
-					const hehe = await invoke("check_pnpm");
-					console.log(hehe);
-				}}
-				>
-					check dependencies
-				</button>
+
+				<div class={Styles.actions}>
+					<Button onClick={async () => {
+						const hehe = await invoke("check_pnpm");
+						console.log(hehe);
+					}}
+					>
+						check dependencies
+					</Button>
+				</div>
 			</div>
 		</Show>
 	);
