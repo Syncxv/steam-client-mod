@@ -23,7 +23,6 @@ import { Input } from "../Input";
 import Styles from './Home.module.scss';
 
 export const Home: Component = () => {
-	use;
 	return (
 		<div class={Styles.container}>
 			<h1>Steamed</h1>
