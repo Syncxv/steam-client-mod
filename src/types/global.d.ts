@@ -29,7 +29,7 @@ declare global {
 	}
 }
 export interface WebpackArray {
-	push([[[id]], {}]: [[[id: string]], {}, (require: WebpackRequire) => void]): WebpackRequire
+	push([[[id]], { }]: [[[id: string]], {}, (require: WebpackRequire) => void]): WebpackRequire
 }
 
 export interface WebpackRequire extends Function {
@@ -41,7 +41,8 @@ export type RawSpotifyModule = (what: any, exports: any, n: WebpackRequire) => a
 
 const bruh: WebpackArray = [];
 let require: WebpackRequire;
-export interface PopupCallback extends Function {
+export interface PopupCallback {
+	(popup: TPopup): any
 	id?: string
 	[key: string]: any
 }

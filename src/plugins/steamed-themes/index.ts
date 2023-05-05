@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { addPopupCreatedCallback,definePlugin, Devs, insertCss } from '@utils';
+import { addPopupCreatedCallback, definePlugin, Devs, insertCss } from '@utils';
 import { React } from '@webpack/common';
 
 import { Settings } from './components/Settings';
