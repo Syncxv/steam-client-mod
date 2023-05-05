@@ -1,9 +1,9 @@
 mod args;
 mod cmd;
-mod config;
 mod utils;
 
 use clap::Parser;
+use shared::get_config;
 
 use args::{Commands, SteamInjectorCli};
 
@@ -13,7 +13,7 @@ use cmd::test::handle_test;
 use cmd::library::{handle_library_command, handle_library_unpatch_command};
 
 fn main() {
-    let steam_config = config::get_config();
+    let steam_config = get_config();
 
     let args = SteamInjectorCli::parse();
     match args.command {

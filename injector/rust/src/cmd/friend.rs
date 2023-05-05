@@ -26,18 +26,10 @@ pub fn patch_friend_javascript(
 
     if update || should_update_friends_web_ui(friends_web_ui) {
         println!("[Friends Injector] Updating friends_web_ui.js");
-        //get friends.js from steam chat
-        let bruh = reqwest::blocking::get(
-            "https://community.cloudflare.steamstatic.com/public/javascript/webui/friends.js",
-        )?
-        .text()?;
-
-        fs::write(friends_web_ui, bruh).unwrap();
-        println!("[Friends Injector] inserted friends_web_ui.js to clientui folder");
+        update_friends_webuijs(friends_web_ui);
     } else {
         println!("[Friends Injector] friends_web_ui.js is up to date");
     }
-
     //add steamed :)
     let steamed_path = Path::new(&curr_dir)
         .join("dist")
@@ -162,5 +154,33 @@ fn should_update_friends_web_ui(path: &PathBuf) -> bool {
         return true;
     } else {
         return false;
+    }
+}
+
+fn update_friends_webuijs(friends_web_ui: &PathBuf) {
+    //get friends.js from steam chat
+    let response = reqwest::blocking::get(
+        "https://community.cloudflare.steamstatic.com/public/javascript/webui/friends.js",
+    );
+
+    match response {
+        Ok(response) => {
+            let content = response.text();
+            match content {
+                Ok(content) => {
+                    fs::write(friends_web_ui, content).unwrap();
+                    println!("[Friends Injector] inserted friends_web_ui.js to clientui folder");
+                }
+                Err(e) => {
+                    println!("[Friends Injector] Failed to read friends_web_ui.js: {}", e);
+                }
+            }
+        }
+        Err(e) => {
+            println!(
+                "[Friends Injector] Failed to download friends_web_ui.js: {}",
+                e
+            );
+        }
     }
 }

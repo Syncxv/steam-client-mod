@@ -10,5 +10,8 @@
 		"editor.defaultFormatter": "vscode.typescript-language-features"
 	},
 
-	"rust-analyzer.linkedProjects": ["installer/src-tauri/Cargo.toml"]
+	"rust-analyzer.linkedProjects": [
+		"installer/src-tauri/Cargo.toml",
+		"injector/Cargo.toml"
+	]
 }

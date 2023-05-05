@@ -1,13 +1,12 @@
-mod config;
 mod server;
 
+use shared::get_config;
 use std::env;
 use std::io::stdin;
 use std::process::exit;
 use std::time::Duration;
 use std::{path::Path, process::Command, thread};
 use sysinfo::{ProcessExt, System, SystemExt};
-
 pub fn is_steam_open(system: &mut System) -> bool {
     system.refresh_all();
 
@@ -37,7 +36,7 @@ pub fn wait_for_steam(system: &mut System) -> bool {
 
 fn main() {
     thread::spawn(move || {
-        let stem_config = config::get_config();
+        let stem_config = get_config();
         let what = stem_config.get("steam_path").unwrap();
         let steam_path = Path::new(&what);
         let steam_exe_path = steam_path.join("steam.exe");
