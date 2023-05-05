@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "tauri": "tauri"
+    "tauri": "cross-env TAURI_APP_DIR=../ tauri"
   },
   "license": "MIT",
   "dependencies": {

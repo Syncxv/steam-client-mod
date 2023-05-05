@@ -1,3 +1,6 @@
+use config::Config;
+use serde_json;
+use std::collections::HashMap;
 use std::env;
 use std::path::Path;
 use std::process::Command;
@@ -31,4 +34,48 @@ pub fn execute_command_with_path(command_name: &str, args: &[&str]) -> std::io::
     }
 
     Ok(())
+}
+
+pub fn get_config_json() -> String {
+    let mut current_dir = std::env::current_dir().unwrap();
+    let root_folder_name = "steam-client-mod";
+
+    while current_dir.file_name().unwrap() != root_folder_name {
+        if !current_dir.pop() {
+            panic!("Root directory not found");
+        }
+    }
+
+    let config_path = current_dir.join("config.toml");
+
+    let settings = Config::builder()
+        // Add in `./Settings.toml`
+        .add_source(config::File::with_name(config_path.to_str().unwrap()))
+        // Add in settings from the environment (with a prefix of APP)
+        // Eg.. `APP_DEBUG=1 ./target/app` would set the `debug` key
+        .add_source(config::Environment::with_prefix("APP"))
+        .build();
+
+    match settings {
+        Ok(settin) => {
+            let conf = settin.try_deserialize::<HashMap<String, String>>().unwrap();
+
+            serde_json::to_string(&conf).unwrap()
+        }
+        Err(e) => {
+            eprintln!(
+                "Failed to read config with path: {} Using Default config. Error: {}",
+                config_path.to_str().unwrap(),
+                e
+            );
+            serde_json::to_string(&get_default_config()).unwrap()
+        }
+    }
+}
+
+pub fn get_default_config() -> HashMap<&'static str, &'static str> {
+    let mut config = HashMap::new();
+    config.insert("steam_path", "C:\\Program Files (x86)\\Steam");
+
+    config
 }

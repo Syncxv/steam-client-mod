@@ -3,7 +3,7 @@
 use std::env;
 mod util;
 
-use util::execute_command_with_path;
+use util::{execute_command_with_path, get_config_json};
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -24,10 +24,16 @@ fn check_pnpm() -> bool {
     }
 }
 
+#[tauri::command]
+fn get_config() -> String {
+    get_config_json()
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![greet])
         .invoke_handler(tauri::generate_handler![check_pnpm])
+        .invoke_handler(tauri::generate_handler![get_config])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
