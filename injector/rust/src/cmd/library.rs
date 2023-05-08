@@ -1,36 +1,32 @@
-use std::{
-    collections::HashMap,
-    env, fs,
-    path::{Path, PathBuf},
-};
+use std::{collections::HashMap, env, fs, path::Path};
 
 pub fn handle_library_unpatch_command(config: HashMap<String, String>) {
     println!("Library unpatch command");
-    unpatch_library(config);
+    unpatch_library(&config);
 }
 
 pub fn handle_library_command(config: HashMap<String, String>) {
     println!("Library command");
-    inject_library_client(config);
+    inject_library_client(&config);
 }
 
-pub fn inject_library_client(config: HashMap<String, String>) {
-    let binding = env::current_dir().unwrap().to_str().unwrap().to_string();
-    let curr_dir = Path::new(&binding);
-    let binding = config.get("steam_path").unwrap();
-    let steam_path = Path::new(&binding);
+pub fn inject_library_client(config: &HashMap<String, String>) {
+    let current_dir = env::current_dir().unwrap();
+    let steam_path = Path::new(config.get("steam_path").unwrap());
     let steamui = steam_path.join("steamui");
     //add LibraryClient.js to steamui folder :)
-    let lib_client = fs::read_to_string(curr_dir.join("dist/js").join("LibraryClient.js"))
+    let lib_client = fs::read_to_string(current_dir.join("dist/js").join("LibraryClient.js"))
         .expect("CANNOT FIND STEAM LIBRARY CLIENT");
     fs::write(steamui.join("lib-client.js"), lib_client).unwrap();
     println!("[Library Injector] inserted lib-client.js to steamui folder");
 
     //inject bruh.js / js-injector :)
-    let mut steamed_js_injector_path = PathBuf::from(&curr_dir);
-    steamed_js_injector_path.extend(&["dist", "js", "library-patcher.js"]);
-    let steamed_js_injector = fs::read_to_string(&steamed_js_injector_path).unwrap();
-    fs::write(&steamui.join("library-bruh.js"), steamed_js_injector).unwrap();
+    let library_patcher_path = current_dir
+        .join("dist")
+        .join("js")
+        .join("library-patcher.js");
+    let library_patcher = fs::read_to_string(&library_patcher_path).unwrap();
+    fs::write(&steamui.join("library-bruh.js"), library_patcher).unwrap();
     println!("[Library Injector] inserted js-injector to steamui folder");
 
     //insert srcipt tag into html
@@ -51,9 +47,8 @@ pub fn inject_library_client(config: HashMap<String, String>) {
     println!("[Library Injector] inserted script tag into steamui/index.html");
 }
 
-pub fn unpatch_library(config: HashMap<String, String>) {
-    let binding = config.get("steam_path").unwrap();
-    let steam_path = Path::new(&binding);
+pub fn unpatch_library(config: &HashMap<String, String>) {
+    let steam_path = Path::new(config.get("steam_path").unwrap());
     let steamui = steam_path.join("steamui");
     // fs::remove_file(steamui.join("lib-client.js")).unwrap();
     // fs::remove_file(steamui.join("library-bruh.js")).unwrap();
