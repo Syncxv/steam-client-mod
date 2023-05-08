@@ -1,32 +1,32 @@
-use std::collections::HashMap;
-use std::env;
-use std::fs;
-use std::path::Path;
-use std::path::PathBuf;
-use std::time::Duration;
-use std::time::SystemTime;
+use std::{
+    collections::HashMap,
+    env, fs,
+    path::{Path, PathBuf},
+    time::{Duration, SystemTime},
+};
+
 pub fn handle_friend_command_unpatch(steam_config: HashMap<String, String>) {
-    unpatch_friends(steam_config)
+    unpatch_friends(&steam_config)
 }
 
 pub fn handle_friend_command_patch(steam_config: HashMap<String, String>, update: bool) {
-    patch_friend_javascript(steam_config, update).unwrap();
+    patch_friend_javascript(&steam_config, update).unwrap();
 }
 
 pub fn patch_friend_javascript(
-    config: HashMap<String, String>,
+    config: &HashMap<String, String>,
     update: bool,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let curr_dir = env::current_dir().unwrap().to_str().unwrap().to_string();
-    let binding = config.get("steam_path").unwrap();
-    let steam_path = Path::new(&binding);
+    let curr_dir = env::current_dir().unwrap();
+    let steam_path_str = config.get("steam_path").unwrap();
+    let steam_path = Path::new(steam_path_str);
     let clientui = steam_path.join("clientui");
     let steam_friend_index_html = clientui.join("index_friends.html");
-    let friends_web_ui = &clientui.join("friends_web_ui.js");
+    let friends_web_ui = clientui.join("friends_web_ui.js");
 
-    if update || should_update_friends_web_ui(friends_web_ui) {
+    if update || should_update_friends_web_ui(&friends_web_ui) {
         println!("[Friends Injector] Updating friends_web_ui.js");
-        update_friends_webuijs(friends_web_ui);
+        update_friends_webuijs(&friends_web_ui);
     } else {
         println!("[Friends Injector] friends_web_ui.js is up to date");
     }
@@ -84,23 +84,21 @@ pub fn patch_friend_javascript(
 
     println!("[Friends Injector] injected steamed to friends and chat :D");
 
-    return Ok(());
+    Ok(())
 }
 
-fn unpatch_friends(config: HashMap<String, String>) {
-    let binding = config.get("steam_path").unwrap();
-    let steam_path = Path::new(&binding);
+fn unpatch_friends(config: &HashMap<String, String>) {
+    let steam_path_str = config.get("steam_path").unwrap();
+    let steam_path = Path::new(steam_path_str);
     let clientui = steam_path.join("clientui");
     let steam_friend_index_html = clientui.join("index_friends.html");
+
     //unpatching friends.js :)
-
     let patched = get_patch();
-
     let steam_friend_js =
         fs::read_to_string(&clientui.join("friends.js")).expect("FAILED TO GET STEAM_FRIEND_JS");
 
     let steam_friend_js = steam_friend_js.replace(&patched, "");
-
     fs::write(&clientui.join("friends.js"), steam_friend_js).unwrap();
 
     println!("[Friends Injector] un patched friends.js :D");
@@ -117,70 +115,57 @@ fn unpatch_friends(config: HashMap<String, String>) {
 }
 
 fn get_patch() -> String {
-    let curr_dir = env::current_dir().unwrap().to_str().unwrap().to_string();
-    let iframe_patcher = fs::read_to_string(
-        Path::new(&curr_dir)
-            .join("dist")
-            .join("js")
-            .join("iframe-patcher.js"),
-    )
-    .expect("FAILED TO GET IFRAME PATCHER");
+    let curr_dir = env::current_dir().unwrap();
+    let iframe_patcher_path = curr_dir.join("dist").join("js").join("iframe-patcher.js");
+    let iframe_patcher =
+        fs::read_to_string(&iframe_patcher_path).expect("Failed to get iframe patcher");
+
     let steamed_react = "window.steamed = { Webpack: { Common: { React: __webpack_module_cache__['./node_modules/react/index.js'].exports,},},};\nwindow.React = steamed.Webpack.Common.React;";
 
-    let patched = format!(
+    format!(
         "{window_steamed}\n{code}return;",
         window_steamed = steamed_react,
         code = iframe_patcher
-    );
-    patched
+    )
 }
 
-fn should_update_friends_web_ui(path: &PathBuf) -> bool {
-    if !Path::new(path).exists() {
+fn should_update_friends_web_ui(path: &Path) -> bool {
+    if !path.exists() {
         return true;
     }
-    let lel = fs::metadata(path).unwrap().modified().unwrap();
+
+    let last_modified = fs::metadata(path).unwrap().modified().unwrap();
     let sys_time = SystemTime::now();
-
     let difference = sys_time
-        .duration_since(lel)
+        .duration_since(last_modified)
         .expect("Clock may have gone backwards");
-    // let difference = lel
-    //     .duration_since(sys_time)
-    //     .expect("Clock may have gone backwards");
-    println!("{difference:?}");
-    //if the file is older than 1 day then update it
-    if difference > Duration::from_secs(86_400) {
-        return true;
-    } else {
-        return false;
-    }
+
+    println!("Difference: {:?}", difference);
+
+    // If the file is older than 1 day, then update it
+    difference > Duration::from_secs(86_400)
 }
 
-fn update_friends_webuijs(friends_web_ui: &PathBuf) {
-    //get friends.js from steam chat
+fn update_friends_webuijs(friends_web_ui: &Path) {
+    // Get friends.js from steam chat
     let response = reqwest::blocking::get(
         "https://community.cloudflare.steamstatic.com/public/javascript/webui/friends.js",
     );
 
-    match response {
-        Ok(response) => {
-            let content = response.text();
-            match content {
-                Ok(content) => {
-                    fs::write(friends_web_ui, content).unwrap();
-                    println!("[Friends Injector] inserted friends_web_ui.js to clientui folder");
-                }
-                Err(e) => {
-                    println!("[Friends Injector] Failed to read friends_web_ui.js: {}", e);
-                }
+    if let Ok(response) = response {
+        if let Ok(content) = response.text() {
+            if let Err(e) = fs::write(friends_web_ui, content) {
+                eprintln!(
+                    "[Friends Injector] Failed to write friends_web_ui.js: {}",
+                    e
+                );
+            } else {
+                println!("[Friends Injector] inserted friends_web_ui.js to clientui folder");
             }
+        } else {
+            eprintln!("[Friends Injector] Failed to read friends_web_ui.js");
         }
-        Err(e) => {
-            println!(
-                "[Friends Injector] Failed to download friends_web_ui.js: {}",
-                e
-            );
-        }
+    } else {
+        eprintln!("[Friends Injector] Failed to download friends_web_ui.js");
     }
 }
