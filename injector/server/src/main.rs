@@ -19,69 +19,76 @@ pub fn is_steam_open(system: &mut System) -> bool {
     false
 }
 
-pub fn wait_for_steam(system: &mut System) -> bool {
-    let mut steam_found = false;
+// pub fn wait_for_steam(system: &mut System) -> bool {
+//     let mut steam_found = false;
 
-    while !steam_found {
-        println!("looking for steam");
+//     while !steam_found {
+//         println!("looking for steam");
 
-        if is_steam_open(system) {
-            steam_found = true;
-        }
-        thread::sleep(Duration::from_millis(1000));
-    }
+//         if is_steam_open(system) {
+//             steam_found = true;
+//         }
+//         thread::sleep(Duration::from_millis(1000));
+//     }
 
-    true
-}
+//     true
+// }
 
 fn main() {
-    thread::spawn(move || {
-        let stem_config = get_config();
-        let what = stem_config.get("steam_path").unwrap();
-        let steam_path = Path::new(&what);
-        let steam_exe_path = steam_path.join("steam.exe");
-        let curr_dir = env::current_dir().unwrap().to_str().unwrap().to_string();
-        let mut system = System::new_all();
-
-        if is_steam_open(&mut system) {
-            println!("steam is open pls close it thanks");
-            thread::sleep(Duration::from_secs(10));
-            exit(1);
-        }
-
-        let mut command = Command::new(&steam_exe_path);
-        if let Ok(mut _child) = command.arg("-dev").arg("-noverifyfiles").spawn() {
-            println!("starting steam\nunpatching just in case\n");
-            let mut command = Command::new(Path::new(&curr_dir).join("injector.exe"));
-            command.arg("unpatch-friend");
-            let mut child = command.spawn().unwrap();
-            child.wait().unwrap();
-
-            let mut command = Command::new(Path::new(&curr_dir).join("injector.exe"));
-            command.arg("unpatch-library");
-            let mut child = command.spawn().unwrap();
-            child.wait().unwrap();
-
-            // we dont need these anymore because of -noverifyfiles :)
-            // wait_for_steam(&mut system);
-
-            // println!("OK NOW WE CAN INJECT");
-
-            let mut command = Command::new(Path::new(&curr_dir).join("injector.exe"));
-            command.arg("patch-friend");
-            command.arg("--update");
-            command.spawn().unwrap();
-
-            let mut command = Command::new(Path::new(&curr_dir).join("injector.exe"));
-            command.arg("patch-library");
-            command.spawn().unwrap();
-
-            server::server_main().expect("server failed eh");
-        } else {
-            println!("steam didnt start")
-        }
+    let handle = thread::spawn(move || {
+        println!("Hello, world!");
+        let mut input = String::with_capacity(100);
+        stdin().read_line(&mut input).unwrap();
     });
-    println!("Hello, world!");
-    let mut input = String::with_capacity(100);
-    stdin().read_line(&mut input).unwrap();
+
+    let stem_config = get_config();
+    let what = stem_config.get("steam_path").unwrap();
+    let steam_path = Path::new(&what);
+    let steam_exe_path = steam_path.join("steam.exe");
+    let curr_dir = env::current_dir().unwrap();
+    let mut system = System::new_all();
+
+    if is_steam_open(&mut system) {
+        println!("steam is open pls close it thanks");
+        thread::sleep(Duration::from_secs(10));
+        exit(1);
+    }
+
+    let mut command = Command::new(&steam_exe_path);
+    if let Ok(mut _child) = command.arg("-dev").arg("-noverifyfiles").spawn() {
+        println!("starting steam\nunpatching just in case\n");
+
+        let mut child = create_injector_command(&curr_dir, "unpatch-friend")
+            .spawn()
+            .expect("Failed to start injector");
+        child.wait().expect("Injector failed");
+
+        let mut child = create_injector_command(&curr_dir, "unpatch-library")
+            .spawn()
+            .expect("Failed to start injector");
+        child.wait().expect("Injector failed");
+
+        // we dont need to wait for steam to start because of -noverifyfiles
+        // println!("waiting for steam to start");
+        // wait_for_steam(&mut system);
+
+        let mut command = create_injector_command(&curr_dir, "patch-friend");
+        command.arg("--update");
+        command.spawn().expect("Failed to start injector");
+
+        let mut command = create_injector_command(&curr_dir, "patch-library");
+        command.spawn().expect("Failed to start injector");
+
+        server::server_main().expect("server failed eh");
+    } else {
+        println!("steam didnt start")
+    }
+
+    handle.join().unwrap();
+}
+
+fn create_injector_command(curr_dir: &Path, arg: &str) -> Command {
+    let mut command = Command::new(curr_dir.join("injector.exe"));
+    command.arg(arg);
+    command
 }
