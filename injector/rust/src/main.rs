@@ -11,8 +11,8 @@ use cmd::friend::{handle_friend_command_patch, handle_friend_command_unpatch};
 use cmd::test::handle_test;
 
 use cmd::library::{handle_library_command, handle_library_unpatch_command};
-
-fn main() {
+#[tokio::main]
+async fn main() {
     let steam_config = get_config();
 
     let args = SteamInjectorCli::parse();
@@ -21,11 +21,13 @@ fn main() {
             println!("hi there")
         }
         Some(x) => match x {
-            Commands::Test => handle_test(steam_config),
-            Commands::PatchFriend { update } => handle_friend_command_patch(steam_config, update),
-            Commands::UnpatchFriend => handle_friend_command_unpatch(steam_config),
-            Commands::PatchLibrary => handle_library_command(steam_config),
-            Commands::UnpatchLibrary => handle_library_unpatch_command(steam_config),
+            Commands::Test => handle_test(steam_config).await,
+            Commands::PatchFriend { update } => {
+                handle_friend_command_patch(steam_config, update).await
+            }
+            Commands::UnpatchFriend => handle_friend_command_unpatch(steam_config).await,
+            Commands::PatchLibrary => handle_library_command(steam_config).await,
+            Commands::UnpatchLibrary => handle_library_unpatch_command(steam_config).await,
         },
     }
 }

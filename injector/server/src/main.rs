@@ -62,9 +62,10 @@ fn main() {
             let mut child = command.spawn().unwrap();
             child.wait().unwrap();
 
-            wait_for_steam(&mut system);
+            // we dont need these anymore because of -noverifyfiles :)
+            // wait_for_steam(&mut system);
 
-            println!("OK NOW WE CAN INJECT");
+            // println!("OK NOW WE CAN INJECT");
 
             let mut command = Command::new(Path::new(&curr_dir).join("injector.exe"));
             command.arg("patch-friend");
