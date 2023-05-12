@@ -1,8 +1,11 @@
 use config::Config;
 use serde_json;
+use serde_json::Error as SerdeError;
 use std::collections::HashMap;
 use std::env;
+use std::io;
 use std::path::Path;
+use std::path::PathBuf;
 use std::process::Command;
 pub fn execute_command_with_path(command_name: &str, args: &[&str]) -> std::io::Result<()> {
     let path_delimiter = if cfg!(target_family = "unix") {
@@ -36,43 +39,43 @@ pub fn execute_command_with_path(command_name: &str, args: &[&str]) -> std::io::
     Ok(())
 }
 
-pub fn get_config_json() -> String {
-    let mut current_dir = std::env::current_dir().unwrap();
+pub fn get_config_json() -> Result<String, Box<dyn std::error::Error>> {
+    let config_path = find_config_path()?;
+    let settings = Config::builder()
+        .add_source(config::File::with_name(config_path.to_str().unwrap()))
+        .add_source(config::Environment::with_prefix("APP"))
+        .build();
+
+    match settings {
+        Ok(settin) => {
+            let conf = settin.try_deserialize::<HashMap<String, String>>()?;
+            Ok(serde_json::to_string(&conf)?)
+        }
+        Err(e) => {
+            eprintln!(
+                "Failed to read config with path: {}. Using Default config. Error: {}",
+                config_path.display(),
+                e
+            );
+            Ok(serde_json::to_string(&get_default_config())?)
+        }
+    }
+}
+
+pub fn find_config_path() -> io::Result<PathBuf> {
+    let mut current_dir = std::env::current_dir()?;
     let root_folder_name = "steam-client-mod";
 
     while current_dir.file_name().unwrap() != root_folder_name {
         if !current_dir.pop() {
-            panic!("Root directory not found");
+            return Err(io::Error::new(
+                io::ErrorKind::NotFound,
+                "Root directory not found",
+            ));
         }
     }
 
-    let config_path_buf = current_dir.join("config.toml");
-    let config_path = config_path_buf.to_str().expect("Invaid Path");
-
-    let settings_res = Config::builder()
-        // Add in `./Settings.toml`
-        .add_source(config::File::with_name(&config_path))
-        // Add in settings from the environment (with a prefix of APP)
-        // Eg.. `APP_DEBUG=1 ./target/app` would set the `debug` key
-        .add_source(config::Environment::with_prefix("APP"))
-        .build();
-
-    match settings_res {
-        Ok(setting) => {
-            let conf = setting
-                .try_deserialize::<HashMap<String, String>>()
-                .unwrap();
-
-            serde_json::to_string(&conf).unwrap()
-        }
-        Err(e) => {
-            eprintln!(
-                "Failed to read config with path: {} Using Default config. Error: {}",
-                config_path, e
-            );
-            serde_json::to_string(&get_default_config()).unwrap()
-        }
-    }
+    Ok(current_dir.join("config.toml"))
 }
 
 pub fn get_default_config() -> HashMap<&'static str, &'static str> {

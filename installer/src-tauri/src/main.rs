@@ -26,7 +26,7 @@ fn check_pnpm() -> bool {
 
 #[tauri::command]
 fn get_config() -> String {
-    get_config_json()
+    get_config_json().unwrap()
 }
 
 fn main() {
