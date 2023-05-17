@@ -12,6 +12,7 @@
 		"build-injector": "cd injector/rust && cargo build --release && copy \"..\\target\\release\\injector.exe\" \"../../injector.exe\"",
 		"build-injector:dev": "cd injector/rust && cargo build && copy \"..\\target\\release\\injector.exe\" \"../../injector.exe\"",
 		"build-server": "cd injector/server && cargo build --release && copy \"..\\target\\release\\server.exe\" \"../../server.exe\"",
+		"build:all": "pnpm build && pnpm build-injector && pnpm build-server",
 		"inject:lib": "injector.exe patch-library",
 		"inject": "injector.exe patch-friend",
 		"restore": "injector.exe unpatch-friend",

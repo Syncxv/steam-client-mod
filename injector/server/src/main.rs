@@ -54,34 +54,34 @@ fn main() {
         exit(1);
     }
 
+    println!("unpatching just in case\n");
+    let mut child = create_injector_command(&curr_dir, "unpatch-friend")
+        .spawn()
+        .expect("Failed to start injector");
+    child.wait().expect("Injector failed");
+
+    let mut child = create_injector_command(&curr_dir, "unpatch-library")
+        .spawn()
+        .expect("Failed to start injector");
+    child.wait().expect("Injector failed");
+
+    // we dont need to wait for steam to start because of -noverifyfiles
+    // println!("waiting for steam to start");
+    // wait_for_steam(&mut system);
+
+    let mut command = create_injector_command(&curr_dir, "patch-friend");
+    command.arg("--update");
+    command.spawn().expect("Failed to start injector");
+
+    let mut command = create_injector_command(&curr_dir, "patch-library");
+    command.spawn().expect("Failed to start injector");
+
     let mut command = Command::new(&steam_exe_path);
-    if let Ok(mut _child) = command.arg("-dev").arg("-noverifyfiles").spawn() {
-        println!("starting steam\nunpatching just in case\n");
-
-        let mut child = create_injector_command(&curr_dir, "unpatch-friend")
-            .spawn()
-            .expect("Failed to start injector");
-        child.wait().expect("Injector failed");
-
-        let mut child = create_injector_command(&curr_dir, "unpatch-library")
-            .spawn()
-            .expect("Failed to start injector");
-        child.wait().expect("Injector failed");
-
-        // we dont need to wait for steam to start because of -noverifyfiles
-        // println!("waiting for steam to start");
-        // wait_for_steam(&mut system);
-
-        let mut command = create_injector_command(&curr_dir, "patch-friend");
-        command.arg("--update");
-        command.spawn().expect("Failed to start injector");
-
-        let mut command = create_injector_command(&curr_dir, "patch-library");
-        command.spawn().expect("Failed to start injector");
-
+    if command.arg("-dev").arg("-noverifyfiles").spawn().is_ok() {
+        println!("starting steam\n");
         server::server_main().expect("server failed eh");
     } else {
-        println!("steam didnt start")
+        println!("steam didn't start");
     }
 
     handle.join().unwrap();
