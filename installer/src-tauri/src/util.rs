@@ -1,41 +1,5 @@
 use config::Config;
-use std::collections::HashMap;
-use std::env;
-use std::io;
-use std::path::Path;
-use std::path::PathBuf;
-use std::process::Command;
-pub fn execute_command_with_path(command_name: &str, args: &[&str]) -> std::io::Result<()> {
-    let path_delimiter = if cfg!(target_family = "unix") {
-        ':'
-    } else {
-        ';'
-    };
-
-    let paths = env::var("PATH").unwrap_or_default();
-
-    for path in paths.split(path_delimiter).map(Path::new) {
-        let command_path = if cfg!(target_family = "unix") {
-            path.join(command_name)
-        } else {
-            path.join(format!("{}.exe", command_name))
-        };
-
-        if command_path.exists() {
-            let mut command = Command::new(command_path);
-            command.args(args);
-            let status = command.status()?;
-
-            if status.success() {
-                break;
-            } else {
-                eprintln!("Error: Command exited with non-zero status.");
-            }
-        }
-    }
-
-    Ok(())
-}
+use std::{collections::HashMap, io, path::PathBuf};
 
 pub fn get_config_json() -> Result<String, Box<dyn std::error::Error>> {
     let config_path = find_config_path()?;
@@ -60,7 +24,7 @@ pub fn get_config_json() -> Result<String, Box<dyn std::error::Error>> {
     }
 }
 
-pub fn find_config_path() -> io::Result<PathBuf> {
+pub fn get_root_folder() -> Result<PathBuf, io::Error> {
     let mut current_dir = std::env::current_dir()?;
     let root_folder_name = "steam-client-mod";
 
@@ -73,7 +37,12 @@ pub fn find_config_path() -> io::Result<PathBuf> {
         }
     }
 
-    Ok(current_dir.join("config.toml"))
+    Ok(current_dir)
+}
+
+pub fn find_config_path() -> io::Result<PathBuf> {
+    let root_folder = get_root_folder()?;
+    Ok(root_folder.join("config.toml"))
 }
 
 pub fn get_default_config() -> HashMap<&'static str, &'static str> {
@@ -81,4 +50,15 @@ pub fn get_default_config() -> HashMap<&'static str, &'static str> {
     config.insert("steam_path", "C:\\Program Files (x86)\\Steam");
 
     config
+}
+
+#[tauri::command]
+pub fn get_config() -> String {
+    match get_config_json() {
+        Ok(config) => config,
+        Err(e) => {
+            eprintln!("Failed to get config: {}", e);
+            "{}".to_string()
+        }
+    }
 }

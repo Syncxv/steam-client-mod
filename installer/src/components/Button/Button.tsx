@@ -25,11 +25,11 @@ interface ButtonProps {
 }
 
 export const Button: Component<ButtonProps & JSX.IntrinsicElements['button']> = props => {
-	const [{ children }, rest] = splitProps(props, ["children"]);
+	const [{ children, class: className }, rest] = splitProps(props, ["children", "class"]);
 	return (
 		<button
 			{...rest}
-			class={`${Styles.btn} ${rest.class ?? ""}`}
+			class={`${Styles.btn} ${className ?? ""}`}
 			type={rest.type ?? "button"}
 		>
 			{children}

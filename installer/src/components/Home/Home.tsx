@@ -45,12 +45,8 @@ export const Home: Component = () => {
 
 
 				<div class={Styles.actions}>
-					<Button onClick={async () => {
-						const hehe = await invoke("check_pnpm");
-						console.log(hehe);
-					}}
-					>
-						check dependencies
+					<Button onClick={async () => await invoke("patch", { patchType: "friend" })} class="hehe">
+						Patch
 					</Button>
 				</div>
 			</div>
