@@ -2,6 +2,7 @@ mod server;
 
 use shared::get_config;
 use std::env;
+use std::io;
 use std::io::stdin;
 use std::process::exit;
 use std::time::Duration;
@@ -34,6 +35,35 @@ pub fn is_steam_open(system: &mut System) -> bool {
 //     true
 // }
 
+pub fn execute<S: AsRef<str>>(
+    patch_type: S,
+    args: Option<&[S]>,
+    wait: bool,
+) -> Result<Command, Box<dyn std::error::Error>> {
+    let curr_dir = env::current_dir().unwrap();
+
+    let mut command = Command::new(curr_dir.join("injector.exe"));
+    command.arg(patch_type.as_ref());
+    if let Some(args) = args {
+        for arg in args {
+            command.arg(arg.as_ref());
+        }
+    }
+
+    let mut child = command.spawn()?;
+
+    if wait {
+        child.wait().map_err(|_| {
+            io::Error::new(
+                io::ErrorKind::Other,
+                format!("patch {} failed to wait on child", patch_type.as_ref()),
+            )
+        })?;
+    }
+
+    Ok(command)
+}
+
 fn main() {
     let handle = thread::spawn(move || {
         println!("Hello, world!");
@@ -45,7 +75,6 @@ fn main() {
     let what = stem_config.get("steam_path").unwrap();
     let steam_path = Path::new(&what);
     let steam_exe_path = steam_path.join("steam.exe");
-    let curr_dir = env::current_dir().unwrap();
     let mut system = System::new_all();
 
     if is_steam_open(&mut system) {
@@ -55,26 +84,36 @@ fn main() {
     }
 
     println!("unpatching just in case\n");
-    let mut child = create_injector_command(&curr_dir, "unpatch-friend")
-        .spawn()
-        .expect("Failed to start injector");
-    child.wait().expect("Injector failed");
+    match execute("unpatch-friend", None, true) {
+        Ok(_) => {}
+        Err(err) => {
+            eprintln!("{}", err);
+        }
+    }
 
-    let mut child = create_injector_command(&curr_dir, "unpatch-library")
-        .spawn()
-        .expect("Failed to start injector");
-    child.wait().expect("Injector failed");
+    match execute("unpatch-library", None, true) {
+        Ok(_) => {}
+        Err(err) => {
+            eprintln!("{}", err);
+        }
+    }
 
     // we dont need to wait for steam to start because of -noverifyfiles
     // println!("waiting for steam to start");
     // wait_for_steam(&mut system);
 
-    let mut command = create_injector_command(&curr_dir, "patch-friend");
-    command.arg("--update");
-    command.spawn().expect("Failed to start injector");
-
-    let mut command = create_injector_command(&curr_dir, "patch-library");
-    command.spawn().expect("Failed to start injector");
+    match execute("patch-friend", Some(&["--update"]), true) {
+        Ok(_) => {}
+        Err(err) => {
+            eprintln!("{}", err);
+        }
+    }
+    match execute("patch-library", None, true) {
+        Ok(_) => {}
+        Err(err) => {
+            eprintln!("{}", err);
+        }
+    }
 
     let mut command = Command::new(steam_exe_path);
     if command.arg("-dev").arg("-noverifyfiles").spawn().is_ok() {
@@ -85,10 +124,4 @@ fn main() {
     }
 
     handle.join().unwrap();
-}
-
-fn create_injector_command(curr_dir: &Path, arg: &str) -> Command {
-    let mut command = Command::new(curr_dir.join("injector.exe"));
-    command.arg(arg);
-    command
 }
