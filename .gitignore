@@ -147,8 +147,5 @@ Cargo.lock
 
 testing-grouds
 
-zdumpy_test/test.js
-zdumpy_test/main_chat_ui.js
-zdumpy_test/man.cpp
-zdumpy_test/bruh.cpp
-zdumpy_test/hehe.html
+zdumpy_test/*
+
