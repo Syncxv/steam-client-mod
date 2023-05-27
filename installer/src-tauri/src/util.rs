@@ -28,7 +28,7 @@ pub fn get_root_folder() -> Result<PathBuf, io::Error> {
     let mut current_dir = std::env::current_dir()?;
     let root_folder_name = "steam-client-mod";
 
-    while current_dir.file_name().unwrap() != root_folder_name {
+    while current_dir.file_name().and_then(|os_str| os_str.to_str()) != Some(root_folder_name) {
         if !current_dir.pop() {
             return Err(io::Error::new(
                 io::ErrorKind::NotFound,
@@ -50,15 +50,4 @@ pub fn get_default_config() -> HashMap<&'static str, &'static str> {
     config.insert("steam_path", "C:\\Program Files (x86)\\Steam");
 
     config
-}
-
-#[tauri::command]
-pub fn get_config() -> String {
-    match get_config_json() {
-        Ok(config) => config,
-        Err(e) => {
-            eprintln!("Failed to get config: {}", e);
-            "{}".to_string()
-        }
-    }
 }

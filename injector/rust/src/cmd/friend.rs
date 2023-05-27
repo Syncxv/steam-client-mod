@@ -1,10 +1,10 @@
 use std::{
     collections::HashMap,
-    env,
     path::Path,
     time::{Duration, SystemTime},
 };
 
+use shared::get_root_folder;
 use tokio::fs;
 
 pub async fn handle_friend_command_unpatch(steam_config: HashMap<String, String>) {
@@ -21,7 +21,7 @@ pub async fn patch_friend_javascript(
     config: &HashMap<String, String>,
     update: bool,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let curr_dir = env::current_dir().unwrap();
+    let root_dir = get_root_folder().expect("Failed to get root folder at patch_friend_javascript");
     let steam_path_str = config.get("steam_path").unwrap();
     let steam_path = Path::new(steam_path_str);
     let clientui = steam_path.join("clientui");
@@ -35,7 +35,7 @@ pub async fn patch_friend_javascript(
         println!("[Friends Injector] friends_web_ui.js is up to date");
     }
     //add steamed :)
-    let steamed_path = Path::new(&curr_dir)
+    let steamed_path = Path::new(&root_dir)
         .join("dist")
         .join("js")
         .join("FriendClient.js");
@@ -47,7 +47,7 @@ pub async fn patch_friend_javascript(
     println!("[Friends Injector] inserted steamed to clientui folder");
 
     //inject bruh.js / js-injector :)
-    let steamed_js_injector_path = Path::new(&curr_dir)
+    let steamed_js_injector_path = Path::new(&root_dir)
         .join("injector")
         .join("js-injector")
         .join("injector.js");
@@ -137,8 +137,8 @@ async fn unpatch_friends(config: &HashMap<String, String>) {
 }
 
 async fn get_patch() -> String {
-    let curr_dir = env::current_dir().unwrap();
-    let iframe_patcher_path = curr_dir.join("dist").join("js").join("iframe-patcher.js");
+    let root_dir = get_root_folder().expect("failed to get root folder at get_patch");
+    let iframe_patcher_path = root_dir.join("dist").join("js").join("iframe-patcher.js");
     let iframe_patcher = fs::read_to_string(&iframe_patcher_path)
         .await
         .expect("Failed to get iframe patcher");
