@@ -26,11 +26,10 @@ export default definePlugin({
 	name: 'LibrarySettings',
 	description: 'hi',
 	authors: [Devs.Aria],
-	version: '1.1.1',
 	type: 'library',
 	css,
 	start() {
-		addPopupCreatedCallback(
+		this.removePopup = addPopupCreatedCallback(
 			popup => {
 				if (!popup.m_strName.includes('SteamLibraryWindow')) return;
 				const container = popup.window.document.createElement('container-gang');
@@ -41,7 +40,12 @@ export default definePlugin({
 					popup.window.document.querySelector('container-gang')
 				);
 			},
-			{ runOnOpenedPopups: true }
+			{ executeOnExistingPopups: true }
 		);
+	},
+
+	stop() {
+		this.removePopup();
 	}
+
 });

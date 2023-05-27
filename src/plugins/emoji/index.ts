@@ -37,7 +37,6 @@ export default definePlugin({
 	name: 'EmojiStuff',
 	description: 'this plugin adds unicode emoji gg ez',
 	authors: [Devs.Aria],
-	version: '1.1.1',
 	type: 'friend',
 	patches: [
 		{

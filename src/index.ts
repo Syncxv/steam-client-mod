@@ -29,7 +29,7 @@ const addSteamedToPopups = () =>
 				configurable: true
 			});
 		},
-		{ runOnOpenedPopups: true }
+		{ executeOnExistingPopups: true }
 	);
 
 steamed.init(addSteamedToPopups);

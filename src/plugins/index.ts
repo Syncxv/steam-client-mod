@@ -79,7 +79,7 @@ export function startPlugin(p: Plugin) {
 			popup => {
 				p.styleIds.push(insertCss(p.css!, popup.window.document));
 			},
-			{ runOnOpenedPopups: true }
+			{ executeOnExistingPopups: true }
 		);
 	}
 

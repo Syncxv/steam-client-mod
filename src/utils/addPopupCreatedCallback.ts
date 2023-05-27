@@ -22,7 +22,7 @@ import { generateUuid } from './generateUuid';
 
 export const addPopupCreatedCallback = (
 	callback: PopupCallback,
-	opt: { runOnOpenedPopups: boolean } = { runOnOpenedPopups: false }
+	opt: { executeOnExistingPopups: boolean } = { executeOnExistingPopups: false }
 ): (() => void) => {
 	const newCallback: PopupCallback = popup => {
 		try {
@@ -35,7 +35,7 @@ export const addPopupCreatedCallback = (
 
 	g_PopupManager.m_rgPopupCreatedCallbacks.push(newCallback);
 
-	if (opt.runOnOpenedPopups) {
+	if (opt.executeOnExistingPopups) {
 		for (const popup of g_PopupManager.m_mapPopups.values()) {
 			newCallback(popup);
 		}

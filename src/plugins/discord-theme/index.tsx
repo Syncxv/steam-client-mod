@@ -26,7 +26,6 @@ export default definePlugin({
 	name: 'Discord Theme',
 	description: 'cool stuff',
 	authors: [Devs.Aria],
-	version: '1.1.1',
 	type: 'friend',
 
 	patches: [
@@ -96,7 +95,7 @@ export default definePlugin({
 					this.ids.push(insertCss(css, popup.window.document));
 				}
 			},
-			{ runOnOpenedPopups: true }
+			{ executeOnExistingPopups: true }
 		);
 	},
 

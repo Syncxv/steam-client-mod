@@ -23,7 +23,6 @@ export default definePlugin({
 	name: 'LIBRARY TESTT',
 	description: 'hi',
 	authors: [Devs.Aria],
-	version: '1.1.1',
 	type: 'library',
 	patches: [
 		{

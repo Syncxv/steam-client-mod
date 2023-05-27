@@ -21,10 +21,15 @@ import { Section } from '@api/settings/PluginSections';
 export type AppType = 'friend' | 'library' | 'all'
 
 export type { defualt as WebpackInstance } from './WebpackInstance';
+
+export interface CommandReturn {
+	result: string,
+	send: boolean,
+}
 export interface Command {
 	name: string
 	description: string
-	execute: (args: string[], thisObj: any) => void
+	execute: (args: string[], thisObj: any) => Promise<CoCommandReturn | void> | CommandReturn | void
 }
 
 export interface Patch {

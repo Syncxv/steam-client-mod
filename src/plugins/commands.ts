@@ -23,11 +23,10 @@ export default definePlugin({
 	name: 'CommandsExecutor',
 	description: 'this plugin patches the fuckinnnnn slash commands sheet',
 	authors: [Devs.Aria],
-	version: '1.1.1',
 	patches: [
 		{
 			match: /(OnSubmit\(e\){.{1,50},)(this\.props\.chatView)/,
-			replace: '$1\nconsole.log(e, this, this.state);steamed.Api.Commands.processCommand(this);\n$2'
+			replace: 'async $1\nconsole.log(e, this, this.state);await steamed.Api.Commands.processCommand(this);\n$2'
 		},
 		{
 			match: /(.{1,2}\.bAvailableInChina.{1,25})return (.{1,2})\}/,
@@ -65,6 +64,16 @@ export default definePlugin({
 					send: true,
 					result:
 						'https://images-ext-1.discordapp.net/external/5Pjp6qFuE_op_xmNhCAttY89xRxjF14qVJcd1LqnJEU/%3Fv%3D1/https/cdn.discordapp.com/emojis/758277232849977375.gif'
+				};
+			}
+		},
+		{
+			name: 'hi-there-async',
+			description: "async command that sends hi there",
+			execute: async () => {
+				return {
+					send: true,
+					result: 'hi there'
 				};
 			}
 		}

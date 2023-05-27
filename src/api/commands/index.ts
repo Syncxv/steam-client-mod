@@ -45,7 +45,7 @@ export const unRegisterCommand = (name: string) => {
 	return value;
 };
 
-export const processCommand = (thisObj: any) => {
+export const processCommand = async (thisObj: any) => {
 	if (!thisObj.state.messageInput.startsWith("/")) return;
 	const message: string = thisObj.state.messageInput;
 	const [cmd, ...cmdArgs] = message.slice(1).split(" ");
@@ -59,8 +59,7 @@ export const processCommand = (thisObj: any) => {
 	let result;
 
 	try {
-		// ill figure out async later
-		result = command.execute(cmdArgs, this);
+		result = await command.execute(cmdArgs, this);
 	} catch (e: any) {
 		result = {
 			send: false,

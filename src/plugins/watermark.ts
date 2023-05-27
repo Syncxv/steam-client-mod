@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { addPopupCreatedCallback, definePlugin, Devs, generateUuid, insertCss } from '@utils';
+import { addPopupCreatedCallback, definePlugin, Devs, insertCss } from '@utils';
 
 const css = `.chatEntry.Panel.Focusable::before {
     content: "steamed IS INJECTED :D";
@@ -30,8 +30,6 @@ export default definePlugin({
 	name: 'Chat WaterMark',
 	description: 'adds a watermark above the chat textarea',
 	authors: [Devs.Aria],
-	version: '1.1.1',
-	id: generateUuid(),
 
 	removeCallback: null as Function | null,
 	start() {
