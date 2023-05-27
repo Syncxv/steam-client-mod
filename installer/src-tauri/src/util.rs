@@ -1,6 +1,4 @@
 use config::Config;
-use serde_json;
-use serde_json::Error as SerdeError;
 use std::collections::HashMap;
 use std::env;
 use std::io;

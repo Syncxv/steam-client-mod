@@ -76,7 +76,7 @@ fn main() {
     let mut command = create_injector_command(&curr_dir, "patch-library");
     command.spawn().expect("Failed to start injector");
 
-    let mut command = Command::new(&steam_exe_path);
+    let mut command = Command::new(steam_exe_path);
     if command.arg("-dev").arg("-noverifyfiles").spawn().is_ok() {
         println!("starting steam\n");
         server::server_main().expect("server failed eh");
