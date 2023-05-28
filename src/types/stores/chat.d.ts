@@ -68,6 +68,38 @@ export interface ChatStore {
 		m_mapDisplayPrefs: ObservableMap
 	}
 
+	m_bReadyToRender: boolean
+	get m_bReceivedChatGroupList(): boolean
+	m_bSendActiveGroupsQueued: boolean
+	m_bSendingActiveGroups: boolean
+
+	m_fnOnReadyToRender?: Function
+
+	// stores
+	get CMInterface(): any
+	get ChatRoomBBCodeParser(): any
+	get ChatRoomEffectSettings(): any
+	get ChatRoomGroupDisplayPrefs(): any
+	get ClanChatRooms(): any
+	get EmbedStore(): any
+	get EmoticonStore(): any
+	get FriendChatBBCodeParser(): any
+	get FriendChatStore(): any
+	get FriendStore(): any
+	get GameInviteStore(): any
+	get InviteStore(): any
+	get NotificationBBCodeParser(): any
+	get TextFilterStore(): any
+	get VoiceChat(): any
+
+	get chat_group_list_ready(): boolean
+	get currentChatRoomGroups(): any[]
+
 	// TODO: finish it
 }
 
+
+
+interface Chat {
+
+}
