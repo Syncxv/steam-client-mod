@@ -16,44 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-declare global {
-	export var steamed: typeof import('../steamed');
-	export var g_PopupManager: T_gPopupManager;
-	export var g_FriendsUIApp: any;
-	interface Window {
-		webpackChunkfriendsui: {
-			push(chunk: any): any
-			pop(): any
-		}
-		[k: PropertyKey]: any
-	}
-}
-export interface WebpackArray {
-	push([[[id]], { }]: [[[id: string]], {}, (require: WebpackRequire) => void]): WebpackRequire
-}
-
-export interface WebpackRequire extends Function {
-	(id: number | string): any // Just an example
-	m: { [key: number]: RawSpotifyModule }
-}
-
-export type RawSpotifyModule = (what: any, exports: any, n: WebpackRequire) => any
-
-const bruh: WebpackArray = [];
-let require: WebpackRequire;
-export interface PopupCallback {
+export interface GenericCallback {
 	(popup: TPopup): any
 	id?: string
 	[key: string]: any
 }
-interface T_gPopupManager {
+export interface PopupManager {
 	m_DynamicCSSObserver: MutationObserver
 	m_bSaveRequired: boolean
 	m_bShuttingDown: boolean
 	m_mapPopups: Map<string, TPopup>
 	m_mapRestoreDetails: Map<string, any>
-	m_rgPopupCreatedCallbacks: PopupCallback[]
-	m_rgShutdownCallbacks: PopupCallback[]
+	m_rgPopupCreatedCallbacks: GenericCallback[]
+	m_rgShutdownCallbacks: GenericCallback[]
 	m_unCurrentAccountID: number
 
 	AddPopupCreatedCallback: Function

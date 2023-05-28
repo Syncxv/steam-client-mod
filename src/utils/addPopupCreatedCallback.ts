@@ -16,15 +16,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { PopupCallback } from '@src/types/global';
+import { GenericCallback } from '@src/types/global';
 
 import { generateUuid } from './generateUuid';
 
 export const addPopupCreatedCallback = (
-	callback: PopupCallback,
+	callback: GenericCallback,
 	opt: { executeOnExistingPopups: boolean } = { executeOnExistingPopups: false }
 ): (() => void) => {
-	const newCallback: PopupCallback = popup => {
+	const newCallback: GenericCallback = popup => {
 		try {
 			callback(popup);
 		} catch (e) {

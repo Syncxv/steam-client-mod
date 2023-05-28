@@ -39,10 +39,10 @@ export default definePlugin({
 	authors: [Devs.Aria],
 	type: 'friend',
 	patches: [
-		{
-			match: /(static GetEmoticonURL\(.{1,4}\){)/,
-			replace: '$1console.log("hi", e, t);\n'
-		},
+		// {
+		// 	match: /(static GetEmoticonURL\(.{1,4}\){)/,
+		// 	replace: '$1console.log("hi", e, t);\n'
+		// },
 		{
 			match:
 				/(GetEmoticonURL\(.{1,4}\);return.{1,4}\.createElement.{1,150})(.{1,2}\(\)\.createElement\("img".{1,250}\),)/,
