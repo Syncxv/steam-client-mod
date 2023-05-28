@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { typeOf } from "./typeOf";
+
 const varArr = [
 	"e",
 	"t",
@@ -74,8 +76,7 @@ export function toJsonSafe(obj, seen = new WeakSet()) {
 	}
 
 	if (Array.isArray(obj)) {
-		const firstElemType = obj.length > 0 ? typeOf(obj[0]) : "any";
-		return `${firstElemType}[]`;
+		return typeOf(obj, seen);
 	}
 
 	seen.add(obj);
@@ -89,11 +90,6 @@ export function toJsonSafe(obj, seen = new WeakSet()) {
 					continue;
 				}
 				const value = objectToProcess[key];
-
-				if (value?._keysAtom) {
-					safeObj[key] = `ObservableMap`;
-					continue;
-				}
 
 				const discriptor = Object.getOwnPropertyDescriptor(
 					objectToProcess,

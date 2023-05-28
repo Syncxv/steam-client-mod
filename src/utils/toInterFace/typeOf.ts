@@ -16,13 +16,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-
 export function typeOf(variable, seen = new WeakSet()) {
 	const type = typeof variable;
 	if (Array.isArray(variable)) {
-		const firstElemType =
-			variable.length > 0 ? typeOf(variable[0], seen) : "any";
-		return `${firstElemType}[]`;
+		if (variable.length === 0) {
+			return "any[]";
+		}
+		const differentTypes = [...new Set(variable.map(item => typeOf(item, seen)))];
+		if (differentTypes.length === 1) {
+			return `${differentTypes[0]}[]`;
+		}
+
+		return `(${differentTypes.join(" | ")})`;
 	} else if (type === "object") {
 		if (variable === null) {
 			return "null";
@@ -33,6 +38,10 @@ export function typeOf(variable, seen = new WeakSet()) {
 		}
 		// Add this object to the seen set.
 		seen.add(variable);
+		if (variable._keysAtom != null) {
+			return "ObservableMap";
+		}
+
 		// create an object type representation
 		if (variable && type === "object") {
 			const props = Object.keys(variable).map(key => {
@@ -43,7 +52,7 @@ export function typeOf(variable, seen = new WeakSet()) {
 					return `${key}: ${propType}`;
 				}
 			});
-			return `{${props.join("; ")}}`;
+			return `{${props.join(";")}}`;
 		}
 		return "any";
 	}

@@ -37,7 +37,7 @@ export function toInterface(obj, name = "MyInterface") {
 		// If value is an object representation, create a nested interface for it.
 		let propType = value;
 		if (typeof value === "object" && !Array.isArray(value)) {
-			const nestedInterfaceName = `${name}${capitalizeFirstLetter(key)}`;
+			const nestedInterfaceName = `${capitalizeFirstLetter(key)}`;
 			propType = nestedInterfaceName;
 
 			if (!generatedInterfaces.has(nestedInterfaceName)) {
@@ -61,7 +61,9 @@ export function toInterface(obj, name = "MyInterface") {
 	return (res += `\n\n\ninterface ${name} {\n    ${interfaceLines.join("\n    ")}\n}`);
 }
 
-
+export { capitalizeFirstLetter } from './capital';
+export { toJsonSafe } from './toCoolObject';
+export { typeOf } from './typeOf';
 // vscode search and repalce regexs
 
 // removeThisMate123213.*: "(.+)"
