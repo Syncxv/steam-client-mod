@@ -82,7 +82,7 @@ export interface ChatStore {
 	get ChatRoomGroupDisplayPrefs(): any
 	get ClanChatRooms(): any
 	get EmbedStore(): any
-	get EmoticonStore(): any
+	get EmoticonStore(): EmoticonStore
 	get FriendChatBBCodeParser(): any
 	get FriendChatStore(): any
 	get FriendStore(): any
@@ -99,7 +99,22 @@ export interface ChatStore {
 }
 
 
+interface Emoticon { name: string; last_used: number; use_count: number; appid: number }
+interface Sticker { name: string; count: number; time_received: number; appid: number; time_last_used: number; use_count: number }
+interface EmoticonStore {
+	m_bEmoticonListRequested: false
+	m_emoticonTrackerCallback: null
+	m_rgEffects: any[]
+	m_rgEmoticons: Emoticon[]
+	m_rgFlairs: any[]
+	m_rgStickers: Sticker[]
+	m_stickerTrackerCallback: null
+	get m_bInitialized(): boolean
+	get m_rtLastStickerOrEffect(): number
+	get m_rtMostRecentEmoticon(): undefined
 
-interface Chat {
-
+	// proto
+	BInitialized: () => boolean
+	GetServerTime: () => any
+	RequestEmoticonListInternal: () => any
 }

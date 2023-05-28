@@ -147,5 +147,5 @@ Cargo.lock
 
 testing-grouds
 
-zdumpy_test/*
+zdumpy_test/*.js
 
