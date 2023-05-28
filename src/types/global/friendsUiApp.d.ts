@@ -16,22 +16,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { ChatStore } from '../stores/chat';
+import { UIStore } from '../stores/ui';
 import { GenericCallback } from './popup';
 
-interface GenericCallbackObject {
+export interface GenericCallbackObject {
 	m_vecCallbacks: GenericCallback
 }
 
-interface GenericConnectCallbacks {
+export interface GenericConnectCallbacks {
 	m_ClientConnectionCallbacks: GenericCallbackObject[]
 	m_bRunOnce: boolean
 	m_mapServerTypeCallbacks: Map<number, GenericCallbackObject[]>
 }
 
-interface Handler { invoke: Function, unregister: Function }
-interface HandlerMsgClass { invoke: Function, msgClass: Function }
+export interface Handler { invoke: Function, unregister: Function }
+export interface HandlerMsgClass { invoke: Function, msgClass: Function }
 
-interface SteamID {
+export interface SteamID {
 	m_ulSteamID: {
 		low: number,
 		high: number,
@@ -39,7 +41,7 @@ interface SteamID {
 	}
 }
 
-interface m_CMInterface {
+export interface m_CMInterface {
 	ClientServersAvailableHandler: Handler
 	m_ServiceTransport: { SendMsg: Function, SendNotification: Function, MakeReady: Function }
 
@@ -94,70 +96,24 @@ interface m_CMInterface {
 	get rtReconnectThrottleStart(): number
 }
 
-interface FriendsUIApp {
-	m_CMInterface: m_CMInterface
-	m_UIStore: m_UIStore
-	m_Storage: {
-		GetString: Function
-		RemoveObject: Function
-		StoreString: Function
-	}
-	[other: string]: any
+export interface Storage {
+	GetString: Function
+	RemoveObject: Function
+	StoreString: Function
 }
-interface m_UIStore {
+
+export interface FriendsUIApp {
 	m_CMInterface: m_CMInterface
-	m_FriendsListSteamDeckActiveTabCallbackList: Omit<GenericCallbackObject, "">[]
-	m_bParentalLocked: boolean
-	m_bRestoredPopupState: boolean
-	m_bRestoringPopups: boolean
-	get m_bShowWinterSaleUI(): boolean
-	m_bShuttingDown: boolean
-	m_bSuppressBrowserContextBroadcasting: boolean
-	m_bTheaterMode: boolean
+	get CMInterface(): m_CMInterface
 
-	// TODO: type chat store
-	m_chatStore: any
+	m_UIStore: UIStore
+	get UIStore(): UIStore
 
-	m_eFriendsListSteamDeckActiveTab: number
-	m_iLastChatPopupID: number
+	m_ChatStore: ChatStore
+	get ChatStore(): ChatStore
 
-	// TODO: type browser context
-	m_mapChatBrowserContexts: Map<string, any>;
+	m_Storage: Storage
+	get Storage(): Storage
 
-
-	m_mapFriendChatBroadcastVisible: {
-		enhancer: Function;
-		name: string
-		get size(): number
-		_data: Map<any, any>
-		_hasMap: Map<string, any>
-		_keysAtom: {
-			name: string,
-			isPendingUnobservation: boolean,
-			isBeingObserved: boolean,
-			lastAccessedBy: number
-			lowestObserverState: number
-			observers: Set<any>, diffValue: number,
-		}
-		get m_nTabActivationCount(): number
-		m_overlayCreatedCallbackList: GenericCallbackObject[]
-		m_stateToRestoreFrom: undefined
-		m_vecShowGroupsAfterRestorePopup: []
-		get FriendsListSteamDeckActiveTab(): number
-		SerializePopupState: Function
-		get show_winter_sale_ui(): boolean
-		get m_bShowWinterSaleUI(): Function
-		set m_bShowWinterSaleUI(): Function
-		get m_bTheaterMode(): Function
-		set m_bTheaterMode(): Function
-		get m_mapFriendChatBroadcastVisible(): Function
-		set m_mapFriendChatBroadcastVisible(): Function
-		get m_nTabActivationCount(): Function
-		set m_nTabActivationCount(): Function
-	}
-
-	m_nTabActivationCount: number
-	m_overlayCreatedCallbackList: GenericCallbackObject[]
-	m_stateToRestoreFrom: any
-	m_vecShowGroupsAfterRestorePopup: any[]
+	[other: string]: any
 }

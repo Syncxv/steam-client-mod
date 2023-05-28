@@ -95,6 +95,9 @@ devDependencies:
   eslint-plugin-unused-imports:
     specifier: ^2.0.0
     version: 2.0.0(@typescript-eslint/eslint-plugin@5.56.0)(eslint@8.28.0)
+  mobx:
+    specifier: 5.0.0
+    version: 5.0.0
   prettier:
     specifier: ^2.8.6
     version: 2.8.6
@@ -3436,6 +3439,10 @@ packages:
     dependencies:
       minimist: 1.2.8
     dev: false
+
+  /mobx@5.0.0:
+    resolution: {integrity: sha512-stLRfRPsXpHeRDgfhW5QvyIz7PXU2ti60l5Pe+hl2XGxtQdCxV3b90w5eU2nUP6tha9+kozihQclpMWqh+kzSw==}
+    dev: true
 
   /moment@2.29.4:
     resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}

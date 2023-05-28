@@ -85,6 +85,7 @@ interface TPopup {
 	m_strSavedDimensionsKey: string
 	m_strTitle: string
 
+	// TODO: type this
 	m_tabSet: any
 
 	OnBeforeUnloadEvent: Function
