@@ -18,6 +18,7 @@
 
 import { ChatStore } from '../stores/chat';
 import { UIStore } from '../stores/ui';
+import { CMInterface } from './CMInterface';
 import { GenericCallback } from './popup';
 
 export interface GenericCallbackObject {
@@ -41,61 +42,6 @@ export interface SteamID {
 	}
 }
 
-export interface m_CMInterface {
-	ClientServersAvailableHandler: Handler
-	m_ServiceTransport: { SendMsg: Function, SendNotification: Function, MakeReady: Function }
-
-	get m_bCompletedInitialConnect(): boolean
-	get m_bConnected(): boolean
-	m_bConnectionFailed: boolean
-	m_bForceDisconnect: boolean
-	get m_bLoggedOn(): boolean
-	get m_bPerformedInitialClockAdjustment(): boolean
-	m_bShouldChangePersonaStatusOnDisconnect: boolean
-
-	m_callbacksOnConnect: GenericConnectCallbacks
-	m_callbacksOnConnectOneTime: GenericConnectCallbacks
-	m_callbacksOnDisconnect: GenericConnectCallbacks
-
-	m_hEMsgRegistrationObserver: Function
-	m_hSharedConnection: number
-
-	m_messageHandlers: {
-		m_mapCallbacks: Map<number, GenericCallbackObject[]>
-		m_mapServiceMethodHandlers: Map<`${string}#1`, HandlerMsgClass>
-	}
-
-	get m_rgRegisteredEMsgs(): Proxy<number[]>
-	get m_rgRegisteredServiceMethodHandlers(): Proxy<string[]>
-
-	m_nPerfClockServerMSOffset: number
-	m_nWallClockDriftMS: number
-
-	m_onConnect: Promise<undefined>
-
-	get m_rtReconnectThrottleExpiration(): number
-	get m_rtReconnectThrottleStart(): number
-
-	m_setConnectedServers: Set<number>
-	m_setEMsgHandlers: Set<number>
-	m_setServiceMethodHandlers: Set<string>
-
-	m_steamid: SteamID
-
-	get m_strIPCountry(): string
-	get m_strPersonaName(): string
-	get m_unAccountFlags(): number
-
-	get OnConnectionAttemptThrottled(): Function
-	get account_flags(): number
-	get has_completed_initial_connect(): boolean
-	get logged_on(): boolean
-	get messageHandlers(): D
-	get persona_name(): string
-	get rtReconnectThrottleExpiration(): number
-	get rtReconnectThrottleStart(): number
-}
-
 export interface Storage {
 	GetString: Function
 	RemoveObject: Function
@@ -103,8 +49,8 @@ export interface Storage {
 }
 
 export interface FriendsUIApp {
-	m_CMInterface: m_CMInterface
-	get CMInterface(): m_CMInterface
+	m_CMInterface: CMInterface
+	get CMInterface(): CMInterface
 
 	m_UIStore: UIStore
 	get UIStore(): UIStore

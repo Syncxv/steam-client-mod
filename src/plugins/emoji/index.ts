@@ -96,7 +96,7 @@ export default definePlugin({
 				await DataStore.set(emojiKey(obj.name), res);
 
 				const bru = g_FriendsUIApp.ChatStore.EmoticonStore.m_rgEmoticons.find(
-					(e: TEmoji) => e.name === obj.name
+					e => e.name === obj.name
 				);
 				if (bru) {
 					bru.last_used = res.last_used;
