@@ -117,4 +117,6 @@ interface EmoticonStore {
 	BInitialized: () => boolean
 	GetServerTime: () => any
 	RequestEmoticonListInternal: () => any
+
+	OnEmoticonListReceived: (e: any) => void
 }

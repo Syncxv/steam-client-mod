@@ -88,11 +88,13 @@ pub async fn patch_friend_javascript(
         .await
         .expect("FAILED TO GET STEAM_FRIEND_JS");
 
-    let index: usize = steam_friend_js
-        .find(r#"console.log('Loading chat from url: ', strURL);"#)
-        .unwrap();
+    let console_log = r#"console.log("Loading chat from url: ",e)"#;
+    let index: usize = steam_friend_js.find(console_log).unwrap();
 
-    steam_friend_js.replace_range(index..index, &patched);
+    steam_friend_js.replace_range(
+        console_log.len() + index..console_log.len() + index + 1,
+        &patched,
+    );
 
     fs::write(&clientui.join("friends.js"), steam_friend_js)
         .await
@@ -143,10 +145,10 @@ async fn get_patch() -> String {
         .await
         .expect("Failed to get iframe patcher");
 
-    let steamed_react = "window.steamed = { Webpack: { Common: { React: __webpack_module_cache__['./node_modules/react/index.js'].exports,},},};\nwindow.React = steamed.Webpack.Common.React;";
+    let steamed_react = ";window.steamed = { Webpack: { Common: { React: __webpack_module_cache__['./node_modules/react/index.js'].exports,},},};\nwindow.React = steamed.Webpack.Common.React;";
 
     format!(
-        "{window_steamed}\n{code}return;",
+        "{window_steamed}\n{code};",
         window_steamed = steamed_react,
         code = iframe_patcher
     )
