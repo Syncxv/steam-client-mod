@@ -16,12 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { filters, find, findByProps } from '@webpack';
+import { filters, find, findByProps } from "@webpack";
 
-import { initReact } from './react';
+import { initReact } from "./react";
 
-export * from './components';
-export * from './react';
+export * from "./components";
+export * from "./react";
 
 export let i18n: any;
 
@@ -29,27 +29,27 @@ export let MessageClass: any;
 
 export let _openPopout: any;
 export const openPopout = (
-	component: React.ReactNode,
-	opts: { strTitle: string; popupWidth: number; popupHeight: number } = {
-		strTitle: 'Steamed',
-		popupWidth: 800,
-		popupHeight: 600
-	}
+    component: React.ReactNode,
+    opts: { strTitle: string; popupWidth: number; popupHeight: number } = {
+        strTitle: "Steamed",
+        popupWidth: 800,
+        popupHeight: 600
+    }
 ): { Close: () => void; Update: () => void } => {
-	return typeof _openPopout.ShowElementAsModal === 'function'
-		? _openPopout.ShowElementAsModal(component, window, opts.strTitle, opts)
-		: _openPopout(component, window, opts.strTitle, opts);
+    return typeof _openPopout.ShowElementAsModal === "function"
+        ? _openPopout.ShowElementAsModal(component, window, opts.strTitle, opts)
+        : _openPopout(component, window, opts.strTitle, opts);
 };
 
 export const initCommon = () => {
-	initReact();
-	i18n = findByProps('LocalizeString') ?? findByProps('Localize');
-	if (!i18n.LocalizeString) {
-		i18n.LocalizeString = i18n.Localize;
-	}
+    initReact();
+    i18n = findByProps("LocalizeString") ?? findByProps("Localize");
+    if (!i18n.LocalizeString) {
+        i18n.LocalizeString = i18n.Localize;
+    }
 
-	MessageClass = find(m => m?.prototype?.constructor.toString().includes('eErrorSendingObservable'));
-	_openPopout = find(m =>
-		filters.byProps(['ShowElementAsModal'])(m) ||
-		(typeof m === 'function' && m.toString().match(/\(.{1,2}\.bHideMainWindowForPopouts/)));
+    MessageClass = find(m => m?.prototype?.constructor.toString().includes("eErrorSendingObservable"));
+    _openPopout = find(m =>
+        filters.byProps(["ShowElementAsModal"])(m) ||
+		(typeof m === "function" && m.toString().match(/\(.{1,2}\.bHideMainWindowForPopouts/)));
 };

@@ -16,15 +16,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-export * from './addPopupCreatedCallback';
-export * from './constants';
-export * from './definePlugin';
-export * from './findInTree';
-export * from './generateUuid';
-export * from './isFriendsUi';
-export * from './isUrl';
-export * from './sleep';
-export * from './toInterFace';
-export * from './ui';
-export * from './waitFor';
-export * from './waitForSelector';
+export * from "./addPopupCreatedCallback";
+export * from "./constants";
+export * from "./definePlugin";
+export * from "./findInTree";
+export * from "./generateUuid";
+export * from "./isFriendsUi";
+export * from "./isUrl";
+export * from "./sleep";
+export * from "./toInterFace";
+export * from "./ui";
+export * from "./waitFor";
+export * from "./waitForSelector";

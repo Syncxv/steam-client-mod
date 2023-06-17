@@ -16,9 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { ObservableMap } from 'mobx';
+import { ObservableMap } from "mobx";
 
-import { m_CMInterface } from '../global/friendsUiApp';
+import { m_CMInterface } from "../global/friendsUiApp";
 export interface ChatRoomEffectSetting {
 	buttonToken: `#ChatRoomEffect_${string}`
 	locToken: `#ChatRoomEffect_${string}`

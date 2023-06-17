@@ -25,45 +25,45 @@ let res = "";
 const generatedInterfaces = new Set();
 export function toInterface(obj, name = "MyInterface") {
 
-	const safeObj = toJsonSafe(obj);
+    const safeObj = toJsonSafe(obj);
 
-	if (safeObj == null || Object.keys(safeObj).length === 0) {
-		return "";
-	}
+    if (safeObj == null || Object.keys(safeObj).length === 0) {
+        return "";
+    }
 
-	const interfaceLines = Object.entries(safeObj).map(([key, value]) => {
-		const propName = key.replace(/^removeThisMate123213/, "");
+    const interfaceLines = Object.entries(safeObj).map(([key, value]) => {
+        const propName = key.replace(/^removeThisMate123213/, "");
 
-		// If value is an object representation, create a nested interface for it.
-		let propType = value;
-		if (typeof value === "object" && !Array.isArray(value)) {
-			const nestedInterfaceName = `${capitalizeFirstLetter(key)}`;
-			propType = nestedInterfaceName;
+        // If value is an object representation, create a nested interface for it.
+        let propType = value;
+        if (typeof value === "object" && !Array.isArray(value)) {
+            const nestedInterfaceName = `${capitalizeFirstLetter(key)}`;
+            propType = nestedInterfaceName;
 
-			if (!generatedInterfaces.has(nestedInterfaceName)) {
-				generatedInterfaces.add(nestedInterfaceName);
-				res += toInterface(value, nestedInterfaceName);
-			}
-		} else if (
-			typeof value === "string" &&
+            if (!generatedInterfaces.has(nestedInterfaceName)) {
+                generatedInterfaces.add(nestedInterfaceName);
+                res += toInterface(value, nestedInterfaceName);
+            }
+        } else if (
+            typeof value === "string" &&
 			value.startsWith("{") &&
 			value.endsWith("}")
-		) {
-			// If value is a string representation of an object type, remove quotes around it.
-			propType = value.slice(1, -1);
-		}
-		const shouldShowPropName = !(
-			typeof propType === "string" && propType.startsWith("get ")
-		);
-		return `${shouldShowPropName ? propName + ": " : ""}${propType};`;
-	});
+        ) {
+            // If value is a string representation of an object type, remove quotes around it.
+            propType = value.slice(1, -1);
+        }
+        const shouldShowPropName = !(
+            typeof propType === "string" && propType.startsWith("get ")
+        );
+        return `${shouldShowPropName ? propName + ": " : ""}${propType};`;
+    });
 
-	return (res += `\n\n\ninterface ${name} {\n    ${interfaceLines.join("\n    ")}\n}`);
+    return (res += `\n\n\ninterface ${name} {\n    ${interfaceLines.join("\n    ")}\n}`);
 }
 
-export { capitalizeFirstLetter } from './capital';
-export { toJsonSafe } from './toCoolObject';
-export { typeOf } from './typeOf';
+export { capitalizeFirstLetter } from "./capital";
+export { toJsonSafe } from "./toCoolObject";
+export { typeOf } from "./typeOf";
 // vscode search and repalce regexs
 
 // removeThisMate123213.*: "(.+)"

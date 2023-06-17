@@ -16,19 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { Devs } from '@utils/constants';
-import { definePlugin } from '@utils/definePlugin';
+import { Devs } from "@utils/constants";
+import { definePlugin } from "@utils/definePlugin";
 
-import { Settings } from './components/Settings';
+import { Settings } from "./components/Settings";
 
 export default definePlugin({
-	name: 'Plugins',
-	description: 'Idk Man Themes eh',
-	authors: [Devs.Aria],
-	type: 'all',
-	settingsComponent: {
-		title: 'Plugins',
-		identifier: 'steamed-plugins',
-		content: () => <Settings />
-	}
+    name: "Plugins",
+    description: "Idk Man Themes eh",
+    authors: [Devs.Aria],
+    type: "all",
+    settingsComponent: {
+        title: "Plugins",
+        identifier: "steamed-plugins",
+        content: () => <Settings />
+    }
 });

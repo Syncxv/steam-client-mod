@@ -16,6 +16,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-export * as Commands from './commands';
-export * as DataStore from './DataStore';
-export * as Settings from './settings';
+export * as Commands from "./commands";
+export * as DataStore from "./DataStore";
+export * as Settings from "./settings";

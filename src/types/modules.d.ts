@@ -16,19 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-declare module 'plugins' {
-	const plugins: Record<string, import('.').Plugin>;
+declare module "plugins" {
+	const plugins: Record<string, import(".").Plugin>;
 	export default plugins;
 }
-declare module 'patches' {
-	const patches: Record<string, import('.').Patch>;
+declare module "patches" {
+	const patches: Record<string, import(".").Patch>;
 	export default patches;
 }
 
-declare module 'themes' {
-	const themes: Record<string, import('.').Theme>;
+declare module "themes" {
+	const themes: Record<string, import(".").Theme>;
 	export default themes;
 }
 
-declare module '*.css'
-declare module '*.scss'
+declare module "*.css"
+declare module "*.scss"

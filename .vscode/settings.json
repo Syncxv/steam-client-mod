@@ -1,17 +1,20 @@
 {
-	"editor.formatOnSave": true,
-	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": true
-	},
-	"[typescript]": {
-		"editor.defaultFormatter": "vscode.typescript-language-features"
-	},
-	"[typescriptreact]": {
-		"editor.defaultFormatter": "vscode.typescript-language-features"
-	},
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
 
-	"rust-analyzer.linkedProjects": [
-		"installer/src-tauri/Cargo.toml",
-		"injector/Cargo.toml"
-	]
+    "rust-analyzer.linkedProjects": [
+        "installer/src-tauri/Cargo.toml",
+        "injector/Cargo.toml"
+    ]
 }

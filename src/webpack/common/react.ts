@@ -29,7 +29,7 @@ export let ReactDOM: typeof import("react-dom") &
 	typeof import("react-dom/client");
 
 export const initReact = () => {
-	React = findByProps("useState");
-	({ useEffect, useState, useMemo, useRef, useCallback } = React);
-	ReactDOM = findByProps("createPortal", "render");
+    React = findByProps("useState");
+    ({ useEffect, useState, useMemo, useRef, useCallback } = React);
+    ReactDOM = findByProps("createPortal", "render");
 };

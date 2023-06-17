@@ -16,10 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { ChatStore } from '../stores/chat';
-import { UIStore } from '../stores/ui';
-import { CMInterface } from './CMInterface';
-import { GenericCallback } from './popup';
+import { ChatStore } from "../stores/chat";
+import { UIStore } from "../stores/ui";
+import { CMInterface } from "./CMInterface";
+import { GenericCallback } from "./popup";
 
 export interface GenericCallbackObject {
 	m_vecCallbacks: GenericCallback

@@ -16,12 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { Home } from './components/Home';
+import { Home } from "./components/Home";
 
 function App() {
-	return (
-		<Home />
-	);
+    return (
+        <Home />
+    );
 }
 
 export default App;

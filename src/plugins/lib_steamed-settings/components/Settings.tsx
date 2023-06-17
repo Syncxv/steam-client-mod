@@ -17,9 +17,9 @@
 */
 
 export const SettingsPage: React.FC<{}> = () => {
-	return (
-		<>
-			<div>heheh</div>
-		</>
-	);
+    return (
+        <>
+            <div>heheh</div>
+        </>
+    );
 };

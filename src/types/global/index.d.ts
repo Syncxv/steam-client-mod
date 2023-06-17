@@ -16,11 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { FriendsUIApp } from './friendsUiApp';
-import { PopupManager } from './popup';
+import { FriendsUIApp } from "./friendsUiApp";
+import { PopupManager } from "./popup";
 
 declare global {
-	export var steamed: typeof import('../../steamed');
+	export var steamed: typeof import("../../steamed");
 	export var g_PopupManager: PopupManager;
 	export var g_FriendsUIApp: FriendsUIApp;
 	interface Window {
@@ -46,4 +46,4 @@ const bruh: WebpackArray = [];
 let require: WebpackRequire;
 
 
-export * from './popup';
+export * from "./popup";

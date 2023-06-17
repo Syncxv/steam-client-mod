@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { ItemDef } from '../types';
+import { ItemDef } from "../types";
 
 export function definePlugin<P extends ItemDef>(p: P & Record<string, any>) {
-	return { ...p, started: false, styleIds: [] };
+    return { ...p, started: false, styleIds: [] };
 }

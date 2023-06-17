@@ -16,11 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { Section } from '@api/settings/PluginSections';
+import { Section } from "@api/settings/PluginSections";
 
-export type AppType = 'friend' | 'library' | 'all'
+export type AppType = "friend" | "library" | "all"
 
-export type { defualt as WebpackInstance } from './WebpackInstance';
+export type { defualt as WebpackInstance } from "./WebpackInstance";
 
 export interface CommandReturn {
 	result: string,

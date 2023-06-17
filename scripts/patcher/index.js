@@ -16,11 +16,4 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-export const JSONparse = (str: string, defaultVal: any = {}) => {
-    try {
-        return JSON.parse(str);
-    } catch (err) {
-        console.error("failed to parse json", err);
-        return defaultVal;
-    }
-};
+console.log("HI");

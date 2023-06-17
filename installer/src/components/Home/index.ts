@@ -16,4 +16,4 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-export { Home } from './Home';
+export { Home } from "./Home";

@@ -17,7 +17,7 @@
 */
 
 export const waitFor = (condition: () => any, cb: () => void) => {
-	if (condition())
-		return cb();
-	return requestAnimationFrame(() => waitFor(condition, cb));
+    if (condition())
+        return cb();
+    return requestAnimationFrame(() => waitFor(condition, cb));
 };

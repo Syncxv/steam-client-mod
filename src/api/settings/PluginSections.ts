@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { React } from '@webpack/common';
+import { React } from "@webpack/common";
 
 export interface Section {
 	title: string
@@ -31,15 +31,15 @@ export interface PluginSections {
 export const sections: PluginSections = {};
 
 export const registerSetting = (section: Section) => {
-	if (sections[section.identifier]) {
-		throw new Error(`Settings tab ${section.identifier} is already registered!`);
-	}
-	section.content = React.createElement(section.content);
-	sections[section.identifier] = section;
+    if (sections[section.identifier]) {
+        throw new Error(`Settings tab ${section.identifier} is already registered!`);
+    }
+    section.content = React.createElement(section.content);
+    sections[section.identifier] = section;
 };
 
 export const unregisterSetting = (id: string) => {
-	if (sections[id]) {
-		delete sections[id];
-	}
+    if (sections[id]) {
+        delete sections[id];
+    }
 };

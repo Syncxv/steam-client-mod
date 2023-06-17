@@ -16,36 +16,36 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { addPopupCreatedCallback, definePlugin } from '@utils';
-import { Devs } from '@utils/constants';
-import { React, ReactDOM } from '@webpack/common';
+import { addPopupCreatedCallback, definePlugin } from "@utils";
+import { Devs } from "@utils/constants";
+import { React, ReactDOM } from "@webpack/common";
 
-import { DropThingy } from './components/SteamedDropThingy';
-import css from './style.scss';
+import { DropThingy } from "./components/SteamedDropThingy";
+import css from "./style.scss";
 export default definePlugin({
-	name: 'LibrarySettings',
-	description: 'hi',
-	authors: [Devs.Aria],
-	type: 'library',
-	css,
-	start() {
-		this.removePopup = addPopupCreatedCallback(
-			popup => {
-				if (!popup.m_strName.includes('SteamLibraryWindow')) return;
-				const container = popup.window.document.createElement('container-gang');
-				popup.window.document.body.appendChild(container);
+    name: "LibrarySettings",
+    description: "hi",
+    authors: [Devs.Aria],
+    type: "library",
+    css,
+    start() {
+        this.removePopup = addPopupCreatedCallback(
+            popup => {
+                if (!popup.m_strName.includes("SteamLibraryWindow")) return;
+                const container = popup.window.document.createElement("container-gang");
+                popup.window.document.body.appendChild(container);
 
-				ReactDOM.render(
-					React.createElement('div', {}, React.createElement(DropThingy)),
-					popup.window.document.querySelector('container-gang')
-				);
-			},
-			{ executeOnExistingPopups: true }
-		);
-	},
+                ReactDOM.render(
+                    React.createElement("div", {}, React.createElement(DropThingy)),
+                    popup.window.document.querySelector("container-gang")
+                );
+            },
+            { executeOnExistingPopups: true }
+        );
+    },
 
-	stop() {
-		this.removePopup();
-	}
+    stop() {
+        this.removePopup();
+    }
 
 });

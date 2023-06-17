@@ -18,21 +18,21 @@
 
 import { Component, JSX, splitProps } from "solid-js";
 
-import Styles from './Button.module.scss';
+import Styles from "./Button.module.scss";
 
 interface ButtonProps {
 	children: JSX.Element
 }
 
-export const Button: Component<ButtonProps & JSX.IntrinsicElements['button']> = props => {
-	const [{ children, class: className }, rest] = splitProps(props, ["children", "class"]);
-	return (
-		<button
-			{...rest}
-			class={`${Styles.btn} ${className ?? ""}`}
-			type={rest.type ?? "button"}
-		>
-			{children}
-		</button>
-	);
+export const Button: Component<ButtonProps & JSX.IntrinsicElements["button"]> = props => {
+    const [{ children, class: className }, rest] = splitProps(props, ["children", "class"]);
+    return (
+        <button
+            {...rest}
+            class={`${Styles.btn} ${className ?? ""}`}
+            type={rest.type ?? "button"}
+        >
+            {children}
+        </button>
+    );
 };

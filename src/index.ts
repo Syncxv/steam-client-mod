@@ -16,20 +16,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { addPopupCreatedCallback } from '@utils';
+import { addPopupCreatedCallback } from "@utils";
 
-import * as steamed from './steamed';
+import * as steamed from "./steamed";
 window.steamed = steamed;
 
 const addSteamedToPopups = () =>
-	addPopupCreatedCallback(
-		popup => {
-			Object.defineProperty(popup.window, 'steamed', {
-				get: () => window.steamed,
-				configurable: true
-			});
-		},
-		{ executeOnExistingPopups: true }
-	);
+    addPopupCreatedCallback(
+        popup => {
+            Object.defineProperty(popup.window, "steamed", {
+                get: () => window.steamed,
+                configurable: true
+            });
+        },
+        { executeOnExistingPopups: true }
+    );
 
 steamed.init(addSteamedToPopups);

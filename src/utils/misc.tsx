@@ -16,9 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { useState } from '@webpack/common';
+import { useState } from "@webpack/common";
 
 export function useForceUpdater() {
-	const [, set] = useState(0);
-	return () => set(s => s + 1);
+    const [, set] = useState(0);
+    return () => set(s => s + 1);
 }
