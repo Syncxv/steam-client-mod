@@ -17,39 +17,32 @@
 */
 
 import { invoke } from "@tauri-apps/api";
-import { Component, createResource, createSignal, Show } from "solid-js";
+import { Component } from "solid-js";
 
+import { defaultSteamPath } from "../../utils/constants";
 import { Button } from "../Button";
 import { InputFilePicker } from "../Input/Input";
 import Styles from "./Home.module.scss";
 
-interface Config {
-	steam_path: string;
-}
-
 export const Home: Component = () => {
-    const [configStr, _] = createSignal("");
-    const [data] = createResource<Config, string>(configStr, async () => JSON.parse(await invoke<string>("get_config")));
     return (
-        <Show when={!data.loading} fallback={<>Loading...</>}>
-            <div class={Styles.container}>
-                <h1>Steamed</h1>
-                <InputFilePicker
-                    id="steam-path"
-                    title="Steam path"
-                    // description="eg. C:/Program Files (x86)/Steam"
-                    placeholder="example: C:/Program Files (x86)/Steam"
-                    type="file"
-                    value={data()!.steam_path}
-                />
+        <div class={Styles.container}>
+            <h1>Steamed</h1>
+            <InputFilePicker
+                id="steam-path"
+                title="Steam path"
+                // description="eg. C:/Program Files (x86)/Steam"
+                placeholder="example: C:/Program Files (x86)/Steam"
+                type="file"
+                value={defaultSteamPath}
+            />
 
 
-                <div class={Styles.actions}>
-                    <Button onClick={async () => await invoke("patch", { patchType: "friend" })} class="hehe">
-						Patch
-                    </Button>
-                </div>
+            <div class={Styles.actions}>
+                <Button onClick={async () => await invoke("patch", { patchType: "friend" })} class="hehe">
+                    Patch
+                </Button>
             </div>
-        </Show>
+        </div>
     );
 };

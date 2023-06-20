@@ -16,4 +16,4 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-console.log("HI");
+export const defaultSteamPath = "C:/Program Files (x86)/Steam";

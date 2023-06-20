@@ -5,6 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"watch": "tsc -w",
+        "dev:patch": "node ./scripts/patcher/index.mjs \"C:\\Program Files (x86)\\Steam\"",
 		"dev": "pnpm restore && node scripts/build.mjs && pnpm inject",
 		"dev:lib": "pnpm restore:lib && node scripts/build.mjs && pnpm inject:lib",
 		"dev:installer": "cd installer && pnpm tauri dev",

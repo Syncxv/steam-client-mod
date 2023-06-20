@@ -48,7 +48,7 @@ export const filters = {
             },
 };
 
-export function _initWebpack(instance: typeof window.webpackChunkdiscord_app) {
+export function _initWebpack(instance: typeof window.webpackChunkfriendsui) {
     if (cache !== void 0) throw "no.";
 
     wreq = instance.push([[Symbol()], {}, (r: WebpackInstance) => r]);
